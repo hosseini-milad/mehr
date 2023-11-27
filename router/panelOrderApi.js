@@ -8,7 +8,7 @@ var ObjectID = require('mongodb').ObjectID;
 const ManSchema = require('../model/Order/manufacture');
 const OrdersSchema = require('../model/Order/orders');
 const UserSchema = require('../model/user');
-const RXSchema = require('../model/Order/rx');
+const OrderSchema = require('../model/Order/orders');
 
 router.post('/sku/find',jsonParser,async (req,res)=>{
     try{
@@ -57,7 +57,7 @@ router.post('/list',jsonParser,async (req,res)=>{
     
     dateToEn.setHours(23, 59, 0, 0)
 
-    const reportList = await RXSchema.aggregate([
+    const reportList = await OrderSchema.aggregate([
         {$lookup:{
             from : "users", 
             localField: "userId", 
@@ -93,7 +93,7 @@ router.post('/editRxOrder',jsonParser,async(req,res)=>{
             userId:req.body.userId,
             coridor:req.body.coridor
         }
-        const rxDetail= await RXSchema.updateOne({rxOrderNo:req.body.rxorderNo},
+        const rxDetail= await OrderSchema.updateOne({rxOrderNo:req.body.rxorderNo},
             {$set:{...data}})
         
         res.json(rxDetail)

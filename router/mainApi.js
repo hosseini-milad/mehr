@@ -55,12 +55,13 @@ exports.mainApi=async(req,res)=>{
 
 exports.layoutApi=async(req,res)=>{
     //console.log("LayoutApi")
+    const userId=req.headers['userid']
     try{
         const catData = await catModel.find({});
-        const menuData = await menu.find();
+        const userData = userId?await user.findOne({_id:userId}):''
         const aboutData = await pages.findOne({url:"about"});
         const storeData = await mgmInfo.findOne({shopCode:"mgm"});
-        res.json({category:catData, menu:menuData,about:aboutData,store:storeData})
+        res.json({category:catData, user:userData,about:aboutData,store:storeData})
     }
     catch(error){
         res.status(500).json({message: error.message})

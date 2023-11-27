@@ -19,6 +19,7 @@ const sepidarStockSchema = new mongoose.Schema({
   lenzType: { type: String },
   
   price: { type: Number },
+  freePrice: { type: Number },
   purchase: { type: Number }
 });
 

@@ -4,9 +4,12 @@ const jsonParser = bodyParser.json();
 const router = express.Router()
 const auth = require("../middleware/auth");
 var ObjectID = require('mongodb').ObjectID;
+const multer = require('multer');
+const fs = require('fs');
 
-const ServiceSchema = require('../model/products/Services');
 const user = require('../model/user');
+const mime = require('mime');
+const xlsx = require('node-xlsx');
 
 
 router.post('/fetch-user',jsonParser,async (req,res)=>{
@@ -63,11 +66,69 @@ router.post('/update-user',jsonParser,async (req,res)=>{
     try{
         const userData = await user.updateOne({_id: ObjectID(userId)},
         {$set:data})
-       res.json({data:userData,success:"??????? ????? ????"})
+       res.json({data:userData,success:"تغییرات اعمال شدند"})
     }
     catch(error){
         res.status(500).json({message: error.message})
     } 
 })
+var storage = multer.diskStorage(
+    {
+        destination: '/dataset/',
+        filename: function ( req, file, cb ) {
+            cb( null, "Deep"+ '-' + Date.now()+ '-'+file.originalname);
+        }
+    }
+  );
+  const uploadImg = multer({ storage: storage ,
+    limits: { fileSize: "5mb" }})
 
+router.post('/upload',uploadImg.single('upload'), async(req, res, next)=>{
+    const folderName = req.body.folderName?req.body.folderName:"temp"
+    try{
+        const data = (req.body.base64image)
+    // to declare some path to store your converted image
+    var matches = await data.match(/^data:([A-Za-z-+./]+);base64,(.+)$/),
+    response = {};
+    if (matches.length !== 3) {
+    return new Error('Invalid input string');
+    } 
+    response.type = matches[1];
+    response.data = new Buffer.from(matches[2], 'base64');
+    let decodedImg = response;
+    let imageBuffer = decodedImg.data;
+    let type = decodedImg.type;
+    let extension = mime.extension(type);
+    
+    let fileName = `MGM-${Date.now().toString()+"-"+req.body.imgName+"."+extension}`;
+   var upUrl = `/uploads/${folderName}/${fileName}`
+    fs.writeFileSync("."+upUrl, imageBuffer, 'utf8');
+    return res.send({"status":"success",url:upUrl});
+    } catch (e) {
+        res.send({"status":"failed",error:e});
+    }
+})
+router.post('/parse-list',jsonParser,async (req,res)=>{
+    try{
+        const url = req.body.url
+        //const data = fs.readFileSync(url)
+        //console.log(data)
+        const workSheetsFromFile = xlsx.parse(
+            __dirname +"/../"+url);
+        const data = workSheetsFromFile[0].data
+        const meliCodeIndex = data[0].indexOf("کدملی")
+        const creditIndex = data[0].indexOf("مقدار تراکنش")
+        //const reportList = await user.find()
+        for(var index=1;index<data.length;index++)
+        {
+            await user.updateOne({meli:data[index][meliCodeIndex]},
+                {$set:{credit:data[index][creditIndex]}})
+            
+        }
+       res.json({filter:workSheetsFromFile})
+    }
+    catch(error){
+        res.status(500).json({message: error.message})
+    } 
+})
 module.exports = router;
