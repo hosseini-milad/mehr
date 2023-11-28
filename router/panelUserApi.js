@@ -32,10 +32,13 @@ router.post('/list',jsonParser,async (req,res)=>{
         customer:req.body.customer,
         access:req.body.access,
         offset:req.body.offset,
-        brand:req.body.brand
+        brand:req.body.brand,
+        credit:req.body.credit
     }
         const reportList = await user.aggregate([
             { $match:data.access?{access:data.access}:{}},
+            { $match:data.customer?{customer:new RegExp('.*' + data.customer + '.*')}:{}},
+            { $match:data.credit?{credit:{$exists:true}}:{}},
         ])
         const filter1Report = data.customer?
         reportList.filter(item=>item&&item.cName&&
