@@ -20,6 +20,7 @@ const sepidarStockSchema = new mongoose.Schema({
   
   price: { type: Number },
   freePrice: { type: Number },
+  weight: { type: Number },
   purchase: { type: Number }
 });
 

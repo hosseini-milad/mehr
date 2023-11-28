@@ -77,6 +77,7 @@ router.post('/editProduct',jsonParser,async(req,res)=>{
             productCode: req.body.productCode,
             price: req.body.price,
             freePrice: req.body.freePrice,
+            weight: req.body.weight,
             quantity: req.body.quantity,
             sort: req.body.sort,
             imageUrl:  req.body.imageUrl,
