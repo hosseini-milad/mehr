@@ -186,7 +186,7 @@ exports.sendOTPApi=async(req,res)=>{
       }
     } 
     
-    if(user){
+    if(userData){
       api.VerifyLookup({
         token: otpValue,
         template: process.env.template,//"mgmVerify",
@@ -200,7 +200,8 @@ exports.sendOTPApi=async(req,res)=>{
         ////console.log((newUser)
       res.status(200).json(newUser);
     }
-    else  {
+    console.log(userData)
+    if(!userData)  {
       api.VerifyLookup({
         token: otpValue,
         template: process.env.template,//"mgmVerify",
@@ -222,7 +223,7 @@ exports.sendOTPApi=async(req,res)=>{
         date:Date.now()
       })
       ////console.log((newUserLog)
-      res.status(200).json({"error":"user created"});
+      res.status(200).json({"message":"user created"});
     }
   }
   catch (error){

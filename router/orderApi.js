@@ -1356,8 +1356,33 @@ router.post('/fetch-stock',jsonParser, async (req,res)=>{
         res.status(500).json({message: error.message})
     }
 })
-
 router.get('/cart', auth,async (req,res)=>{
+    //console.log("CartApi")
+    try{
+        const cartData = await Cart.aggregate([
+            { $match : { userId : ObjectID(req.headers["userid"]) } },
+            {$lookup:{
+                from : "stocks", 
+                localField: "sku", 
+                foreignField: "_id", 
+                as : "stockDetail"
+            }},
+        ])
+        const cartDetail = await cartCreator(req.headers["userid"])
+        var totalPrice = "0";
+        var totalDiscount = "0";
+        for(var indx=0;indx<cartData.length;indx++){
+            totalPrice= SumPrices([totalPrice,cartData[indx].totalPrice])
+            totalDiscount=SumPrices([totalDiscount,cartData[indx].totalDiscount])
+        }
+        res.json({cart:{items:cartDetail,totalPrice:totalPrice,totalDiscount:totalDiscount,orderId:"MGM1401"+Date.now()}})
+    }
+    catch(error){
+        res.status(500).json({message: error.message})
+    }
+})
+
+router.get('/cartOld', auth,async (req,res)=>{
     //console.log("CartApi")
     try{
         const cartData = await OrdersSchema.aggregate([
@@ -1386,15 +1411,12 @@ router.post('/addCart', auth,async (req,res)=>{
     const data={
         userId: req.headers["userid"],
         sku:req.body.sku,
-        hesabfa:req.body.hesabfa,
-        align:req.body.align,
-        count:req.body.count?req.body.count:1,
-        price:req.body.price,
+        count:req.body.count?req.body.count:1
     } 
     var status='undone'
     try{
         const ItemExists = await sepidarstock.findOne({sku:data.sku})
-        
+        console.log(ItemExists)
         if(!ItemExists){
             res.json({message: "کالا موجود نیست"})
             return}
@@ -1403,10 +1425,12 @@ router.post('/addCart', auth,async (req,res)=>{
         if(cartData){
             const newCount=SumCount([cartData.count,data.count])
             await Cart.updateOne({_id:cartData._id},
-                {$set:{count:newCount,price:data.price}})
+                {$set:{count:newCount}})
             status="updateCart"
         }
         else{
+            data.price=ItemExists.price,
+            data.weight=ItemExists.weight
             await Cart.create(data)
             status="newCart"
         }
@@ -1418,12 +1442,58 @@ router.post('/addCart', auth,async (req,res)=>{
                 foreignField: "sku", 
                 as : "stockDetail"
             }}])
+            cartCreator(cartOut)
         res.json({cart:cartOut,status:status})
     }
     catch(error){
         res.status(500).json({message: error.message})
     }
 })
+
+const cartCreator=async(cartItems,credit)=>{
+    
+    var needCredit = 0
+    var newCart=[]
+    var newFOB=[]
+    for(var c=0;c<cartItems.length;c++){
+        const weight=cartItems[c].stockDetail[0].weight
+        const price=cartItems[c].stockDetail[0].price
+        const freePrice=cartItems[c].stockDetail[0].freePrice
+        for(var counter=0;counter<cartItems[c].count;counter++)
+        {
+            var tempCredit = cartItems[c].weight + needCredit
+            if(tempCredit>credit)
+                newFOB.push({
+                    sku:cartItems[c].sku,
+                    weight:weight,
+                    price:freePrice})
+            else{
+                needCredit+=cartItems[c].weight
+                newCart.push({
+                    sku:cartItems[c].sku,
+                    weight:weight,
+                    price:price
+                })
+            }
+            
+        }
+    }
+
+    const regularCart = IntegrateCart(newCart)
+    const freeCart = IntegrateCart(newFOB)
+    console.log(regularCart)
+    console.log(freeCart)
+    return(cartItems)
+}
+const IntegrateCart=(cartSeprate)=>{
+    var cart=[]
+    for(var i=0;i<cartSeprate.length;i++){
+        console.log(cartSeprate[i].sku)
+        if(cart&&(cart["sku"]===cartSeprate[i].sku))
+            cart["sku"].count = (cart["sku"].count&&cart["sku"].count)+1
+        else cart.push(cartSeprate[i])
+    }
+}
 router.post('/removeCart', auth,async (req,res)=>{
     const data={
         userId: req.headers["userid"],
@@ -1489,8 +1559,8 @@ router.get('/getCart', auth,async (req,res)=>{
             foreignField: "sku", 
             as : "stockDetail"
         }}])
-        
-    res.json(cartOut)
+        const cartDetail = await cartCreator(cartOut,200)    
+    res.json({cart:cartDetail})
 }) 
 router.get('/cartside', async (req,res)=>{
     //console.log("CartSideApi")

@@ -3,10 +3,9 @@ const mongoose = require("mongoose");
 const CartSchema = new mongoose.Schema({
   userId: { type: String },
   sku:{ type: String },
-  hesabfa:{type: String},
-  align:{type: String},
-  count:{type: String},
-  price:{type: String},
+  weight:{type: Number},
+  count:{type: Number},
+  price:{type: Number},
     
   date:{ type: Date },
 });

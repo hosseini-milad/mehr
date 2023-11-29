@@ -82,7 +82,7 @@ router.post('/editProduct',jsonParser,async(req,res)=>{
             sort: req.body.sort,
             imageUrl:  req.body.imageUrl,
             thumbUrl:  req.body.thumbUrl
-        }
+        } 
         var productResult = ''
         if(productId) productResult=await ProductSchema.updateOne({_id:productId},
             {$set:data})
