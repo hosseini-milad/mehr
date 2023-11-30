@@ -734,6 +734,8 @@ router.post('/addstock',jsonParser, auth,async (req,res)=>{
         stockOrderPrice:req.body.stockOrderPrice,
         stockFaktor:req.body.stockFaktor,
         description:req.body.description,
+        freeCredit:req.body.freeCredit,
+        credit:req.body.credit,
         stockFaktorOrg:req.body.stockFaktor,
         status:req.body.status,
         date: Date.now(),
@@ -885,7 +887,6 @@ router.get('/stockSeprate',jsonParser,async(req,res)=>{
     var time = (new Date(Date.now())).getHours();
         
         const userData = await userSchema.findOne({_id:req.headers['userid']})
-        console.log(userData.group)
         if(!userData)
             res.status(500).json({message: "user not found"})
         const stockDataInprogress = await OrdersSchema.find({status:"inprogress",group:userData.group}).count();
@@ -943,7 +944,6 @@ router.post('/stockSeprate/search',jsonParser,async(req,res)=>{
     const search = req.body.search?req.body.search:'';
     const all = req.body.all;
     try{ 
-        console.log(search)
         if(search.length<5&&!all){res.json([]); return;}
         const filterUser = await userSchema.find({cName:{$regex:search}})
         
@@ -1408,6 +1408,7 @@ router.get('/cartOld', auth,async (req,res)=>{
     }
 })
 router.post('/addCart', auth,async (req,res)=>{
+    const userId=req.body.userId?req.body.userId:req.headers["userid"]
     const data={
         userId: req.headers["userid"],
         sku:req.body.sku,
@@ -1416,7 +1417,6 @@ router.post('/addCart', auth,async (req,res)=>{
     var status='undone'
     try{
         const ItemExists = await sepidarstock.findOne({sku:data.sku})
-        console.log(ItemExists)
         if(!ItemExists){
             res.json({message: "کالا موجود نیست"})
             return}
@@ -1442,38 +1442,51 @@ router.post('/addCart', auth,async (req,res)=>{
                 foreignField: "sku", 
                 as : "stockDetail"
             }}])
-            cartCreator(cartOut)
-        res.json({cart:cartOut,status:status})
+        const standardCart = await cartCreator(cartOut,userId)
+        res.json({cart:standardCart,status:status})
     }
     catch(error){
         res.status(500).json({message: error.message})
     }
 })
 
-const cartCreator=async(cartItems,credit)=>{
-    
+const cartCreator=async(cartItems,userId)=>{
+    const userData = await user.findOne({_id:ObjectID(userId)})
+    const credit = userData&&(userData.credit?userData.credit:0)
     var needCredit = 0
     var newCart=[]
     var newFOB=[]
+    var totalWeight=0
+    var freeWeight=0
+    var totalPrice = 0
     for(var c=0;c<cartItems.length;c++){
         const weight=cartItems[c].stockDetail[0].weight
         const price=cartItems[c].stockDetail[0].price
         const freePrice=cartItems[c].stockDetail[0].freePrice
         for(var counter=0;counter<cartItems[c].count;counter++)
         {
+            totalWeight+=cartItems[c].weight
             var tempCredit = cartItems[c].weight + needCredit
-            if(tempCredit>credit)
+            if(tempCredit>credit){
                 newFOB.push({
                     sku:cartItems[c].sku,
                     weight:weight,
-                    price:freePrice})
+                    price:freePrice,
+                    fob:1,
+                    stockDetail:cartItems[c].stockDetail
+                })
+                freeWeight+=parseInt(freePrice)
+                totalPrice+=parseInt(freePrice)
+            }
             else{
                 needCredit+=cartItems[c].weight
                 newCart.push({
                     sku:cartItems[c].sku,
                     weight:weight,
-                    price:price
+                    price:price,
+                    stockDetail:cartItems[c].stockDetail
                 })
+                totalPrice+=parseInt(price)
             }
             
         }
@@ -1481,18 +1494,22 @@ const cartCreator=async(cartItems,credit)=>{
 
     const regularCart = IntegrateCart(newCart)
     const freeCart = IntegrateCart(newFOB)
-    console.log(regularCart)
-    console.log(freeCart)
-    return(cartItems)
+    
+    return({cart:regularCart.concat(freeCart), freeCredit:freeWeight,
+        cartCredit:totalWeight,cartPrice:totalPrice,
+    myCredit:credit})
 }
 const IntegrateCart=(cartSeprate)=>{
     var cart=[]
+
     for(var i=0;i<cartSeprate.length;i++){
-        console.log(cartSeprate[i].sku)
-        if(cart&&(cart["sku"]===cartSeprate[i].sku))
-            cart["sku"].count = (cart["sku"].count&&cart["sku"].count)+1
-        else cart.push(cartSeprate[i])
+        var index = cart.findIndex(item=>item.sku===cartSeprate[i].sku)
+        
+        if(cart.length&&index!==-1)
+            cart[index].count = (cart[index].count&&cart[index].count)+1
+        else cart.push({...cartSeprate[i],count:1})
     }
+    return(cart)
 }
 router.post('/removeCart', auth,async (req,res)=>{
     const data={
@@ -1519,13 +1536,15 @@ router.post('/removeCart', auth,async (req,res)=>{
                 foreignField: "sku", 
                 as : "stockDetail"
             }}])
-        res.json({cart:cartOut,status:status})
+        const standardCart = await cartCreator(cartOut,req.headers["userid"])
+        res.json({cart:standardCart,status:status})
     }
     catch(error){
         res.status(500).json({message: error.message})
     }
 })
 router.post('/editCart', auth,async (req,res)=>{
+    const userId=req.body.userId?req.body.userId:req.headers["userid"]
     const data={
         userId: req.headers["userid"],
         sku:req.body.sku,
@@ -1543,14 +1562,15 @@ router.post('/editCart', auth,async (req,res)=>{
                 foreignField: "sku", 
                 as : "stockDetail"
             }}])
-        
-        res.json({cart:cartOut,status:"edited"})
+        const standardCart = await cartCreator(cartOut,userId)
+        res.json({cart:standardCart,status:"edited"})
     }
     catch(error){
         res.status(500).json({message: error.message})
     }
 })
-router.get('/getCart', auth,async (req,res)=>{
+router.post('/getCart', auth,async (req,res)=>{
+    const userId=req.body.userId?req.body.userId:req.headers["userid"]
     const cartOut = await Cart.aggregate([
         { $match : { userId : (req.headers["userid"]) } },
         {$lookup:{
@@ -1559,8 +1579,8 @@ router.get('/getCart', auth,async (req,res)=>{
             foreignField: "sku", 
             as : "stockDetail"
         }}])
-        const cartDetail = await cartCreator(cartOut,200)    
-    res.json({cart:cartDetail})
+        const cartDetail = await cartCreator(cartOut,userId)    
+    res.json({oldCart:cartOut,cart:cartDetail})
 }) 
 router.get('/cartside', async (req,res)=>{
     //console.log("CartSideApi")

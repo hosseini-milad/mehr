@@ -12,6 +12,8 @@ const OrdersSchema = new mongoose.Schema({
   cert:{ type: String },
 
   stockOrderPrice:{type:String},
+  credit:{type:String},
+  freeCredit:{type:String},
   stockFaktor:[{type:Object}],
   stockFaktorOrg:[{type:Object}],
   status:{ type: String },
