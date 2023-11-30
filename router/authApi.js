@@ -310,7 +310,7 @@ exports.userInfoSetApi=async(req, res) => {
     }
     const userData = await userInfo.findOne({userId: data.userId});
     const usersUpdate = await User.updateOne({_id: data.userId },
-    {$set:{cName:data.userName}})
+    {$set:{cName:data.userName,meli:data.meliCode,}})
     ////console.log((userData)
     ////console.log((data)
     if(userData){
