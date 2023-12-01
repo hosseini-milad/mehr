@@ -1451,8 +1451,7 @@ router.post('/addCart', auth,async (req,res)=>{
 })
 
 const cartCreator=async(cartItems,userId)=>{
-    const userData = await user.findOne({_id:ObjectID(userId)})
-    const credit = userData&&(userData.credit?userData.credit:0)
+    const credit = await calcCredit(userId)
     var needCredit = 0
     var newCart=[]
     var newFOB=[]
@@ -1498,6 +1497,25 @@ const cartCreator=async(cartItems,userId)=>{
     return({cart:regularCart.concat(freeCart), freeCredit:freeWeight,
         cartCredit:totalWeight,cartPrice:totalPrice,
     myCredit:credit})
+}
+const calcCredit=async(userId)=>{
+    if(!userId)return(0)
+    var credit = 0;
+    var oldCredit = 0
+    const userData = await user.findOne({_id:ObjectID(userId)})
+    if(!userData)return(0)
+    credit =userData.credit
+    var today = new Date().toLocaleDateString('fa')
+    var month = today.split('/')[1]
+    const newOrders = await orders.find({userId:userId})
+    for(var i=0;i<newOrders.length;i++){
+        var tempDate = new Date(newOrders[i].loadDate).toLocaleDateString('fa')
+        var tempMonth = tempDate.split('/')[1]
+        if(month === tempMonth)
+            oldCredit += parseInt(newOrders[i].credit?newOrders[i].credit:0)
+    }
+    //console.log(oldCredit)
+    return(credit-oldCredit)
 }
 const IntegrateCart=(cartSeprate)=>{
     var cart=[]

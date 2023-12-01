@@ -321,7 +321,7 @@ exports.userInfoSetApi=async(req, res) => {
       const newUserInfo= await userInfo.create(data);
       const newUserLog = await logSchema.create({
         title: "تکمیل اطلاعات کاربری",
-        user: data.userId,
+        user: data.userId, 
         phone: data.phone,
         kind:"manager",
         description: "کاربر با شماره تماس "+data.phone+ "در سامانه اطلاعات کاربری ایجاد کرده است",
