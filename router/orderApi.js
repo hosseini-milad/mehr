@@ -1512,6 +1512,9 @@ const calcCredit=async(userId)=>{
         var tempDate = new Date(newOrders[i].loadDate).toLocaleDateString('fa')
         var tempMonth = tempDate.split('/')[1]
         if(month === tempMonth)
+        if(newOrders&&newOrders.status&&newOrders.status.includes("cancel"))
+            continue
+        else
             oldCredit += parseInt(newOrders[i].credit?newOrders[i].credit:0)
     }
     //console.log(oldCredit)
