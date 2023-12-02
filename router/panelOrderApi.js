@@ -105,7 +105,7 @@ router.post('/editOrder',jsonParser,async(req,res)=>{
             status:req.body.status
         }
         const rxDetail= await OrderSchema.updateOne({stockOrderNo:req.body.orderNo},
-            {$set:{...data}})
+            {$set:{...data}}) 
         
         res.json(rxDetail)
     }

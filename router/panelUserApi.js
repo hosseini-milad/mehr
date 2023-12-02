@@ -10,6 +10,7 @@ const fs = require('fs');
 const user = require('../model/user');
 const mime = require('mime');
 const xlsx = require('node-xlsx');
+const calcCredit = require('../middleware/CalcCredit');
 
 
 router.post('/fetch-user',jsonParser,async (req,res)=>{
@@ -43,10 +44,14 @@ router.post('/list',jsonParser,async (req,res)=>{
         const filter1Report = data.customer?
         reportList.filter(item=>item&&item.cName&&
             item.cName.includes(data.customer)):reportList;
-        const orderList = filter1Report.slice(offset,
+        const userList = filter1Report.slice(offset,
             (parseInt(offset)+parseInt(pageSize)))  
         const accessUnique = [...new Set(filter1Report.map((item) => item.access))];
-       res.json({filter:orderList,size:filter1Report.length,access:accessUnique})
+        for(var i=0;i<userList.length;i++){
+            const credit = await calcCredit(userList[i]._id)
+            userList[i].remainCredit = credit
+        }
+       res.json({filter:userList,size:filter1Report.length,access:accessUnique})
     }
     catch(error){
         res.status(500).json({message: error.message})
