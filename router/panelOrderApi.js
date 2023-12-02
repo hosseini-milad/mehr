@@ -19,6 +19,17 @@ router.post('/sku/find',jsonParser,async (req,res)=>{
         res.status(500).json({message: error.message})
     }
 }) 
+router.post('/fetch-order',jsonParser,async (req,res)=>{
+    var orderNo = req.body.orderNo
+    try{
+    const orderData = await OrderSchema.findOne({stockOrderNo:orderNo})
+ 
+    res.json({orderData:orderData})
+    }
+    catch(error){
+        res.status(500).json({message: error.message})
+    } 
+})
 router.post('/list',jsonParser,async (req,res)=>{
     var pageSize = req.body.pageSize?req.body.pageSize:"10";
     var nowDate = new Date();
@@ -87,13 +98,13 @@ router.post('/list',jsonParser,async (req,res)=>{
         res.status(500).json({message: error.message})
     } 
 })
-router.post('/editRxOrder',jsonParser,async(req,res)=>{
+router.post('/editOrder',jsonParser,async(req,res)=>{
     try{ 
         const data = {
             userId:req.body.userId,
-            coridor:req.body.coridor
+            status:req.body.status
         }
-        const rxDetail= await OrderSchema.updateOne({rxOrderNo:req.body.rxorderNo},
+        const rxDetail= await OrderSchema.updateOne({stockOrderNo:req.body.orderNo},
             {$set:{...data}})
         
         res.json(rxDetail)
