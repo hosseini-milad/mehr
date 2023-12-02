@@ -1466,7 +1466,7 @@ const cartCreator=async(cartItems,userId)=>{
         {
             totalWeight+=cartItems[c].weight
             var tempCredit = cartItems[c].weight + needCredit
-            if(tempCredit>credit){
+            if(!credit||tempCredit>credit){
                 newFOB.push({
                     sku:cartItems[c].sku,
                     weight:weight,
