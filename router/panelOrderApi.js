@@ -32,12 +32,13 @@ router.post('/fetch-order',jsonParser,async (req,res)=>{
 })
 router.post('/list',jsonParser,async (req,res)=>{
     var pageSize = req.body.pageSize?req.body.pageSize:"10";
+    var offset = req.body.offset?(parseInt(req.body.offset)*parseInt(pageSize)):0;
     var nowDate = new Date();
-    try{const data={
+    try{
+        const data={
         orderNo:req.body.orderNo,
         status:req.body.status,
         customer:req.body.customer,
-        offset:req.body.offset,
         brand:req.body.brand,
         dateFrom:
             req.body.dateFrom?req.body.dateFrom[0]+"/"+
@@ -88,8 +89,8 @@ router.post('/list',jsonParser,async (req,res)=>{
         const filter1Report = data.customer?
         reportList.filter(item=>item.userInfo[0]&&item.userInfo[0].cName&&
             item.userInfo[0].cName.includes(data.customer)):reportList;
-        const orderList = filter1Report.slice(data.offset,
-            (parseInt(data.offset?data.offset:0)+parseInt(data.pageSize)))  
+        const orderList = filter1Report.slice(offset,
+            (parseInt(offset)+parseInt(data.pageSize)))  
         const brandUnique = [...new Set(filter1Report.map((item) => item.brand))];
        res.json({filter:orderList,brand:brandUnique,
         size:filter1Report.length,rxStatus:rxStatus(reportList)})
