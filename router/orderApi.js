@@ -1475,7 +1475,7 @@ const cartCreator=async(cartItems,userId)=>{
                     fob:1,
                     stockDetail:cartItems[c].stockDetail
                 })
-                freeWeight+=parseInt(freePrice)
+                freeWeight+=parseInt(weight)
                 totalPrice+=parseInt(freePrice)
             }
             else{
@@ -1495,7 +1495,9 @@ const cartCreator=async(cartItems,userId)=>{
     const regularCart = IntegrateCart(newCart)
     const freeCart = IntegrateCart(newFOB)
     
-    return({cart:regularCart.concat(freeCart), freeCredit:freeWeight,
+    return({cart:regularCart.concat(freeCart), 
+        freeCredit:freeWeight,
+        calcCredit:needCredit,
         cartCredit:totalWeight,cartPrice:totalPrice,
     myCredit:credit})
 }
