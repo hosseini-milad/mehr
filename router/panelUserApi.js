@@ -130,9 +130,12 @@ router.post('/parse-list',jsonParser,async (req,res)=>{
         var meli=[]
         for(var index=1;index<data.length;index++)
         {
-            meli.push(data[index][meliCodeIndex])
-            await user.updateOne({meli:data[index][meliCodeIndex]},
+            
+            const result = await user.updateOne({meli:data[index][meliCodeIndex]},
                 {$set:{credit:data[index][creditIndex]}})
+            meli.push({meli:data[index][meliCodeIndex],
+                credit:{credit:data[index][creditIndex]},
+                result:result})
             
         }
        res.json({filter:workSheetsFromFile,meli:meli})
