@@ -1497,8 +1497,8 @@ const cartCreator=async(cartItems,userId)=>{
     
     return({cart:regularCart.concat(freeCart), 
         freeCredit:freeWeight,
-        calcCredit:needCredit,
-        cartCredit:totalWeight,cartPrice:totalPrice,
+        cartCredit:needCredit,
+        allCredit:totalWeight,cartPrice:totalPrice,
     myCredit:credit})
 }
 
