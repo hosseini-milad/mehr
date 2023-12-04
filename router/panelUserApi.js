@@ -132,7 +132,7 @@ router.post('/parse-list',jsonParser,async (req,res)=>{
         {
             var pureMeli = data[index][meliCodeIndex]
             try{
-                pureMeli = pureMeli.split('c')[1]
+                //pureMeli = pureMeli.split('c')[1]
             }
             catch{}
             const result = await user.updateOne({meli:pureMeli},
