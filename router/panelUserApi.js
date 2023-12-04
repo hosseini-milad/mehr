@@ -130,10 +130,14 @@ router.post('/parse-list',jsonParser,async (req,res)=>{
         var meli=[]
         for(var index=1;index<data.length;index++)
         {
-            
-            const result = await user.updateOne({meli:data[index][meliCodeIndex]},
+            var pureMeli = data[index][meliCodeIndex]
+            try{
+                pureMeli = pureMeli.replace('â\u0080\u008c','')
+            }
+            catch{}
+            const result = await user.updateOne({meli:pureMeli},
                 {$set:{credit:data[index][creditIndex]}})
-            meli.push({meli:data[index][meliCodeIndex],
+            meli.push({meli:pureMeli,
                 credit:{credit:data[index][creditIndex]},
                 result:result})
             
