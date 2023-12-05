@@ -64,6 +64,7 @@ router.post('/update-user',jsonParser,async (req,res)=>{
         email:req.body.email,
         mobile:req.body.mobile,
         meli:req.body.meli,
+        credit:req.body.credit,
         cCode:req.body.cCode,
         address:req.body.address,
         city:req.body.city,
