@@ -129,6 +129,7 @@ router.post('/parse-list',jsonParser,async (req,res)=>{
         const creditIndex = data[0].indexOf("مقدار تراکنش")
         //const reportList = await user.find()
         var meli=[]
+        var matchError=[]
         for(var index=1;index<data.length;index++)
         {
             var pureMeli = data[index][meliCodeIndex]
@@ -138,12 +139,15 @@ router.post('/parse-list',jsonParser,async (req,res)=>{
             catch{}
             const result = await user.updateOne({meli:pureMeli},
                 {$set:{credit:data[index][creditIndex]}})
+            if(!result.matchedCount){
+                matchError.push(pureMeli)
+            }
             meli.push({meli:pureMeli,
                 credit:{credit:data[index][creditIndex]},
                 result:result})
             
         }
-       res.json({filter:workSheetsFromFile,meli:meli})
+       res.json({filter:workSheetsFromFile,matchError:matchError,meli:meli})
     }
     catch(error){
         res.status(500).json({message: error.message})
