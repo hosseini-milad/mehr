@@ -31,23 +31,20 @@ router.post('/list',jsonParser,async (req,res)=>{
         orderNo:req.body.orderNo,
         status:req.body.status,
         customer:req.body.customer,
-        access:req.body.access,
+        access:(req.body.access&&req.body.access.length)?req.body.access:'',
         offset:req.body.offset,
         brand:req.body.brand,
         credit:req.body.credit
     }
         const reportList = await user.aggregate([
             { $match:data.access?{access:data.access}:{}},
-            { $match:data.customer?{$or:[
-                {cName:new RegExp('.*' + data.customer + '.*')},
-                {meli:new RegExp('.*' + data.customer + '.*')},
-                {cCode:new RegExp('.*' + data.customer + '.*')}
-            ]}:{}},
+            { $match:data.customer?
+                {meli:new RegExp('.*' + data.customer + '.*')}:{}},
             { $match:data.credit?{credit:{$exists:true}}:{}},
         ]) 
-        const filter1Report = data.customer?
+        const filter1Report = /*data.customer?
         reportList.filter(item=>item&&item.cName&&
-            item.cName.includes(data.customer)):reportList;
+            item.cName.includes(data.customer)):*/reportList;
         const userList = filter1Report.slice(offset,
             (parseInt(offset)+parseInt(pageSize)))  
         const accessUnique = [...new Set(filter1Report.map((item) => item.access))];
