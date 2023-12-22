@@ -13,6 +13,8 @@ const userSchema = new mongoose.Schema({
   group: {
     type:String
   },
+  profile:{type:String},
+  class: {type:Array,default:[]},
   credit: { type: String },
   token: { type: String },
   otp:{ type: String , default: null },

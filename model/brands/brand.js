@@ -9,6 +9,8 @@ const BrandSchema = new Schema({
     material: [String],
     Coating:[String],
     purchase:String,
+    category:String,
+    factory:{type:Array,default:[]},
     imageUrl: String,
     
 })
