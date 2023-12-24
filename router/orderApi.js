@@ -1346,6 +1346,11 @@ router.post('/fetch-stock',jsonParser, async (req,res)=>{
     } 
     try{
         const existOrder = await OrdersSchema.findOne({stockOrderNo:data.stockOrderNo});
+        var stockList = existOrder.stockFaktor
+        for(var i =0;i<stockList.length;i++){
+            var stockDetail = await sepidarstock.findOne({sku:stockList[i].sku});
+            existOrder.stockFaktor[i].stockDetail = stockDetail
+        }
         if(existOrder){
             res.json(existOrder)
         }
