@@ -90,6 +90,8 @@ router.post('/update-user',jsonParser,async (req,res)=>{
         state:req.body.state,
         country:req.body.country,
         about:req.body.about,
+        profile:req.body.profile,
+        group:req.body.group
     }
     try{
         const userData = await user.updateOne({_id: ObjectID(userId)},
