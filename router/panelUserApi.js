@@ -26,7 +26,10 @@ router.post('/fetch-user',jsonParser,async (req,res)=>{
     var userId = req.body.userId
     try{
         const userData = await user.findOne({_id: ObjectID(userId)})
-       res.json({data:userData})
+        const accessList = await ProfileAccess.find()
+        const userProfile = userData&&userData.profile&&
+            await ProfileAccess.findOne({_id:ObjectID(userData.profile)})
+       res.json({data:userData,profiles:accessList,userProfile:userProfile})
     }
     catch(error){
         res.status(500).json({message: error.message})
