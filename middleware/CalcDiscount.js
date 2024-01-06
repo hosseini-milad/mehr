@@ -38,8 +38,7 @@ const calcDiscount=async(orders,userId)=>{
                     break;
                 }
             }
-            var filterDiscount = discountList[d].filters.charge?
-            discountList[d].filters.charge.replace(/\D/g,''):0
+            var filterDiscount = findVolume(discountList[d].filters)
             console.log("--------++++++++++---------")
             console.log("Discount: ",filterDiscount)
             if( filterDiscount== (orderItem.weight )){
@@ -59,4 +58,12 @@ const calcDiscount=async(orders,userId)=>{
     //console.log(oldCredit)
     return(orders)
 }
+const findVolume=(volume)=>{
+    if(!volume) return('')
+    var volItem = Object.values(volume)[0]
+    const faNumber = p2e(volItem)
+    return(faNumber.replace(/\D/g,''))
+    
+}
+const p2e = volume => volume.replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
 module.exports = calcDiscount;
