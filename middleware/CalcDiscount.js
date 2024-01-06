@@ -29,7 +29,7 @@ const calcDiscount=async(orders,userId)=>{
         var orderItem = orders[i]
         var orderOffSet={discount:0}
         for(var d=0;d<discountList.length;d++){
-            if(!discountList[d].filters) {
+            if(!discountList[d].filters||!discountList[d].filters.length) {
                 if(discountList[d].discount>orderOffSet.discount){
                     orderOffSet=discountList[d]
                     orders[i].discount = discountList[d]
