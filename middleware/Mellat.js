@@ -1,11 +1,11 @@
 var soap = require('soap');
 var moment = require('moment');
 moment.locale('en');
-const {PayURL, PayTerminalID, PayUsername, PayPassword} = process.env
+const {PayURL,PayCallback, PayTerminalID, PayUsername, PayPassword} = process.env
 
-const mellatWsdl = "https://bpm.shaparak.ir/pgwchannel/services/pgw?wsdl";
+const mellatWsdl = PayURL;//"https://bpm.shaparak.ir/pgwchannel/services/pgw?wsdl";
 const PgwSite = "https://bpm.shaparak.ir/pgwchannel/startpay.mellat";
-const callbackUrl = "https://panel.mehrgaz.com/pay/mellatBankCallback";
+const callbackUrl = PayCallback;
 const terminalId = PayTerminalID;//this send to you by mellat bank
 const userName = PayUsername;//this send to you by mellat bank
 const password = PayPassword;//this send to you by mellat bank
