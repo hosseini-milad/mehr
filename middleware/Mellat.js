@@ -196,7 +196,8 @@ function desribtionStatusCode(statusCode)
             client.bpPayRequest(args, (err, result, body) => {
 
                 if(err) {
-                    //console.log(err);
+                    console.log("Error: ")
+                    console.log(err);
                     reject(err);
                 }
                 return resolve(result);
