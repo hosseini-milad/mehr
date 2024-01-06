@@ -184,7 +184,7 @@ function desribtionStatusCode(statusCode)
         callBackUrl: callbackUrl,
         payerId: 0
     };
-
+    console.log(args)
      var options = {
          overrideRootElement: {
              namespace: 'ns1'
