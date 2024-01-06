@@ -36,9 +36,10 @@ const calcDiscount=async(orders,userId)=>{
                     break;
                 }
             }
-            if(discountList[d].filters.volume&&
-                discountList[d].filters.volume.replace(/\D/g,'') == 
-                (orderItem.weight )){
+            var filterDiscount = discountList[d].filters.volume?
+            discountList[d].filters.volume.replace(/\D/g,''):0
+            console.log("Discount: ",filterDiscount)
+            if( filterDiscount== (orderItem.weight )){
                     if(discountList[d].discount>orderOffSet.discount){
                         orderOffSet=discountList[d]
                         orders[i].discount = discountList[d]
