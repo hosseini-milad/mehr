@@ -29,6 +29,8 @@ const calcDiscount=async(orders,userId)=>{
         var orderItem = orders[i]
         var orderOffSet={discount:0}
         for(var d=0;d<discountList.length;d++){
+            console.log("-------------------------")
+            console.log(discountList[d])
             if(!discountList[d].filters||!discountList[d].filters.length) {
                 if(discountList[d].discount>orderOffSet.discount){
                     orderOffSet=discountList[d]
@@ -38,8 +40,7 @@ const calcDiscount=async(orders,userId)=>{
             }
             var filterDiscount = discountList[d].filters.volume?
             discountList[d].filters.volume.replace(/\D/g,''):0
-            console.log("-------------------------")
-            console.log(discountList[d])
+            console.log("--------++++++++++---------")
             console.log("Discount: ",filterDiscount)
             if( filterDiscount== (orderItem.weight )){
                     if(discountList[d].discount>orderOffSet.discount){
