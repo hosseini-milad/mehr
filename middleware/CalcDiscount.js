@@ -38,6 +38,8 @@ const calcDiscount=async(orders,userId)=>{
             }
             var filterDiscount = discountList[d].filters.volume?
             discountList[d].filters.volume.replace(/\D/g,''):0
+            console.log("-------------------------")
+            console.log(discountList[d])
             console.log("Discount: ",filterDiscount)
             if( filterDiscount== (orderItem.weight )){
                     if(discountList[d].discount>orderOffSet.discount){
