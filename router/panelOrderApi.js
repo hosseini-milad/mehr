@@ -208,4 +208,14 @@ const findStatusCount=(orderList,status)=>{
     return count
 }
 
+router.get('/payment',jsonParser,async(req,res)=>{
+    try{
+        //const data = await Payment("Me122455","userId")
+        res.json({data:"data"})
+    }
+    catch(error){
+        res.status(500).json({message: error.message})
+    }
+})
+
 module.exports = router;

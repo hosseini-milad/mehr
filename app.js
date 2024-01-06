@@ -7,6 +7,8 @@ const apiSepidar = require('./router/sepidarApi')
 const orderPanelApi = require('./router/panelOrderApi')
 const productPanelApi = require('./router/panelProductApi')
 const UserPanelApi = require('./router/panelUserApi')
+const apiPayment = require('./router/paymentApi')
+const path = require('path');
 
 const apiHesabfa = require('./router/hesabFaApi')
 const bodyParser = require('body-parser');
@@ -27,12 +29,19 @@ const uploadImg = multer({ storage: storage })
 
 const fs = require('fs');
 const mime = require('mime');
-
 const app = express();
+
 app.use(cors());
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
+global.publicDir = __dirname + "/payment/";
+const paymentRoutes = require('./router/paymentApi');
+app.use(express.static(path.join(__dirname, 'publicPay')));
+app.set('views', path.join(__dirname, 'publicPay'));
+app.set('view engine', 'ejs');
+
+app.use('/payment', paymentRoutes);
 const router = expressAdmin.buildRouter(adminBro);
 
 app.use(adminBro.options.rootPath,router)
@@ -83,6 +92,7 @@ app.use('/api/panel/product',productPanelApi)
 app.use('/api/panel/user',UserPanelApi)
 app.use('/api/sepidar',apiSepidar)
 app.use('/api/hesabfa',apiHesabfa)
+app.use('/api/payment',apiPayment)
 
 app.use(express.json());
 
