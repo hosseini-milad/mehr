@@ -5,7 +5,7 @@ const {PayURL, PayTerminalID, PayUsername, PayPassword} = process.env
 
 const mellatWsdl = "https://bpm.shaparak.ir/pgwchannel/services/pgw?wsdl";
 const PgwSite = "https://bpm.shaparak.ir/pgwchannel/startpay.mellat";
-const callbackUrl = "http://www.example.com:"+global.mainPort+"/pay/mellatBankCallback";
+const callbackUrl = "https://panel.mehrgaz.com/pay/mellatBankCallback";
 const terminalId = PayTerminalID;//this send to you by mellat bank
 const userName = PayUsername;//this send to you by mellat bank
 const password = PayPassword;//this send to you by mellat bank
@@ -339,7 +339,7 @@ exports.pay = async (req, res) => {
         const credit = parseInt(req.params.credit);
 
         const orderId = moment().valueOf();
-
+        console.log("Request Now: ");
             let payRequestResult = await bpPayRequest(parseInt(orderId), credit, 'ok', callbackUrl);
             console.log(payRequestResult);
             payRequestResult = payRequestResult.return;
