@@ -31,15 +31,15 @@ const calcDiscount=async(orders,userId)=>{
         for(var d=0;d<discountList.length;d++){
             console.log("-------------------------")
             console.log(discountList[d])
-            if(!discountList[d].filters||!discountList[d].filters==[]) {
+            if(!discountList[d].filters||discountList[d].filters==[]) {
                 if(discountList[d].discount>orderOffSet.discount){
                     orderOffSet=discountList[d]
                     orders[i].discount = discountList[d]
                     break;
                 }
             }
-            var filterDiscount = discountList[d].filters.volume?
-            discountList[d].filters.volume.replace(/\D/g,''):0
+            var filterDiscount = discountList[d].filters.charge?
+            discountList[d].filters.charge.replace(/\D/g,''):0
             console.log("--------++++++++++---------")
             console.log("Discount: ",filterDiscount)
             if( filterDiscount== (orderItem.weight )){
