@@ -29,6 +29,7 @@ const user = require('../model/user');
 const brand = require('../model/brands/brand');
 const Cart = require('../model/Order/Cart');
 const calcCredit = require('../middleware/CalcCredit');
+const calcDiscount = require('../middleware/CalcDiscount');
 
 const reyhamConcat = (osArray,odArray) =>{
     //console.log("ReyhamConcat")
@@ -1456,14 +1457,16 @@ router.post('/addCart', auth,async (req,res)=>{
     }
 })
 
-const cartCreator=async(cartItems,userId)=>{
+const cartCreator=async(cartItemsRaw,userId)=>{
     const credit = await calcCredit(userId)
+    const cartItems = await calcDiscount(cartItemsRaw,userId)
     var needCredit = 0
     var newCart=[]
     var newFOB=[]
     var totalWeight=0
     var freeWeight=0
     var totalPrice = 0
+    var totalDiscount = 0
     for(var c=0;c<cartItems.length;c++){
         const weight=cartItems[c].stockDetail[0].weight
         const price=cartItems[c].stockDetail[0].price
@@ -1473,25 +1476,31 @@ const cartCreator=async(cartItems,userId)=>{
             totalWeight+=cartItems[c].weight
             var tempCredit = cartItems[c].weight + needCredit
             if(!credit||tempCredit>credit){
+                var discountPrice = cartItems[c].discount?cartItems[c].discount.discount:0
                 newFOB.push({
                     sku:cartItems[c].sku,
                     weight:weight,
                     price:freePrice,
+                    discount:discountPrice,
                     fob:1,
                     stockDetail:cartItems[c].stockDetail
                 })
                 freeWeight+=parseInt(weight)
-                totalPrice+=parseInt(freePrice)
-            }
+                totalPrice+=(parseInt(freePrice)-parseInt(discountPrice))
+                totalDiscount+=parseInt(discountPrice)
+            } 
             else{
                 needCredit+=cartItems[c].weight
+                var discountPrice = cartItems[c].discount?cartItems[c].discount.discount:0
                 newCart.push({
                     sku:cartItems[c].sku,
                     weight:weight,
+                    discount:discountPrice,
                     price:price,
                     stockDetail:cartItems[c].stockDetail
                 })
-                totalPrice+=parseInt(price)
+                totalPrice+=(parseInt(price)-parseInt(discountPrice))
+                totalDiscount+=parseInt(discountPrice)
             }
             
         }
@@ -1504,7 +1513,8 @@ const cartCreator=async(cartItems,userId)=>{
         freeCredit:freeWeight,
         cartCredit:needCredit,
         allCredit:totalWeight,cartPrice:totalPrice,
-    myCredit:credit})
+        cartDiscount:totalDiscount,
+    myCredit:credit,orders:cartItems})
 }
 
 const IntegrateCart=(cartSeprate)=>{

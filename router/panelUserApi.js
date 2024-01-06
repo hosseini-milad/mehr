@@ -47,7 +47,6 @@ router.post('/list',jsonParser,async (req,res)=>{
         brand:req.body.brand,
         credit:req.body.credit
     }
-    console.log(data)
         const reportList = await user.aggregate([
             {$addFields: { "fullInfo": { $concat: 
                 ["$cName",'(',"$phone",")" ]}}},
@@ -211,7 +210,6 @@ router.post('/update-profile',jsonParser,async (req,res)=>{
         parentId: req.body.parentId,
         access: req.body.access,
     }
-    console.log(data,profileId)
     try{
         //const profile = await ProfileAccess.find({_id: ObjectID(profileId)})
         var profileData = ''
@@ -442,7 +440,6 @@ router.post('/update-user-class',jsonParser,async (req,res)=>{
             } 
         }
         !found&&userClass.push(data.class)
-        console.log(userClass)
         const newClassUser = await user.updateOne({_id: ObjectID(userId)},
         {$set:{class:userClass}})
         //const allClasses =await classSeprate(req.body.userId)
