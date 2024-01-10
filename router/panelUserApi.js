@@ -51,6 +51,12 @@ router.post('/list',jsonParser,async (req,res)=>{
             {$addFields: { "fullInfo": { $concat: 
                 ["$cName",'(',"$phone",")" ]}}},
             { $match:data.access?{access:data.access}:{}},
+            {$lookup:{
+                from : "userinfos", 
+                localField: "_id", 
+                foreignField: "userId", 
+                as : "userDetail"
+            }}, 
             { $match:data.customer?{$or:[
                 {meli:new RegExp('.*' + data.customer + '.*')},
                 {cName:new RegExp('.*' + data.customer + '.*')},
