@@ -19,6 +19,8 @@ const brand = require('../model/brands/brand');
 const Filters = require('../model/products/Filters');
 const category = require('../model/products/category');
 const factory = require('../model/products/factory');
+const sendSmsUser = require('../AdminPanel/components/sendSms');
+const sendMessageUser = require('../AdminPanel/components/sendMessage');
 
 
 router.post('/fetch-user',jsonParser,async (req,res)=>{
@@ -44,6 +46,8 @@ router.post('/list',jsonParser,async (req,res)=>{
         customer:req.body.customer,
         access:(req.body.access&&req.body.access.length)?req.body.access:'',
         offset:req.body.offset,
+        profile:req.body.profile,
+        class:req.body.class,
         brand:req.body.brand,
         credit:req.body.credit
     }
@@ -64,6 +68,8 @@ router.post('/list',jsonParser,async (req,res)=>{
                 {mobile:new RegExp('.*' + data.customer + '.*')}
             ]}:{}},
             { $match:data.credit?{credit:{$exists:true}}:{}},
+            { $match:data.class?{class:{$elemMatch:{_id:data.class}}}:{}},
+            { $match:data.profile?{profile:data.profile}:{}},
         ]) 
         const filter1Report = /*data.customer?
         reportList.filter(item=>item&&item.cName&&
@@ -71,11 +77,14 @@ router.post('/list',jsonParser,async (req,res)=>{
         const userList = filter1Report.slice(offset,
             (parseInt(offset)+parseInt(pageSize)))  
         const accessUnique = [...new Set(filter1Report.map((item) => item.access))];
+        const profiles = await ProfileAccess.find();
+        const classList = await classes.find();
         for(var i=0;i<userList.length;i++){
             const credit = await calcCredit(userList[i]._id)
             userList[i].remainCredit = credit
         }
-       res.json({filter:userList,size:filter1Report.length,access:accessUnique})
+       res.json({filter:userList,size:filter1Report.length,
+            access:accessUnique,profiles:profiles,classes:classList})
     }
     catch(error){
         res.status(500).json({message: error.message})
@@ -520,6 +529,25 @@ router.post('/update-user-class',jsonParser,async (req,res)=>{
         {$set:{class:userClass}})
         //const allClasses =await classSeprate(req.body.userId)
        res.json({data:newClassUser,status:"23"})
+    }
+    catch(error){
+        res.status(500).json({message: error.message})
+    } 
+})
+
+router.post('/sendSMS',jsonParser,async (req,res)=>{
+    var userId = req.body.userId
+    const data={
+        users:req.body.users,
+        message:req.body.message
+    }
+    try{
+        var messageStatus=[]
+        for(var i=0;i<data.users.length;i++){
+            const result = await sendMessageUser(data.users[i],data.message)
+            messageStatus.push({status:result,userId:data.users[i]})
+        }
+       res.json({data:messageStatus,sentStatus:messageStatus.length+" sent"})
     }
     catch(error){
         res.status(500).json({message: error.message})
