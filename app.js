@@ -41,7 +41,7 @@ app.use(express.static(path.join(__dirname, 'publicPay')));
 app.set('views', path.join(__dirname, 'publicPay'));
 app.set('view engine', 'ejs');
 
-app.use('/payment', paymentRoutes);
+app.use('/pay', paymentRoutes);
 const router = expressAdmin.buildRouter(adminBro);
 
 app.use(adminBro.options.rootPath,router)

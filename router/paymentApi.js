@@ -3,11 +3,11 @@ const router = express.Router();
 const mellatBank = require('../middleware/Mellat');
 
 //payment
-router.get('/pay/mellat/:credit', mellatBank.pay);
-router.get('/pay/test/:credit',(req, res) => {
+router.get('/mellat/:credit', mellatBank.pay);
+router.get('/test/:credit',(req, res) => {
     res.render('index.ejs');
 });
-router.post('/pay/mellatBankCallback', mellatBank.callBack);
+router.post('/mellatBankCallback', mellatBank.callBack);
 
 
 
