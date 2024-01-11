@@ -8,7 +8,7 @@ const calcCredit=async(userId)=>{
     var oldCredit = 0
     const userData = await user.findOne({_id:ObjectID(userId)})
     if(!userData)return(0)
-    credit =userData.credit
+    credit =creditSum(userData.credit1,userData.credit2)
     var today = new Date().toLocaleDateString('fa')
     var month = today.split('/')[1]
     const newOrders = await orders.find({userId:userId})
@@ -24,4 +24,13 @@ const calcCredit=async(userId)=>{
     //console.log(oldCredit)
     return(credit-oldCredit)
 }
+const creditSum=(credit1Raw,credit2Raw)=>{
+  
+    var credit1 = credit1Raw?parseInt(credit1Raw.toString().replace(/\D/g,'')):0
+    var credit2 = credit2Raw?parseInt(credit2Raw.toString().replace(/\D/g,'')):0
+    //console.log(rawPrice,rawSum)
+    return(
+        credit1+credit2
+    )
+  }
 module.exports = calcCredit;
