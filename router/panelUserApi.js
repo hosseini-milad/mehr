@@ -143,7 +143,7 @@ router.post('/upload',uploadImg.single('upload'), async(req, res, next)=>{
         res.send({"status":"failed",error:e});
     }
 })
-router.post('/parse-list',jsonParser,async (req,res)=>{
+router.post('/parse-list-old',jsonParser,async (req,res)=>{
     try{
         const url = req.body.url
         //const data = fs.readFileSync(url)
@@ -179,7 +179,77 @@ router.post('/parse-list',jsonParser,async (req,res)=>{
         res.status(500).json({message: error.message})
     } 
 })
+router.post('/parse-list',jsonParser,async (req,res)=>{
+    try{
+        const url = req.body.url
+        //const data = fs.readFileSync(url)
+        //console.log(data)
+        const workSheetsFromFile = xlsx.parse(
+            __dirname +"/../"+url);
+        const data = workSheetsFromFile[0].data
+        const meliCodeIndex = data[0].indexOf("کدملی")!==-1?
+            data[0].indexOf("کدملی"):data[0].indexOf("کد ملی")
+        const creditIndex = data[0].indexOf("مقدار لیتراژ")
+        const creditKind = data[0].indexOf("نوع تراکنش")
 
+        //const reportList = await user.find()
+        var meli=[]
+        var matchError=[]
+        var newUpdate = []
+        for(var index=1;index<data.length;index++)
+        {
+            var pureMeli = data[index][meliCodeIndex]
+            try{
+                pureMeli = pureMeli.replace(/\D/g,'');
+            }
+            catch{}
+            
+        const kind = 
+        data[index][creditKind]==='ماشین آلات گاز مایع سوز'?"credit1":
+        data[index][creditKind]==='غیریارانه ای'?"fob":"credit2"
+            //console.log(meliCodeIndex)
+            //console.log(data[index][meliCodeIndex])
+            //console.log(data[index][creditIndex])
+            //console.log(data[index][creditKind])
+            //console.log("------------------------")
+            var foundIndex = newUpdate.findIndex((item=>item.meliCode===data[index][meliCodeIndex]))
+            //console.log(foundIndex)
+            if(foundIndex!==-1){
+                newUpdate[foundIndex].credit = 
+                newUpdate[foundIndex].credit + data[index][creditIndex]
+            }
+            else
+            newUpdate.push({
+                meliCode:pureMeli,
+                credit:data[index][creditIndex],
+                kind:kind
+            })
+        }
+        //console.log(newUpdate)
+        for(var i=0;i<newUpdate.length;i++){
+            var creditPart = {}
+            if(newUpdate[i].kind ==="credit1") creditPart.credit1 = newUpdate[i].credit
+            if(newUpdate[i].kind ==="credit2") creditPart.credit2 = newUpdate[i].credit
+            if(newUpdate[i].kind ==="fob") creditPart.fob = newUpdate[i].credit
+            //console.log(newUpdate[i])
+            const result = await user.updateOne({meli:newUpdate[i].meliCode},
+                {$set:creditPart})
+            if(!result.matchedCount){
+                matchError.push(newUpdate[i].meliCode)
+            }
+            meli.push({meli:newUpdate[i].meliCode,
+                credit:creditPart,
+                result:result})
+            
+        }
+       res.json({filter:workSheetsFromFile,
+        matchError:matchError,
+        meli:meli})
+    }
+    catch(error){
+        res.status(500).json({message: error.message})
+    } 
+})
 
 /*Profile*/
 router.post('/fetch-profile',jsonParser,async (req,res)=>{
