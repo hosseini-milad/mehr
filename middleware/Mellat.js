@@ -482,7 +482,9 @@ exports.callBack = async (req, res) => {
                 if(resultCode_bpPayRequest !== 17)
                 reversePay(saleOrderId, saleOrderId, saleReferenceId);
                 const error = desribtionStatusCode(resultCode_bpPayRequest);
-
+                const query = {orderNoInt:saleOrderId,payStatus:"undone",
+                saleReferenceId:saleReferenceId,errorMessage:"123",errorCode:resultCode_bpPayRequest}
+                await PayLogSchema.create(query)
                 return res.render('mellat_payment_result.ejs', {error});
             }
     }
