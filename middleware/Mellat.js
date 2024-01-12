@@ -332,20 +332,44 @@ async function reversePay(orderId, saleOrderId, saleReferenceId) {
     console.log(resultReversePay);
 }
 
-
+ 
 exports.pay = async (req, res) => {
+    console.log(req.query)
+    if(req.query.credit) {
 
-    if(req.params.credit) {
+        const credit = parseInt(req.query.credit);
 
-        const credit = parseInt(req.params.credit);
-
-        const orderId = moment().valueOf();
+        var orderId = req.query.orderid
+        if(orderId[0]==="R"){
+            orderId=orderId.substring(1)
+            orderId = "1"+orderId
+        }
+        if(orderId[0]==="S"){
+            orderId=orderId.substring(1)
+            orderId = "2"+orderId
+        }
+        if(orderId[0]==="M")
+            if(orderId[1]==="f"){
+                orderId=orderId.substring(2)
+                orderId = "31"+orderId
+            }
+        if(orderId[0]==="M")
+            if(orderId[1]==="c"){
+                orderId=orderId.substring(2)
+                orderId = "32"+orderId
+            }
+        //const orderId = moment().valueOf();
         console.log("Request Now: ");
-            let payRequestResult = await bpPayRequest(parseInt(orderId), credit, 'ok', callbackUrl);
+            let payRequestResult =''
+            try{
+                payRequestResult = await bpPayRequest(orderId, credit, 'ok', callbackUrl);
+            }
+            catch{
+                return("error")
+            }
             console.log(payRequestResult);
             payRequestResult = payRequestResult.return;
             payRequestResult = payRequestResult.split(",");
-
             if(parseInt(payRequestResult[0]) === 0) {
                 return res.render('redirect_vpos.ejs', {bank_url: PgwSite, RefId: payRequestResult[1]});
             }else {
