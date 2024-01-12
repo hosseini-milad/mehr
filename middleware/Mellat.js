@@ -1,5 +1,6 @@
 var soap = require('soap');
 var moment = require('moment');
+const orders = require('../model/Order/orders');
 moment.locale('en');
 const {PayURL,PayCallback, PayTerminalID, PayUsername, PayPassword} = process.env
 
@@ -334,12 +335,16 @@ async function reversePay(orderId, saleOrderId, saleReferenceId) {
 
  
 exports.pay = async (req, res) => {
-    console.log(req.query)
-    if(req.query.credit) {
+    if(req.query.orderid) {
 
-        const credit = parseInt(req.query.credit);
+        //const credit = parseInt(req.query.credit);
 
         var orderId = req.query.orderid
+
+        const orderData = await orders.findOne({stockOrderNo:orderId})
+        if(!orderData)
+            return res.status(422).json({error: 'سفارش پیدا نشد'});
+        const credit = orderData.stockOrderPrice
         if(orderId[0]==="R"){
             orderId=orderId.substring(1)
             orderId = "1"+orderId
@@ -365,7 +370,7 @@ exports.pay = async (req, res) => {
                 payRequestResult = await bpPayRequest(orderId, credit, 'ok', callbackUrl);
             }
             catch{
-                return("error")
+                return res.status(422).json({error: 'اطلاعات ورودی اشتباه است.'});
             }
             console.log(payRequestResult);
             payRequestResult = payRequestResult.return;
