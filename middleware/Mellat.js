@@ -1,6 +1,7 @@
 var soap = require('soap');
 var moment = require('moment');
 const orders = require('../model/Order/orders');
+const PayLogSchema = require('../model/Order/payLog')
 moment.locale('en');
 const {PayURL,PayCallback, PayTerminalID, PayUsername, PayPassword} = process.env
 
@@ -366,6 +367,11 @@ exports.pay = async (req, res) => {
         //const orderId = moment().valueOf();
         console.log("Request Now: ");
             let payRequestResult =''
+            const query = {orderNoInt:orderId,payStatus:"sendToBank",
+            userId:orderData.userId,stockOrderNo:orderData.stockOrderNo,
+            stockOrderPrice: orderData.stockOrderPrice,}
+            //return
+            await PayLogSchema.create(query)
             try{
                 payRequestResult = await bpPayRequest(orderId, credit, 'ok', callbackUrl);
             }
@@ -387,7 +393,7 @@ exports.pay = async (req, res) => {
             }
 
     }else {
-        return res.status(422).json({error: 'مبلغ قابل پرداخت وارد کنید.'});
+        return res.status(422).json({error: 'شماره سفارش را وارد کنید.'});
     }
 };
 
@@ -445,6 +451,9 @@ exports.callBack = async (req, res) => {
             //ﺗﺮاﻛﻨﺶ_ﺑﺎ_ﻣﻮﻓﻘﻴﺖ_اﻧﺠﺎم_ﺷﺪ
             if(resultCode_bpSettleRequest === 0 || resultCode_bpSettleRequest === 45) {
                 //success payment
+                const query = {orderNoInt:saleOrderId,payStatus:"paid",
+                saleReferenceId:saleReferenceId}
+                await PayLogSchema.create(query)
                 let msg = 'تراکنش شما با موفقیت انجام شد ';
                 msg += " لطفا شماره پیگیری را یادداشت نمایید" + saleReferenceId;
 
@@ -455,6 +464,9 @@ exports.callBack = async (req, res) => {
             }
         }else {
             if (saleOrderId != -999 && saleReferenceId != -999) {
+                const query = {orderNoInt:saleOrderId,payStatus:"undone",
+                saleReferenceId:saleReferenceId,errorMessage:"123",errorCode:resultCode_bpPayRequest}
+                await PayLogSchema.create(query)
                 if(resultCode_bpPayRequest !== 17)
                     reversePay(saleOrderId, saleOrderId, saleReferenceId);
             }

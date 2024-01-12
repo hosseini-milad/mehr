@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const OrdersSchema = new mongoose.Schema({
   userId:{type: mongoose.Schema.Types.ObjectId, ref: 'user'},
   stockId: {type: String},
+  payStatus: {type: String},
   manageId: {type: String},
   group: { type: String },
   stockOrderNo:{type:String},
