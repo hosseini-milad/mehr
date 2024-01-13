@@ -1458,7 +1458,7 @@ router.post('/addCart', auth,async (req,res)=>{
 })
 
 const cartCreator=async(cartItemsRaw,userId)=>{
-    const credit = await calcCredit(userId)
+    const credit = await calcCredit(userId).credit
     const cartItems = await calcDiscount(cartItemsRaw,userId)
     var needCredit = 0
     var newCart=[]
