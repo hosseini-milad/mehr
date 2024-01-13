@@ -5,6 +5,7 @@ var ObjectID = require('mongodb').ObjectID;
 const calcCredit=async(userId)=>{
     if(!userId)return(0)
     var credit = 0;
+    var fob = 0;
     var oldCredit = 0
     const userData = await user.findOne({_id:ObjectID(userId)})
     if(!userData)return(0)
@@ -18,11 +19,13 @@ const calcCredit=async(userId)=>{
         if(month === tempMonth)
         if(newOrders[i]&&newOrders[i].status&&newOrders[i].status.includes("cancel"))
             continue
-        else
+        else{
+            fob += parseInt(newOrders[i].freeCredit?newOrders[i].freeCredit:0)
             oldCredit += parseInt(newOrders[i].credit?newOrders[i].credit:0)
+        }
     }
     //console.log(oldCredit)
-    return(credit-oldCredit)
+    return({credit:credit-oldCredit,fob:fob})
 }
 const creditSum=(credit1Raw,credit2Raw)=>{
   

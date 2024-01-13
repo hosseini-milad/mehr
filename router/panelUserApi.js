@@ -81,7 +81,8 @@ router.post('/list',jsonParser,async (req,res)=>{
         const classList = await classes.find();
         for(var i=0;i<userList.length;i++){
             const credit = await calcCredit(userList[i]._id)
-            userList[i].remainCredit = credit
+            userList[i].remainCredit = credit.credit
+            userList[i].remainFob = credit.fob
         }
        res.json({filter:userList,size:filter1Report.length,
             access:accessUnique,profiles:profiles,classes:classList})
