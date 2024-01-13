@@ -1458,7 +1458,8 @@ router.post('/addCart', auth,async (req,res)=>{
 })
 
 const cartCreator=async(cartItemsRaw,userId)=>{
-    const credit = await calcCredit(userId).credit
+    var credit = await calcCredit(userId)
+    
     const cartItems = await calcDiscount(cartItemsRaw,userId)
     var needCredit = 0
     var newCart=[]
@@ -1475,7 +1476,7 @@ const cartCreator=async(cartItemsRaw,userId)=>{
         {
             totalWeight+=cartItems[c].weight
             var tempCredit = cartItems[c].weight + needCredit
-            if(!credit||tempCredit>credit){
+            if(!credit||tempCredit>credit.credit){
                 var discountPrice = cartItems[c].discount?cartItems[c].discount.discount:0
                 newFOB.push({
                     sku:cartItems[c].sku,
@@ -1514,7 +1515,7 @@ const cartCreator=async(cartItemsRaw,userId)=>{
         cartCredit:needCredit,
         allCredit:totalWeight,cartPrice:totalPrice,
         cartDiscount:totalDiscount,
-    myCredit:credit,orders:cartItems})
+    myCredit:credit.credit,orders:cartItems})
 }
 
 const IntegrateCart=(cartSeprate)=>{
