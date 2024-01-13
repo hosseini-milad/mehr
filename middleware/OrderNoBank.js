@@ -4,13 +4,15 @@ var ObjectID = require('mongodb').ObjectID;
 
 const OrderNoBank=async(orderNo,status)=>{
     var newOrderNo = ''
+    console.log(orderNo,status)
     if(status===1)
-        newOrderNo=siteToBank(orderNo)
+        newOrderNo=await siteToBank(orderNo)
     else
-        newOrderNo=bankToSite(orderNo)
+        newOrderNo=await bankToSite(orderNo)
+    console.log(newOrderNo)
     return(newOrderNo)
 }
-const bankToSite=(orderNo)=>{
+const bankToSite=async(orderNo)=>{
     var orderId = orderNo
     if(orderId[0]==="3")
     if(orderId[1]==="1"){
@@ -24,7 +26,7 @@ if(orderId[0]==="3")
     }
     return(orderId)
 }
-const siteToBank=(orderNo)=>{
+const siteToBank=async(orderNo)=>{
     var orderId = orderNo
     if(orderId[0]==="R"){
         orderId=orderId.substring(1)

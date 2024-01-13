@@ -347,7 +347,7 @@ exports.pay = async (req, res) => {
         if(!orderData)
             return res.status(422).json({error: 'سفارش پیدا نشد'});
         const credit = orderData.stockOrderPrice
-        orderId = OrderNoBank(orderId,1)
+        orderId = await OrderNoBank(orderId,1)
         //const orderId = moment().valueOf();
         console.log("Request Now: ");
             let payRequestResult =''
