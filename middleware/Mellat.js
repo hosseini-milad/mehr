@@ -424,7 +424,7 @@ exports.callBack = async (req, res) => {
                 const query = {orderNoInt:saleOrderId,payStatus:"undone", stockOrderNo:orderNo,
                 saleReferenceId:saleReferenceId,statusCode:resultInquiryRequest}
                 await PayLogSchema.create(query)
-                await orders.updateOne({stockOrderNo:orderNo,payStatus:"undone"})
+                await orders.updateOne({stockOrderNo:orderNo},{$set:{payStatus:"undone"}})
                 return res.render('mellat_payment_result.ejs', {error});
             }
         }
@@ -443,7 +443,7 @@ exports.callBack = async (req, res) => {
                 const query = {orderNoInt:saleOrderId,payStatus:"paid", stockOrderNo:orderNo,
                 saleReferenceId:saleReferenceId}
                 await PayLogSchema.create(query)
-                await orders.updateOne({stockOrderNo:orderNo,payStatus:"paid"})
+                await orders.updateOne({stockOrderNo:orderNo},{$set:{payStatus:"paid"}})
                 let msg = 'تراکنش شما با موفقیت انجام شد ';
                 msg += " لطفا شماره پیگیری را یادداشت نمایید" + saleReferenceId;
 
@@ -459,7 +459,7 @@ exports.callBack = async (req, res) => {
                 stockOrderNo:orderNo,
                 saleReferenceId:saleReferenceId,errorMessage:"123",errorCode:resultCode_bpPayRequest}
                 await PayLogSchema.create(query)
-                await orders.updateOne({stockOrderNo:orderNo,payStatus:"undone"})
+                await orders.updateOne({stockOrderNo:orderNo},{$set:{payStatus:"undone"}})
                 if(resultCode_bpPayRequest !== 17)
                     reversePay(saleOrderId, saleOrderId, saleReferenceId);
             }
@@ -477,7 +477,7 @@ exports.callBack = async (req, res) => {
                 const query = {orderNoInt:saleOrderId,payStatus:"undone", stockOrderNo:orderNo,
                 saleReferenceId:saleReferenceId,errorMessage:"123",errorCode:resultCode_bpPayRequest}
                 await PayLogSchema.create(query)
-                await orders.updateOne({stockOrderNo:orderNo,payStatus:"undone"})
+                await orders.updateOne({stockOrderNo:orderNo},{$set:{payStatus:"undone"}})
                 return res.render('mellat_payment_result.ejs', {error});
             }
     }
