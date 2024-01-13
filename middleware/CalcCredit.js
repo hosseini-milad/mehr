@@ -7,8 +7,10 @@ const calcCredit=async(userId)=>{
     var credit = 0;
     var fob = 0;
     var oldCredit = 0
+    var oldFob = 0
     const userData = await user.findOne({_id:ObjectID(userId)})
     if(!userData)return(0)
+    fob = parseInt(userData.fob)
     credit =creditSum(userData.credit1,userData.credit2)
     var today = new Date().toLocaleDateString('fa')
     var month = today.split('/')[1]
@@ -20,12 +22,12 @@ const calcCredit=async(userId)=>{
         if(newOrders[i]&&newOrders[i].status&&newOrders[i].status.includes("cancel"))
             continue
         else{
-            fob += parseInt(newOrders[i].freeCredit?newOrders[i].freeCredit:0)
+            oldFob += parseInt(newOrders[i].freeCredit?newOrders[i].freeCredit:0)
             oldCredit += parseInt(newOrders[i].credit?newOrders[i].credit:0)
         }
     }
     //console.log(oldCredit)
-    return({credit:credit-oldCredit,fob:fob})
+    return({credit:credit-oldCredit,fob:fob-oldFob})
 }
 const creditSum=(credit1Raw,credit2Raw)=>{
   
