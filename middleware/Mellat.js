@@ -421,7 +421,7 @@ exports.callBack = async (req, res) => {
                 reversePay(saleOrderId, saleOrderId, saleReferenceId);
                 const error = desribtionStatusCode(resultCode_bpinquiryRequest);
                 const query = {orderNoInt:saleOrderId,payStatus:"undone",
-                stockOrderNo:OrderNoBank(saleOrderId,2),
+                stockOrderNo:await OrderNoBank(saleOrderId,2),
                 saleReferenceId:saleReferenceId,statusCode:resultInquiryRequest}
                 await PayLogSchema.create(query)
                 return res.render('mellat_payment_result.ejs', {error});
@@ -439,7 +439,7 @@ exports.callBack = async (req, res) => {
             if(resultCode_bpSettleRequest === 0 || resultCode_bpSettleRequest === 45) {
                 //success payment
                 const query = {orderNoInt:saleOrderId,payStatus:"paid",
-                stockOrderNo:OrderNoBank(saleOrderId,2),
+                stockOrderNo:await OrderNoBank(saleOrderId,2),
                 saleReferenceId:saleReferenceId}
                 await PayLogSchema.create(query)
                 let msg = 'تراکنش شما با موفقیت انجام شد ';
@@ -453,7 +453,7 @@ exports.callBack = async (req, res) => {
         }else {
             if (saleOrderId != -999 && saleReferenceId != -999) {
                 const query = {orderNoInt:saleOrderId,payStatus:"undone",
-                stockOrderNo:OrderNoBank(saleOrderId,2),
+                stockOrderNo:await OrderNoBank(saleOrderId,2),
                 saleReferenceId:saleReferenceId,errorMessage:"123",errorCode:resultCode_bpPayRequest}
                 await PayLogSchema.create(query)
                 if(resultCode_bpPayRequest !== 17)
@@ -470,7 +470,7 @@ exports.callBack = async (req, res) => {
                 reversePay(saleOrderId, saleOrderId, saleReferenceId);
                 const error = desribtionStatusCode(resultCode_bpPayRequest);
                 const query = {orderNoInt:saleOrderId,payStatus:"undone",
-                stockOrderNo:OrderNoBank(saleOrderId,2),
+                stockOrderNo:await OrderNoBank(saleOrderId,2),
                 saleReferenceId:saleReferenceId,errorMessage:"123",errorCode:resultCode_bpPayRequest}
                 await PayLogSchema.create(query)
                 return res.render('mellat_payment_result.ejs', {error});
