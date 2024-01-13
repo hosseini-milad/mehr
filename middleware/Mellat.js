@@ -420,10 +420,11 @@ exports.callBack = async (req, res) => {
             if(resultInquiryRequest !== 0) {
                 reversePay(saleOrderId, saleOrderId, saleReferenceId);
                 const error = desribtionStatusCode(resultCode_bpinquiryRequest);
-                const query = {orderNoInt:saleOrderId,payStatus:"undone",
-                stockOrderNo:await OrderNoBank(saleOrderId,2),
+                const orderNo = await OrderNoBank(saleOrderId,2)
+                const query = {orderNoInt:saleOrderId,payStatus:"undone", stockOrderNo:orderNo,
                 saleReferenceId:saleReferenceId,statusCode:resultInquiryRequest}
                 await PayLogSchema.create(query)
+                await orders.updateOne({stockOrderNo:orderNo,payStatus:"undone"})
                 return res.render('mellat_payment_result.ejs', {error});
             }
         }
@@ -438,10 +439,11 @@ exports.callBack = async (req, res) => {
             //ﺗﺮاﻛﻨﺶ_ﺑﺎ_ﻣﻮﻓﻘﻴﺖ_اﻧﺠﺎم_ﺷﺪ
             if(resultCode_bpSettleRequest === 0 || resultCode_bpSettleRequest === 45) {
                 //success payment
-                const query = {orderNoInt:saleOrderId,payStatus:"paid",
-                stockOrderNo:await OrderNoBank(saleOrderId,2),
+                const orderNo = await OrderNoBank(saleOrderId,2)
+                const query = {orderNoInt:saleOrderId,payStatus:"paid", stockOrderNo:orderNo,
                 saleReferenceId:saleReferenceId}
                 await PayLogSchema.create(query)
+                await orders.updateOne({stockOrderNo:orderNo,payStatus:"paid"})
                 let msg = 'تراکنش شما با موفقیت انجام شد ';
                 msg += " لطفا شماره پیگیری را یادداشت نمایید" + saleReferenceId;
 
@@ -452,10 +454,12 @@ exports.callBack = async (req, res) => {
             }
         }else {
             if (saleOrderId != -999 && saleReferenceId != -999) {
+                const orderNo = await OrderNoBank(saleOrderId,2)
                 const query = {orderNoInt:saleOrderId,payStatus:"undone",
-                stockOrderNo:await OrderNoBank(saleOrderId,2),
+                stockOrderNo:orderNo,
                 saleReferenceId:saleReferenceId,errorMessage:"123",errorCode:resultCode_bpPayRequest}
                 await PayLogSchema.create(query)
+                await orders.updateOne({stockOrderNo:orderNo,payStatus:"undone"})
                 if(resultCode_bpPayRequest !== 17)
                     reversePay(saleOrderId, saleOrderId, saleReferenceId);
             }
@@ -469,10 +473,11 @@ exports.callBack = async (req, res) => {
                 if(resultCode_bpPayRequest !== 17)
                 reversePay(saleOrderId, saleOrderId, saleReferenceId);
                 const error = desribtionStatusCode(resultCode_bpPayRequest);
-                const query = {orderNoInt:saleOrderId,payStatus:"undone",
-                stockOrderNo:await OrderNoBank(saleOrderId,2),
+                const orderNo = await OrderNoBank(saleOrderId,2)
+                const query = {orderNoInt:saleOrderId,payStatus:"undone", stockOrderNo:orderNo,
                 saleReferenceId:saleReferenceId,errorMessage:"123",errorCode:resultCode_bpPayRequest}
                 await PayLogSchema.create(query)
+                await orders.updateOne({stockOrderNo:orderNo,payStatus:"undone"})
                 return res.render('mellat_payment_result.ejs', {error});
             }
     }
