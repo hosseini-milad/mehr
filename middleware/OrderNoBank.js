@@ -13,7 +13,7 @@ const OrderNoBank=async(orderNo,status)=>{
     return(newOrderNo)
 }
 const bankToSite=async(orderNo)=>{
-    var orderId = orderNo
+    var orderId = orderNo.toString()
     if(orderId[0]==="3")
     if(orderId[1]==="1"){
         orderId=orderId.substring(2)
