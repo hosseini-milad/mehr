@@ -263,10 +263,12 @@ exports.userMainInfo = async(req,res)=>{
     //console.log("UserMainInfoApi")
     var userId = req.body.userId;
     try{
+    const userMainData = await user.findOne({_id:userId}) 
     const userData = await userInfo.findOne({userId:userId}) 
     const orderData = await RXSchema.find({userId:userId})
     const offerData = await Offers.find({userId:userId})
-    res.json({userInfo:userData,orderData:orderData,offerData:offerData})
+    res.json({userInfo:userData,userMainData:userMainData,
+        orderData:orderData,offerData:offerData})
     }catch{
 
     }
