@@ -195,7 +195,7 @@ router.post('/taskData', async (req,res)=>{
     const taskId=req.body.taskId
     try{
         const taskDetail =taskId&&await tasks.findOne({_id:taskId})
-        const currentUser = 0&&taskDetail&&taskDetail.assign&&
+        const currentUser = taskDetail&&taskDetail.assign&&
             await user.findOne({_id:taskDetail.assign})
         const currentProfile = taskDetail&&taskDetail.profile&&
             await ProfileAccess.findOne({_id:taskDetail.profile})
