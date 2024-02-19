@@ -1,6 +1,7 @@
 const express = require("express");
 const apiRoutes = require('./router/mainRouter');
 const apiProduct = require('./router/productApi');
+<<<<<<< HEAD
 
 const orderPanelApi = require('./router/panelOrderApi')
 const productPanelApi = require('./router/panelProductApi')
@@ -15,6 +16,22 @@ const bodyParser = require('body-parser');
 const jsonParser = bodyParser.json();
 const expressAdmin = require('@admin-bro/express');
 const cors = require("cors"); 
+=======
+const apiOrder = require('./router/orderApi');
+const apiSetting = require('./router/settingApi');
+const apiSepidar = require('./router/sepidarApi')
+const orderPanelApi = require('./router/panelOrderApi')
+const productPanelApi = require('./router/panelProductApi')
+const UserPanelApi = require('./router/panelUserApi')
+const apiPayment = require('./router/paymentApi')
+const path = require('path');
+
+const apiHesabfa = require('./router/hesabFaApi')
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
+const expressAdmin = require('@admin-bro/express');
+const cors = require("cors");
+>>>>>>> 72932be0b5684929db33bcf1eec239e9ca6e819e
 const multer = require('multer');
 const adminBro = require('./AdminPanel/admin')
 var storage = multer.diskStorage(
@@ -24,17 +41,36 @@ var storage = multer.diskStorage(
             cb( null, "mgm"+ '-' + Date.now()+ '-'+file.originalname);
         }
     }
+<<<<<<< HEAD
 ); 
+=======
+);
+>>>>>>> 72932be0b5684929db33bcf1eec239e9ca6e819e
 const uploadImg = multer({ storage: storage })
 
 const fs = require('fs');
 const mime = require('mime');
+<<<<<<< HEAD
 
 const app = express();
+=======
+const app = express();
+
+>>>>>>> 72932be0b5684929db33bcf1eec239e9ca6e819e
 app.use(cors());
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
+<<<<<<< HEAD
+=======
+global.publicDir = __dirname + "/payment/";
+const paymentRoutes = require('./router/paymentApi');
+app.use(express.static(path.join(__dirname, 'publicPay')));
+app.set('views', path.join(__dirname, 'publicPay'));
+app.set('view engine', 'ejs');
+
+app.use('/pay', paymentRoutes);
+>>>>>>> 72932be0b5684929db33bcf1eec239e9ca6e819e
 const router = expressAdmin.buildRouter(adminBro);
 
 app.use(adminBro.options.rootPath,router)
@@ -80,6 +116,7 @@ app.use('/api', apiRoutes)
 app.use('/api/order', apiOrder)
 app.use('/api/setting', apiSetting)
 app.use('/api/product', apiProduct)
+<<<<<<< HEAD
 app.use('/api/sepidar',apiSepidar)
 app.use('/api/hesabfa',apiHesabfa)
 
@@ -87,6 +124,14 @@ app.use('/api/panel/order',orderPanelApi)
 app.use('/api/panel/product',productPanelApi)
 app.use('/api/panel/user',UserPanelApi)
 app.use('/api/panel/crm',CRMPanelApi)
+=======
+app.use('/api/panel/order',orderPanelApi)
+app.use('/api/panel/product',productPanelApi)
+app.use('/api/panel/user',UserPanelApi)
+app.use('/api/sepidar',apiSepidar)
+app.use('/api/hesabfa',apiHesabfa)
+app.use('/api/payment',apiPayment)
+>>>>>>> 72932be0b5684929db33bcf1eec239e9ca6e819e
 
 app.use(express.json());
 

@@ -55,12 +55,22 @@ exports.mainApi=async(req,res)=>{
 
 exports.layoutApi=async(req,res)=>{
     //console.log("LayoutApi")
+<<<<<<< HEAD
     try{
         const catData = await catModel.find({});
         const menuData = await menu.find();
         const aboutData = await pages.findOne({url:"about"});
         const storeData = await mgmInfo.findOne({shopCode:"mgm"});
         res.json({category:catData, menu:menuData,about:aboutData,store:storeData})
+=======
+    const userId=req.headers['userid']
+    try{
+        const catData = await catModel.find({});
+        const userData = userId?await user.findOne({_id:userId}):''
+        const aboutData = await pages.findOne({url:"about"});
+        const storeData = await mgmInfo.findOne({shopCode:"mgm"});
+        res.json({category:catData, user:userData,about:aboutData,store:storeData})
+>>>>>>> 72932be0b5684929db33bcf1eec239e9ca6e819e
     }
     catch(error){
         res.status(500).json({message: error.message})
@@ -262,10 +272,19 @@ exports.userMainInfo = async(req,res)=>{
     //console.log("UserMainInfoApi")
     var userId = req.body.userId;
     try{
+<<<<<<< HEAD
     const userData = await userInfo.findOne({userId:userId}) 
     const orderData = await RXSchema.find({userId:userId})
     const offerData = await Offers.find({userId:userId})
     res.json({userInfo:userData,orderData:orderData,offerData:offerData})
+=======
+    const userMainData = await user.findOne({_id:userId}) 
+    const userData = await userInfo.findOne({userId:userId}) 
+    const orderData = await RXSchema.find({userId:userId})
+    const offerData = await Offers.find({userId:userId})
+    res.json({userInfo:userData,userMainData:userMainData,
+        orderData:orderData,offerData:offerData})
+>>>>>>> 72932be0b5684929db33bcf1eec239e9ca6e819e
     }catch{
 
     }

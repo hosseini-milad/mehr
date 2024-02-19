@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const mongoose = require("mongoose");
 
 const customerSchema = new mongoose.Schema({
@@ -26,4 +27,34 @@ const customerSchema = new mongoose.Schema({
   fax: { type: String }
 });
 
+=======
+const mongoose = require("mongoose");
+
+const customerSchema = new mongoose.Schema({
+  phone: { type: String, unique: true },
+  cName: { type: String},
+  cCode:{ type: String},
+  password: { type: String },
+  email: { type: String },
+  access:{
+    type:String, 
+    enum:["manager","factory","store","customer","shop","request"]
+  },
+  group: {
+    type:String,
+    enum:["groupA","groupB","groupC","groupD"]
+  },
+  credit: { type: String },
+  token: { type: String },
+  otp:{ type: String , default: null },
+  sex: { type: String },
+  mahiat: { type: String },
+  activity: { type: String },
+  phone1: { type: String },
+  phone2: { type: String },
+  phone3: { type: String },
+  fax: { type: String }
+});
+
+>>>>>>> 72932be0b5684929db33bcf1eec239e9ca6e819e
 module.exports = mongoose.model("customer", customerSchema);

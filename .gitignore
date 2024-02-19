@@ -1,2 +1,7 @@
 **/node_modules
+<<<<<<< HEAD
 **/uploads
+=======
+**/uploads
+**.env
+>>>>>>> 72932be0b5684929db33bcf1eec239e9ca6e819e
