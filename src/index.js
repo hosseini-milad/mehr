@@ -24,6 +24,8 @@ import errortrans from './translate/error';
 import LayoutLogin from './components/LayoutLogin';
 import env from './env';
 import UserDetailHolder from './modules/Users/UserData/UserDetailHolder';
+import Customers from './pages/Customers';
+import CustomerDetailHolder from './modules/Customer/CustomerData/CustomerDetailHolder';
 import Orders from './pages/Orders';
 import OrderDetailHolder from './modules/Orders/OrderData/OrderDetailHolder';
 import Profile from './pages/Profile';
@@ -87,6 +89,10 @@ root.render(
         
         <Route path="/users" element={<Layout><Users lang={lang}/></Layout>}/>
         <Route path="/users/detail/:userId" element={<Layout><UserDetailHolder lang={lang}/></Layout>}/>
+
+        <Route path="/customers/detail/:userId" element={<Layout><CustomerDetailHolder lang={lang}/></Layout>}/>
+
+
         <Route path="/access" element={<Layout><AccessHolder lang={lang}/></Layout>}/>
         <Route path="/access/detail/:profileId" element={<Layout><ProfileAdd lang={lang}/></Layout>}/>
         <Route path="/filter" element={<Layout><FilterHolder lang={lang}/></Layout>}/>

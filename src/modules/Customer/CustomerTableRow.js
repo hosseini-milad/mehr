@@ -1,13 +1,11 @@
 import { useState } from "react"
-import Status from "../Components/Status"
-import UserClassInTable from "./UserComponent/UserClassInTable"
-import { normalPriceSum } from "../../env"
 
-function UserTableRow(props){ 
+function CustomerTableRow(props){ 
   const [openOption,setOpenOption] = useState(0)
   const [checkState,setCheckState] = useState(false)
   const activeAcc = props.index===props.detail
   const user=props.user
+  console.log(openOption)
     return(
         <tr>
             <td className="checkBoxStyle">
@@ -15,52 +13,39 @@ function UserTableRow(props){
               onChange={(e)=>setCheckState(checkState?false:true)}/></td>
             <td>
               <div className="cu-avatar">
-              <img src={(user.group&&user.group.includes("مهر"))?
-                            "/img/mehr.png":"/img/sahand.png"} className="avatar-sm me-3" alt="xd"/>
+              <img src="/img/avatar/avatar_1.jpg" alt="avatar"/>
                 <div className="cu-name">
-                  <p className="name">{user.cName}</p>
-                  <p className="email">شماره تماس: {
-                  (user.userDetail&&user.userDetail[0])?
-                user.userDetail[0].mobile:''}</p>
+                  <p className="name">{user.username?user.username:user.cName}</p>
+                  <p className="email">کد مشتری: {user.cCode}</p>
                 </div>
               </div>
             </td>
             <td>
-              <div className="cu-company">
-                <h6>{user.remainCredit}</h6>
-                {user.credit1||user.credit2?<small>all credit:{normalPriceSum(user.credit1,
-                  user.credit2)}</small>:<></>}
+              <div className="cu-phone">
+                <p className="phone-num">{user.phone}</p>
               </div>
             </td>
             <td>
               <div className="cu-company">
-                <h6>{user.remainFob}</h6>
-                {user.fob?<small>all fob:{user.fob}</small>:<></>}
+                <p>{user.mobile}</p>
               </div>
             </td>
             <td>
-                <div className="cu-name">
-                  <p className="name">{user.phone}</p>
-                  <p className="email">کد: {user.meli}</p>
-                </div>
-            </td>
-            <td>
-              <div className="cu-company" style={{width:"150px"}}>
-                {user.class?<UserClassInTable classes={user.class}/>:
-                <></>}
+              <div className="cu-role">
+                <p>{user.access}</p>
               </div>
             </td>
             <td>
               <div className="pen-status order-status">
-                <Status status={"active"} lang={props.lang}/>
+                Pending
               </div>
             </td>
             <td>
               <div className="more-btn">
                 <i className="tableIcon fas fa-edit" onClick={()=>
                   window.location.href="/customers/detail/"+user._id}></i>
-                <i className="tableIcon fas fa-ellipsis-v" 
-                  onClick={()=>setOpenOption(openOption?0:1)}></i>
+                {/* <i className="tableIcon fas fa-ellipsis-v" 
+                  onClick={()=>setOpenOption(openOption?0:1)}></i> */}
               </div>
               {openOption?<div className="sub-more-menu">
                 <div className="sub-option sub-delete">
@@ -76,4 +61,4 @@ function UserTableRow(props){
           </tr>
     )
 }
-export default UserTableRow
+export default CustomerTableRow
