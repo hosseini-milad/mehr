@@ -11,6 +11,7 @@ import StyleSelect from "../../../components/Button/AutoComplete"
 
 function CustomerGeneral(props) {
   const userData = props.userData;
+  const token = props.token;
   const [formData, setFormData] = useState({ active: "false" }); // Initialize active as a string
   const [error, setError] = useState({ errorText: "", errorColor: "brown" });
   const [formalShow, setFormal] = useState(0);
@@ -34,7 +35,11 @@ function CustomerGeneral(props) {
   const saveChanges = () => {
     var postOptions = {
       method: "post",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token && token.token,
+        userId: token && token.userId,
+      },
       body: JSON.stringify({
         userId: userData._id,
         ...formData,
@@ -60,7 +65,11 @@ function CustomerGeneral(props) {
   const formalCustomer = (e) => {
     var postOptions = {
       method: "post",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token && token.token,
+        userId: token && token.userId,
+      },
       body: JSON.stringify({
         userData,
       }),

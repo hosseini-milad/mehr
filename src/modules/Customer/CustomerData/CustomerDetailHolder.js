@@ -10,6 +10,9 @@ import CustomerSecurity from "./CustomerSecurity";
 import CustomerGeneral from "./CustomerGeneral";
 import CustomerSupplementary from "./CustomerSupplementary";
 import CustomerClass from "./CustomerClass";
+import Cookies from "universal-cookie";
+
+const cookies = new Cookies();
 
 function CustomerDetailHolder(props) {
   const url = window.location.pathname.split("/")[3];
@@ -20,10 +23,15 @@ function CustomerDetailHolder(props) {
   const [accessList,setAccess] = useState()
   const [profile,setProfile] = useState()
 
+  const token = cookies.get(env.cookieName);
   useEffect(() => {
     var postOptions = {
       method: "post",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token && token.token,
+        userId: token && token.userId,
+      },
       body: JSON.stringify({ userId: url }),
     };
     fetch(env.siteApi + "/panel/user/fetch-user", postOptions)
@@ -60,6 +68,7 @@ function CustomerDetailHolder(props) {
             userData={userData}
             accessList={accessList}
             profile={profile}
+            token={token}
 
           />
         ) : (
@@ -72,6 +81,8 @@ function CustomerDetailHolder(props) {
             userData={userData}
             accessList={accessList}
             profile={profile}
+            token={token}
+
           />
         ) : (
           <></>
@@ -96,6 +107,8 @@ function CustomerDetailHolder(props) {
             direction={direction}
             lang={lang}
             userData={userData}
+            token={token}
+
           />
         ) : (
           <></>
