@@ -121,18 +121,6 @@ function CustomerGeneral(props) {
                 }))
               }
             />
-            <StyleInput
-              title={formtrans.senfiCode[props.lang]}
-              direction={props.direction}
-              defaultValue={userData.senfiCode}
-              class={"formInput"}
-              action={(e) =>
-                setFormData((prevState) => ({
-                  ...prevState,
-                  senfiCode: e,
-                }))
-              }
-            />
 
             <StyleInput
               title={formtrans.birthDay[props.lang]}
