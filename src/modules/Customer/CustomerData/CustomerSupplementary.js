@@ -174,12 +174,12 @@ function CustomerGeneral(props) {
             <StyleInput
               title={formtrans.nif[props.lang]}
               direction={props.direction}
-              defaultValue={userData.nif}
+              defaultValue={userData.gps}
               class={"formInput"}
               action={(e) =>
                 setFormData((prevState) => ({
                   ...prevState,
-                  nif: e,
+                  gps: e,
                 }))
               }
             />

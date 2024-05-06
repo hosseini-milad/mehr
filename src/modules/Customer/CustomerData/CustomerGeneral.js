@@ -122,7 +122,7 @@ function CustomerGeneral(props) {
                 }))
               }
             />
-            <StyleInput
+            {/* <StyleInput
               title={formtrans.fname[props.lang]}
               direction={props.direction}
               defaultValue={userData.sName}
@@ -133,7 +133,7 @@ function CustomerGeneral(props) {
                   sName: e,
                 }))
               }
-            />
+            /> */}
 
             <StyleInput
               title={formtrans.emailAddress[props.lang]}
@@ -148,18 +148,6 @@ function CustomerGeneral(props) {
               }
             />
 
-            <StyleInput
-              title={formtrans.phoneNumber[props.lang]}
-              direction={props.direction}
-              defaultValue={userData.phone}
-              class={"formInput"}
-              action={(e) =>
-                setFormData((prevState) => ({
-                  ...prevState,
-                  phone: e,
-                }))
-              }
-            />
             <StyleInput
               title={formtrans.mobile[props.lang]}
               direction={props.direction}
@@ -224,12 +212,12 @@ function CustomerGeneral(props) {
             <StyleInput
               title={formtrans.meliCode[props.lang]}
               direction={props.direction}
-              defaultValue={userData.meliCode}
+              defaultValue={userData.meli}
               class={"formInput"}
               action={(e) =>
                 setFormData((prevState) => ({
                   ...prevState,
-                  meliCode: e,
+                  meli: e,
                 }))
               }
             />
@@ -266,13 +254,28 @@ function CustomerGeneral(props) {
               }
             />
 
-                <StyleSelect title={"فعال/غیرفعال"} direction={props.direction} 
-                defaultValue={userData.active} class={"formInput"}
-                options={["فعال","غیرفعال"]}
-                action={(e)=>setFormData(prevState => ({
-                  ...prevState,
-                  active:e
-                }))}/>
+
+<span style={{ whiteSpace: "pre-wrap" }}></span>
+
+<div className="dense-btn">
+  <label htmlFor="view">
+    {/* Text indicating the radio button */}
+    {formtrans.status[props.lang]}
+  </label>
+  <input
+    className="switch-input"
+    type="checkbox"
+    id="view"
+    defaultChecked={userData.active === "true" ? true : false}
+    onClick={activityStatusHandler}
+  />
+  <label
+    htmlFor="view"
+    className={true ? "switch-label" : "switch-label disable-label"}
+  ></label>
+</div>
+<span style={{ whiteSpace: "pre-wrap" }}></span>
+
 
 <StyleSelect title={formtrans.access[props.lang]} direction={props.direction} 
                   defaultValue={props.profile?props.profile:''} class={"formInput"}
@@ -294,11 +297,11 @@ function CustomerGeneral(props) {
                 onChange={(e) =>
                   setFormData((prevState) => ({
                     ...prevState,
-                    Address: e.target.value,
+                    address: e.target.value,
                   }))
                 }
               >
-                {userData.Address}
+                {userData.address}
               </textarea>
             </div>
 
