@@ -203,6 +203,8 @@ function Users(props){
       profiles={content.profiles}
       classes={content.classes}
       currentFilters={filters}
+      updateUrlWithFilters={updateUrlWithFilters} // Pass the function as a prop
+
       />
       <ul>
       {errorHandling&&errorHandling.map((error,i)=>(
