@@ -394,6 +394,64 @@ textarea{
     width: 100%;
     margin-right:30px;
   }
+  .card-form {
+    padding: 1rem;
+  }
+  .card-input {
+    flex-wrap: wrap;
+  }
+  .imageUser {
+    width: 100%;
+  }
+  .admin-table-sec  {
+    width: 80%;
+    margin: auto;
+  }
+  .imageUserField {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+  .textDetail{
+    width: 90%;
+    margin: 10px;
+    direction: ltr;
+  }
+  .param sup{
+    color:red
+  }
+  .param .removeParam{
+    cursor: pointer;
+    padding: 5px;
+  }
+  .param .removeParam:hover{
+    color: red;
+  }
+  .form-field-image {
+    width: 30%;
+  }
+  .media-input {
+    display: grid;
+    text-align: center;
+  }
+  .media-input label {
+    background-color: hsla(0,0%,39%,.5);
+    border: 2px solid gray;
+    border-radius: 4px;
+    color: #fff;
+    cursor: pointer;
+    margin: 3px 0;
+    padding: 3px;
+    text-align: center;
+  }
+  .media-input input {
+    display: none;
+  }
+  .media-input img {
+    height: 100px;
+    object-fit: contain;
+    width: 100%;
+  }
   
   .boxTrack{
     left:2px;

@@ -1,39 +1,13 @@
 import React ,{ useState } from "react"
-import Status from "../Components/Status"
-import  env, { normalPriceCount, rxFindCount } from "../../env"
+import Status from "../../Components/Status"
+import  env, { normalPriceCount, rxFindCount } from "../../../env"
+import DocQuickDetail from "./DocComponent/DocQuickDetail"
 
-
-function AdvTableRow(props){
-  const token = props.token
+function DocTableRow(props){
   const [openOption,setOpenOption] = useState(0)
   const [checkState,setCheckState] = useState(false)
   const activeAcc = props.index===props.detail
-  const [content,setContent] = useState('')
   console.log(props.data)
-  const deleteItem=()=>{
-    const body={
-      advId:props.data._id
-      
-  }
-  const postOptions={
-      method:'post',
-      headers: {'Content-Type': 'application/json',
-      "x-access-token":token&&token.token,"userId":token&&token.userId},
-      body:JSON.stringify(body)
-    }
-    console.log(postOptions)
-fetch(env.siteApi + "/setting/delete-adv",postOptions)
-.then(res => res.json())
-.then(
-  (result) => {
-    
-      setContent('')
-      setTimeout(()=> window.location.reload(),200)
-  },
-  (error) => {
-    console.log(error);
-  })
-  }
   const data=props.data
     return(<React.Fragment>
         <tr 
@@ -44,45 +18,26 @@ fetch(env.siteApi + "/setting/delete-adv",postOptions)
             <td>
                 <div className="order-id">
                   <p onClick={()=> window.location.href=
-                    "/adv/detail/"+data._id}>
-                    {data._id}</p>
+                    "/documents/detail/"+data._id}>
+                    {data.kind?data.kind.title:""}</p>
                 </div>
             </td>
             <td>
               <div className="cu-avatar">
                   <img src={env.siteApiUrl+data.imageUrl} alt="avatar"/>
                   <div className="cu-name" onClick={()=>
-                  window.location.href="/adv/detail/"+data._id}>
+                  window.location.href="/documents/detail/"+data._id}>
                     <p className="name">{data.title}</p>
-                    <p className="email">{data.enTitle}</p>
+                    <p className="email">{data.url}</p>
                   </div>
-                  {data.abstract?
-                    <i className="fa fa-comment-o" title={data.abstract}></i>:<></>}
                 </div>
               </td>
               <td>
                 <div className="or-date">
-                  <p className="date">{new Date(data.date)
-                  .toLocaleDateString(props.lang==="persian"?'fa':'en')}</p>
-                  <p className="time">{new Date(data.date)
-                  .toLocaleTimeString(props.lang==="persian"?'fa':'en')}</p>
+                  <p className="date">{data.content}</p>
                 </div>
               </td>
-              <td>
-                <div className="order-num">
-                  <p>{data.brand}</p>
-                </div>
-              </td>
-              <td>
-                <div className="order-num">
-                  <p>{"product"}</p>
-                </div>
-              </td>
-              <td>
-                <div className="order-price">
-                  <p>{normalPriceCount(data.totalPrice)}</p>
-                </div>
-              </td>
+              
               <td>
                 <Status status={data.status} class={"order-status"} 
                   lang={props.lang}/>
@@ -92,12 +47,12 @@ fetch(env.siteApi + "/setting/delete-adv",postOptions)
               <i className={`tableIcon fas ${activeAcc?"fa-chevron-up":"fa-chevron-down"}`} 
                 onClick={()=>props.showDetail(activeAcc?"-1":props.index)} ></i>
                 <i className="tableIcon fas fa-edit" onClick={()=>
-                  window.location.href="/learn/detail/"+data.enTitle}></i>
+                  window.location.href="/documents/detail/"+data._id}></i>
                 <i className="tableIcon fas fa-ellipsis-v" 
                   onClick={()=>setOpenOption(openOption?0:1)}></i>
               </div>
               {openOption?<div className="sub-more-menu">
-                <div className="sub-option sub-delete" onClick={deleteItem}>
+                <div className="sub-option sub-delete">
                 <i className="tableIcon fas fa-remove" style={{color: "#ff0000"}}></i>
                   <p>Delete</p>
                 </div>
@@ -108,7 +63,10 @@ fetch(env.siteApi + "/setting/delete-adv",postOptions)
               </div>:<></>}
             </td>
           </tr>
+          {activeAcc?<tr className="sub-order">
+        <td colSpan="9"><DocQuickDetail data={data}/></td></tr>
+          :<React.Fragment></React.Fragment>}
           </React.Fragment>
     )
 }
-export default AdvTableRow
+export default DocTableRow

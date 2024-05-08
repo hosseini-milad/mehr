@@ -2,7 +2,6 @@ import Cookies from 'universal-cookie';
 import StatusBar from '../modules/Components/StatusBar';
 import Paging from '../modules/Components/Paging';
 import errortrans from "../translate/error";
-import OrderTable from '../modules/Orders/OrderTable';
 import OrderFilters from '../modules/Orders/OrderComponent/OrderFilters';
 import { useEffect } from 'react';
 import { useState } from 'react';
@@ -11,10 +10,11 @@ import ProductTable from '../modules/Products/ProductTable';
 import tabletrans from '../translate/tables';
 import BrandTable from '../modules/Brands/BrandTable';
 import CatTable from '../modules/Category/CatTable';
-import AdvTable from '../modules/Adv/AdvTable';
+import LearnTable from '../modules/Learn/LearnTable';
+import DocTable from '../modules/Documents/DocPanel/DocTable';
 const cookies = new Cookies();
 
-function Adv(props){
+function DocumentList(props){
     const direction = props.lang?props.lang.dir:errortrans.defaultDir;
     const lang = props.lang?props.lang.lang:errortrans.defaultLang;
     const [content,setContent] = useState("")
@@ -32,8 +32,7 @@ function Adv(props){
           brand:filters.brand,
           dateFrom:filters.date&&filters.date.dateFrom,
           dateTo:filters.date&&filters.date.dateTo,
-          access:"manager",
-          count:10
+          access:"manager"
       }
       const postOptions={
           method:'post',
@@ -42,7 +41,7 @@ function Adv(props){
           body:JSON.stringify(body)
         }
         console.log(postOptions)
-    fetch(env.siteApi + "/setting/list-adv",postOptions)
+    fetch(env.siteApi + "/setting/list-doc",postOptions)
     .then(res => res.json())
     .then(
       (result) => {
@@ -63,13 +62,13 @@ function Adv(props){
         <div className="od-header-info">
           
           <div className="od-header-name">
-            <p>{tabletrans.learns[lang]}</p>
+            <p>{tabletrans.document[lang]}</p>
           </div>
           
         </div>
         <div className="od-header-btn">
           <div className="edit-btn add-btn" 
-            onClick={()=>window.location.href="/adv/detail/new"}>
+            onClick={()=>window.location.href="/documents/detail/new"}>
             <i className="fa-solid fa-plus"></i>
             <p>{tabletrans.addNew[lang]}</p>
           </div>
@@ -85,7 +84,7 @@ function Adv(props){
         <OrderFilters lang={props.lang} setFilters={setFilters}
           options={content.brand} filters={filters}/>
         <div className="user-list"> 
-          {loading?env.loader:<AdvTable data={content} lang={lang} token={token}/>}
+          {loading?env.loader:<DocTable data={content} lang={lang}/>}
         </div>
         <Paging content={content} setFilters={setFilters} filters={filters} 
           lang={props.lang}/>
@@ -93,4 +92,4 @@ function Adv(props){
     </div>
     )
 }
-export default Adv
+export default DocumentList

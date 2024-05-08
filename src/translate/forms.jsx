@@ -400,10 +400,30 @@ const formtrans ={
         english: "Meta Description",
         persian: "توضیحات متا"
     },
+    kind:{
+        english: "KIND",
+        persian: "نوع"
+    },
     
     abstract:{
         english: "Abstract",
         persian: "چکیده"
+    },
+    content:{
+        english: "Content",
+        persian: "توضیحات"
+    },
+    url:{
+        english: "Url",
+        persian: "آدرس"
+    },
+    request:{
+        english: "Request",
+        persian: "درخواست"
+    },
+    response:{
+        english: "Response",
+        persian: "پاسخ"
     },
     category:{
         english: "Category",

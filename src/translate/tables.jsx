@@ -703,6 +703,10 @@ const tabletrans ={
         english:"Add/Edit Notification",
         persian:"افزودن یا ویرایش اعلامیه"
     },
+    addDoc:{
+        english:"Add/Edit Document",
+        persian:"افزودن یا ویرایش مستندات"
+    },
     addClass:{
         english:"Add/Edit Class",
         persian:"افزودن یا ویرایش کلاس ها"
@@ -736,6 +740,10 @@ const tabletrans ={
     notifs:{
         english:"Notifications",
         persian:"اعلامیه ها"
+    },
+    document:{
+        english:"Documents",
+        persian:"مستندات"
     },
 
 }
