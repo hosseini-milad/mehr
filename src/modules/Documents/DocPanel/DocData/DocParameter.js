@@ -19,8 +19,8 @@ function DocParameter(props){
     }
     const removeItem=(index)=>{
       var index = props.parameters.length
-      props.setParameters
-      (l => l.filter(item => item.name !== name));
+      /*props.setParameters
+      (l => l.filter(item => item.name !== name));*/
     }
     const typeOptions=["string","number","object","array","date","boolean"]
     return(
