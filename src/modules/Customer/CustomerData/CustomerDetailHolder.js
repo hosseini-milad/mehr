@@ -54,8 +54,8 @@ function CustomerDetailHolder(props) {
           className={`fa-solid fa-angle-${
             direction === "rtl" ? "right" : "left"
           }`}
-          onClick={() => (window.location.href = "/customers")}
-        ></i>
+          onClick={() => window.history.back()} // Use window.history.back() to simulate back button click
+          ></i>
         {tabletrans.account[lang]}
       </h4>
       <CustomerTabs tabIndex={tabIndex} setTabIndex={setTabIndex} lang={lang} />
