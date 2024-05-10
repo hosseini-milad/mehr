@@ -2,16 +2,20 @@ import StyleInput from "../../../components/Button/Input";
 import StyleSelect from "../../../components/Button/AutoComplete";
 
 function UserFilters(props) {
-  const handleCustomerSearch = (value) => {
-    if (value.length > 3 || value.length === 0) {
-      props.setFilters(prevState => ({
-        ...prevState,
-        customer: value
-      }));
-      // Update URL here
-      props.updateUrlWithFilters({ ...props.currentFilters, customer: value });
-    }
+
+  const handleFilterChange = (property, value) => {
+    const newValue = value ? (value._id ? value._id : value) : "";
+    props.setFilters((prevState) => ({
+      ...prevState,
+      [property]: newValue,
+    }));
+    // Update URL here
+    props.updateUrlWithFilters({
+      ...props.currentFilters,
+      [property]: newValue,
+    });
   };
+
   return (
     <div className="user-filter">
 
@@ -21,24 +25,16 @@ function UserFilters(props) {
     class="filterComponent"
     direction={props.lang.dir}
     options={props.options}
-    action={(e) =>
-      props.setFilters((prevState) => ({
-        ...prevState,
-        access: e,
-      }))
-    }
+    action={(e) => handleFilterChange("access", e)}
+
     />
     <StyleSelect
     title={"Credit"}
     class="filterComponent"
     direction={props.lang.dir}
     options={["true", "false"]}
-    action={(e) =>
-      props.setFilters((prevState) => ({
-        ...prevState,
-        credit: e,
-      }))
-    }
+    action={(e) => handleFilterChange("credit", e)}
+
     />
     
     <StyleSelect
@@ -47,12 +43,8 @@ function UserFilters(props) {
     direction={props.lang.dir}
     options={props.profiles || []}
     label="profileName"
-    action={(e) =>
-      props.setFilters((prevState) => ({
-        ...prevState,
-        profile: e ? e._id : "",
-      }))
-    }
+    action={(e) => handleFilterChange("profile", e)}
+
     />
     
     <StyleSelect
@@ -61,18 +53,14 @@ function UserFilters(props) {
     direction={props.lang.dir}
     options={props.classes || []}
     label="className"
-    action={(e) =>
-      props.setFilters((prevState) => ({
-        ...prevState,
-        class: e ? e._id : "",
-      }))
-    }
+    action={(e) => handleFilterChange("class", e)}
+
     />
     <div className="serach-input">
     <StyleInput
     title={"Customer"}
     direction={props.lang.dir}
-    action={handleCustomerSearch} // Pass the handler directly
+    action={(e) => handleFilterChange("customer", e)}
     />
     <i className="tableIcon fas fa-ellipsis-v"></i>
     </div>
