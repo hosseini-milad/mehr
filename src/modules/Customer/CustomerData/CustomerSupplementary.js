@@ -160,6 +160,18 @@ function CustomerGeneral(props) {
               }
             />
             <StyleInput
+              title={formtrans.hse[props.lang]}
+              direction={props.direction}
+              defaultValue={userData.zone}
+              class={"formInput"}
+              action={(e) =>
+                setFormData((prevState) => ({
+                  ...prevState,
+                  hse: e,
+                }))
+              }
+            />
+            <StyleInput
               title={formtrans.nif[props.lang]}
               direction={props.direction}
               defaultValue={userData.gps}
@@ -168,6 +180,18 @@ function CustomerGeneral(props) {
                 setFormData((prevState) => ({
                   ...prevState,
                   gps: e,
+                }))
+              }
+            />
+            <StyleInput
+              title={formtrans.taxCode[props.lang]}
+              direction={props.direction}
+              defaultValue={userData.maliat}
+              class={"formInput"}
+              action={(e) =>
+                setFormData((prevState) => ({
+                  ...prevState,
+                  maliat: e,
                 }))
               }
             />

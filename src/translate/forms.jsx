@@ -7,6 +7,10 @@ const formtrans ={
         english: "Cloth Size",
         persian: "سایز لباس"
     },
+    activityStatus:{
+        english: "ownership type",
+        persian: "نوع مالکیت"
+    },
     birthDay:{
         english: "Birth Day",
         persian: "روز تولد"
@@ -62,6 +66,18 @@ const formtrans ={
     EmergencyContact:{
         english: "Emergency Contact",
         persian: "شماره تماس ضروری"
+    },
+    taxCode :{
+        english: "Tax Code",
+        persian: "کدمالیاتی"
+    },
+    hse:{
+        english: "HSE",
+        persian: "HSE"
+    },
+    call:{
+        english: "Contact",
+        persian: "شماره تلفن"
     },
     userRelatedContacts:{
         english: "User Related Contacts",
