@@ -17,7 +17,7 @@ function ProductTableRow(props){
             <td>
                 <div className="order-id">
                   <p onClick={()=> window.location.href=
-                    "/orders/detail/"+product.rxOrderNo}>
+                    "/orders/detail/"+product._id}>
                     {product.sku}</p>
                 </div>
             </td>

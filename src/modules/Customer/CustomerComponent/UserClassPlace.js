@@ -16,7 +16,7 @@ function UserClassPlace(props){
         body:JSON.stringify(body)
       }
       console.log(postOptions)
-  fetch(env.siteApi + "/panel/user/update-customer-class",postOptions)
+  fetch(env.siteApi + "/panel/user/update-user-class",postOptions)
   .then(res => res.json())
   .then(
     (result) => {

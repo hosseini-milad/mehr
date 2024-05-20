@@ -104,7 +104,7 @@ return(
           </div>
           <p>Publish</p>
           <div className="save-btn" onClick={saveProducts}>{formtrans.saveChanges[lang]}</div>
-          <div className="cancel-btn" onClick={()=>window.location.href="/services"}>{formtrans.cancel[lang]}</div>
+          <div className="cancel-btn" onClick={()=>window.location.href="/products"}>{formtrans.cancel[lang]}</div>
         </div>
         
       </div>:<div>{env.loader}</div>}

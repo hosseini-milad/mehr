@@ -5,7 +5,6 @@ import DocTableRow from "./DocTableRow";
 function DocTable(props){
   const data = props.data
   const lang=props.lang;
-  console.log(lang)
   const [detail,showDetail] = useState(-1)
     return(
         <table>

@@ -420,6 +420,16 @@ textarea{
   .param sup{
     color:red
   }
+  .btnParam{
+    display: flex;
+    margin: auto 10px 20px;
+  }
+  .paramDisplay{
+    width: 100%;
+  }
+  .btnParam .btn{
+    width: 70%;
+  }
   .param .removeParam{
     cursor: pointer;
     padding: 5px;

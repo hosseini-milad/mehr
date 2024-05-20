@@ -31,7 +31,6 @@ function OrderPopUp(props){
           console.log(error);
         })
     },[])
-    
     if(!content){
         return
     } else
@@ -40,10 +39,8 @@ function OrderPopUp(props){
         <div className="modal-backdrop show-modal">
             <div className="task-popup fullPopUp">
                 <div className="orderModalTitle">
-                    {(props.customer&&props.customer[0])?
-                        props.customer[0].username:"-"} 
-                    <sub>({(props.creator&&props.creator[0])?
-                    props.creator[0].username:"-"})</sub>
+                    <span>({(content.userDetail)?
+                    content.userDetail.cName:"-"})</span>
                     <span> شماره سفارش: {data.orderNo}</span>
                     </div>
                 <i className="fa fa-remove closeModal" 
