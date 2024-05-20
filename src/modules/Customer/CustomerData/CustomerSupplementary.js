@@ -26,7 +26,7 @@ function CustomerGeneral(props) {
   const [formData, setFormData] = useState();
   const [error, setError] = useState({ errorText: "", errorColor: "brown" });
   const [formalShow, setFormal] = useState(0);
-  const saveChanges = () => {
+  const saveChanges = (navigateBack) => {
     var postOptions = {
       method: "post",
       headers: {
@@ -56,6 +56,11 @@ function CustomerGeneral(props) {
               () => setError({ errorText: "", errorColor: "brown" }),
               3000
             );
+            if (navigateBack) {
+              setTimeout(() => {
+                window.history.back();
+              }, 2000);
+            }
           } else console.log(result);
         },
         (error) => {
@@ -146,7 +151,7 @@ function CustomerGeneral(props) {
                 }))
               }
             />
-            
+
             <StyleInput
               title={formtrans.zone[props.lang]}
               direction={props.direction}
@@ -160,6 +165,18 @@ function CustomerGeneral(props) {
               }
             />
             <StyleInput
+              title={formtrans.hse[props.lang]}
+              direction={props.direction}
+              defaultValue={userData.zone}
+              class={"formInput"}
+              action={(e) =>
+                setFormData((prevState) => ({
+                  ...prevState,
+                  hse: e,
+                }))
+              }
+            />
+            <StyleInput
               title={formtrans.nif[props.lang]}
               direction={props.direction}
               defaultValue={userData.gps}
@@ -168,6 +185,18 @@ function CustomerGeneral(props) {
                 setFormData((prevState) => ({
                   ...prevState,
                   gps: e,
+                }))
+              }
+            />
+            <StyleInput
+              title={formtrans.taxCode[props.lang]}
+              direction={props.direction}
+              defaultValue={userData.maliat}
+              class={"formInput"}
+              action={(e) =>
+                setFormData((prevState) => ({
+                  ...prevState,
+                  maliat: e,
                 }))
               }
             />
@@ -235,9 +264,7 @@ function CustomerGeneral(props) {
           ) : (
             <></>
           )}
-          <div className="save-btn" onClick={saveChanges}>
-            {formtrans.saveChanges[props.lang]}
-          </div>
+
           <ErrorShow message={error.errorText} color={error.errorColor} />
           {formalShow ? (
             <ErrorAction
@@ -251,6 +278,18 @@ function CustomerGeneral(props) {
           ) : (
             <></>
           )}
+          <div className="create-btn-wrapper">
+            <div className="save-btn" onClick={() => saveChanges(false)}>
+              {formtrans.saveChanges[props.lang]}
+            </div>
+            <div
+              className="save-btn"
+              style={{ marginLeft: 10 + "em" }}
+              onClick={() => saveChanges(true)}
+            >
+              {formtrans.saveAndClose[props.lang]}
+            </div>
+          </div>
         </div>
       </div>
     );
