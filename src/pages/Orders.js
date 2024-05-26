@@ -146,7 +146,7 @@ function Orders(props) {
         </div>
         <Paging
           content={content}
-          setFilters={setFilters}
+          setFilters={updateUrlWithFilters}
           filters={filters}
           lang={props.lang}
           updateUrlWithFilters={updateUrlWithFilters} // Pass the function as a prop
