@@ -6,15 +6,6 @@ function Paging(props) {
   const pageInfo =
     props.content && PageInfoFunction(props.content, props.filters);
 
-  // // Function to update URL with new page and page size
-  // const updateUrlWithPagination = (newOffset, newPageSize) => {
-  //   props.setFilters(prevState => ({
-  //     ...prevState,
-  //     offset: newOffset,
-  //     pageSize: newPageSize
-  //   }));
-  // }
-
   // Function to update URL with new page and page size
   const updateUrlWithPagination = (newOffset, newPageSize) => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -59,7 +50,7 @@ function Paging(props) {
           }}
         >
           <option value="5">5</option>
-          <option value="10" selected={props.filters.pageSize === "10"}>
+          <option value="10" selected={true}>
             10
           </option>
           <option value="25">25</option>
@@ -73,7 +64,7 @@ function Paging(props) {
             offset={parseInt(props.filters.offset) || 0}
             otherPageColor={"default"}
             currentPageColor={"primary"}
-            total={pageInfo.totalItem}
+            total={props.size?props.size:pageInfo.totalItem}
             onClick={(e, offset) => {
               props.setFilters((prevState) => ({
                 ...prevState,
