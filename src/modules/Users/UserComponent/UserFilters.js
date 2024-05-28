@@ -21,13 +21,21 @@ function UserFilters(props) {
 
     
     <StyleSelect
-    title={"Role"}
+    title={"Group"}
     class="filterComponent"
     direction={props.lang.dir}
-    options={props.options}
-    action={(e) => handleFilterChange("access", e)}
-
+    options={['سهندگاز', 'مهرگاز']}
+    action={(e) => handleFilterChange("group", e)}
     />
+    
+    <StyleSelect
+    title={"Active"}
+    class="filterComponent"
+    direction={props.lang.dir}
+    options={["false","true"]}
+    action={(e) => handleFilterChange("active", e)}
+    />
+
     <StyleSelect
     title={"Credit"}
     class="filterComponent"
