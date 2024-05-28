@@ -38,6 +38,8 @@ function Users(props) {
       dateFrom: filters.date && filters.date.dateFrom,
       dateTo: filters.date && filters.date.dateTo,
       access: filters.access,
+      group: filters.group,
+      active: filters.active,
     };
     const postOptions = {
       method: "post",
