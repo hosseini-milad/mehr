@@ -127,6 +127,9 @@ function CustomerGeneral(props) {
         {/* <CustomerAvatar /> */}
         <div className="info-box">
           <div className="info-wrapper">
+
+
+
             <StyleInput
               title={formtrans.name[props.lang]}
               direction={props.direction}
@@ -323,28 +326,7 @@ function CustomerGeneral(props) {
               }
             />
 
-            <span style={{ whiteSpace: "pre-wrap" }}></span>
-
-            <div className="dense-btn">
-              <label htmlFor="view">
-                {/* Text indicating the radio button */}
-                {formtrans.status[props.lang]}
-              </label>
-              <input
-                className="switch-input"
-                type="checkbox"
-                id="view"
-                defaultChecked={userData.active === "true" ? true : false}
-                onClick={activityStatusHandler}
-              />
-              <label
-                htmlFor="view"
-                className={true ? "switch-label" : "switch-label disable-label"}
-              ></label>
-            </div>
-            <span style={{ whiteSpace: "pre-wrap" }}></span>
-
-            <StyleSelect
+<StyleSelect
               title={formtrans.access[props.lang]}
               direction={props.direction}
               defaultValue={props.profile ? props.profile : ""}
@@ -358,6 +340,30 @@ function CustomerGeneral(props) {
                 }))
               }
             />
+
+<div className="col-12">
+                          {/* <span style={{ whiteSpace: "pre-wrap" }}></span> */}
+
+                          <div className="dense-btn">
+              <label htmlFor="view">
+                {/* Text indicating the radio button */}
+                {formtrans.status[props.lang]}
+              </label>
+              <input
+                className="switch-input"
+                type="checkbox"
+                id="view"
+                defaultChecked={userData.active === true ? true : false}
+                onClick={activityStatusHandler}
+              />
+              <label
+                htmlFor="view"
+                className={true ? "switch-label" : "switch-label disable-label"}
+              ></label>
+            </div>
+            {/* <span style={{ whiteSpace: "pre-wrap" }}></span> */}
+
+</div>
 
             <div className="info-input">
               <label htmlFor="address">{formtrans.address[props.lang]}</label>
