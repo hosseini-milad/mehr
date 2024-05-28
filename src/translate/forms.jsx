@@ -63,6 +63,10 @@ const formtrans ={
         english: "Phone Number",
         persian: "شماره تماس"
     },
+    phone:{
+        english: "Phone Number",
+        persian: "شماره تماس"
+    },
     EmergencyContact:{
         english: "Emergency Contact",
         persian: "شماره تماس ضروری"

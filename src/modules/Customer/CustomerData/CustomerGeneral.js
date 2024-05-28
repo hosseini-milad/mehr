@@ -229,7 +229,7 @@ function CustomerGeneral(props) {
                 }))
               }
             />
-            <StyleInput
+            {/* <StyleInput
               title={formtrans.customercode[props.lang]}
               direction={props.direction}
               defaultValue={userData.cCode}
@@ -240,7 +240,7 @@ function CustomerGeneral(props) {
                   cCode: e,
                 }))
               }
-            />
+            /> */}
             <StyleInput
               title={formtrans.credit[props.lang]}
               direction={props.direction}
@@ -275,6 +275,18 @@ function CustomerGeneral(props) {
                 setFormData((prevState) => ({
                   ...prevState,
                   meli: e,
+                }))
+              }
+            />
+                        <StyleInput
+              title={formtrans.phone[props.lang]}
+              direction={props.direction}
+              defaultValue={userData.phone}
+              class={"formInput"}
+              action={(e) =>
+                setFormData((prevState) => ({
+                  ...prevState,
+                  phone: e,
                 }))
               }
             />

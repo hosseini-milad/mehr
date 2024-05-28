@@ -102,7 +102,7 @@ function CustomerGeneral(props) {
         {/* <CustomerAvatar /> */}
         <div className="info-box">
           <div className="info-wrapper">
-            <StyleInput
+            {/* <StyleInput
               title={formtrans.clothSize[props.lang]}
               direction={props.direction}
               defaultValue={userData.clothSize}
@@ -113,7 +113,7 @@ function CustomerGeneral(props) {
                   clothSize: e,
                 }))
               }
-            />
+            /> */}
             <StyleInput
               title={formtrans.workTime[props.lang]}
               direction={props.direction}
@@ -188,7 +188,7 @@ function CustomerGeneral(props) {
                 }))
               }
             />
-            <StyleInput
+            {/* <StyleInput
               title={formtrans.taxCode[props.lang]}
               direction={props.direction}
               defaultValue={userData.maliat}
@@ -199,7 +199,7 @@ function CustomerGeneral(props) {
                   maliat: e,
                 }))
               }
-            />
+            /> */}
             <StyleInput
               title={formtrans.userRelatedContacts[props.lang]}
               direction={props.direction}
