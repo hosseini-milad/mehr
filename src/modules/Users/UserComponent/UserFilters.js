@@ -24,6 +24,13 @@ function UserFilters(props) {
         options={["سهندگاز", "مهرگاز"]}
         action={(e) => handleFilterChange("group", e)}
       />
+      <StyleSelect
+        title={"FOB"}
+        class="filterComponent"
+        direction={props.lang.dir}
+        options={["مثبت", "منفی"]}
+        action={(e) => handleFilterChange("FOB", e)}
+      />
 
       <StyleSelect
         title={"Active"}
