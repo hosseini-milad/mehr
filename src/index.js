@@ -59,6 +59,9 @@ import NotifDetailHolder from './modules/Notif/NotifData/NotifDetailHolder';
 import FaktorSitePrint from './modules/Prints/PrintSiteHolder';
 import Adv from './pages/Adv';
 import AdvDetailHolder from './modules/Adv/AdvData/AdvDetailHolder';
+import DocTable from './modules/Documents/DocPanel/DocTable';
+import DocDetailHolder from './modules/Documents/DocPanel/DocData/DocDetailHolder';
+import DocumentList from './pages/DocumentList';
 
 const cookies = new Cookies();
 const style = document.getElementById('style-direction');
@@ -126,6 +129,8 @@ root.render(
         <Route path="/notification/detail/:notifId" element={<Layout><NotifDetailHolder lang={lang}/></Layout>}/>
         <Route path="/reports" element={<Layout><Reports lang={lang}/></Layout>}/>
         <Route path="/documents" element={<Layout><Documents lang={lang}/></Layout>}/>
+        <Route path="/documents/list" element={<Layout><DocumentList lang={lang}/></Layout>}/>
+        <Route path="/documents/detail/:docId" element={<Layout><DocDetailHolder lang={lang}/></Layout>}/>
 
       </Routes>:
         <Routes>

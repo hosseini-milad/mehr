@@ -1,16 +1,30 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 import ApiDocumentGroup from '../modules/Documents/ApiDocumentGroup/ApiDocumentGroup';
-import mocks from '../modules/Documents/mocks.json';
+//import mocks from '../modules/Documents/mocks.json';
 
 // MUI components
 import { FormControl, MenuItem, Select } from '@mui/material';
+import env from '../env';
 
 const VERSIONS = ['v1.0.0'];
 
 function Documents({ lang }) {
   const [version, setVersion] = useState(VERSIONS[0]);
+  const [mocks,setMocks] = useState([])
+  useEffect(()=>{
+   fetch(env.siteApi + "/setting/list-mocks")
+.then(res => res.json())
+.then(
+  (result) => {
+          setMocks(result)
+   },
+  (error) => {
+    console.log(error);
+  }
+)
+  },[])
   const handleVersionChange = (event) => {
     setVersion(event.target.value);
   };

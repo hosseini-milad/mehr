@@ -10,12 +10,12 @@ function ApiDocumentParameters({ data }) {
         </tr>
       </thead>
       <tbody>
-        {data.map(({ name, type, required, description }) => (
+        {data.map(({ title, type, require, description }) => (
           <tr>
             <td className="api-document-parameters__data">
               <div className="api-document-parameters__name">
-                {name}
-                {required && (
+                {title}
+                {require && (
                   <span className="api-document-parameters__required">
                     &nbsp;*
                   </span>
