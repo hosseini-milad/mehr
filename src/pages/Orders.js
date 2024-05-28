@@ -91,7 +91,7 @@ function Orders(props) {
     setFilters(newFilters);
     updateUrlWithFilters(newFilters);
   }
-  //window.scrollTo(0, 270);},[pageNumber,filters,perPage,refreshTable])
+
   return (
     <div className="user" style={{ direction: direction }}>
       <div className="od-header">
@@ -146,7 +146,7 @@ function Orders(props) {
         </div>
         <Paging
           content={content}
-          setFilters={setFilters}
+          setFilters={handleFilterChange}
           filters={filters}
           lang={props.lang}
           updateUrlWithFilters={updateUrlWithFilters} // Pass the function as a prop

@@ -689,3 +689,392 @@ background: #fff;}
 .userSection span , .userSection strong{
   color:#fff;
 }
+/* Print */
+.userInfo {
+  display: flex;
+  min-height: 100px;
+}
+.printArea {
+  direction: rtl;
+  color: #212529;
+}
+.hesabfaTable {
+  font-family: vazir;
+  direction: rtl;
+  border: 2px solid #333;
+  border-radius: 8px;
+  width: 90%;
+  margin: auto;
+  min-height: 100px;
+}
+.hesabfaTable tbody {
+  margin: auto;
+  padding: 0;
+}
+.hesabfaPrint {
+}
+.hesabfaRow {
+  width: 95%;
+  margin: auto;
+}
+.verticalRow {
+  position: relative;
+  width: 50px;
+}
+.hesabfaColor {
+  background-color: #b9b9b9;
+  border-radius: 0 8px 8px 0;
+}
+.hesabfaMainTable {
+  font-family: vazir;
+  border: 2px solid #333;
+  width: 90%;
+  margin: 6px auto;
+  border-collapse: collapse;
+}
+.hesabfaMainTable td {
+  border: 1px solid #333;
+  padding: 2px 7px;
+}
+.hesabfaMainTable tbody {
+  width: 100%;
+}
+.hesabfaMainTable th {
+  border: 2px solid #333;
+  background-color: #b9b9b9;
+  padding: 5px 10px;
+  font-size: 13px;
+}
+.centerCell {
+  text-align: center;
+}
+.verticalRow h3 {
+  position: absolute;
+  transform: rotate(-90deg);
+  top: 30px;
+  left: -10px;
+}
+.hesabfaFooter {
+  font-family: vazir;
+  width: 90%;
+  margin: 10px auto;
+}
+.priceSeprate {
+  display: flex;
+  justify-content: space-between;
+}
+.hesabfaPrice {
+  display: grid;
+  min-width: 200px;
+}
+.hesabfaPrice h3 {
+  padding-bottom: 6px;
+  border-bottom: 3px solid #333;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+.hesabfaRight {
+  display: grid;
+  border-bottom: 2px solid #333;
+}
+.hesabfaSection {
+  display: grid;
+  margin: auto;
+  width: 25%;
+  text-align: center;
+}
+.hesabfaSection h4 {
+  margin: 0 auto;
+}
+.hesabfaSection h1 {
+  margin-bottom: 10px;
+  white-space: nowrap;
+}
+.hesabfaSection small {
+  margin: 3px 5px;
+  display: flex;
+  justify-content: flex-end;
+}
+.hesabfaSection b {
+  border: 1px solid #222;
+  padding: 0 10px;
+  border-radius: 6px;
+  width: 120px;
+  margin: 0 10px;
+}
+.footerRows {
+  display: flex;
+  justify-content: space-between;
+}
+.footerHesabfa {
+  display: flex;
+  width: 70%;
+  margin: 10px auto 20px 0;
+  text-align: center;
+  justify-content: space-around;
+}
+.hesabSection {
+  display: grid;
+  width: 90%;
+  margin: auto;
+}
+.hesabBorder {
+  border: 1px solid #222;
+  display: flex;
+  border-radius: 7px;
+  padding: 5px 10px;
+  margin: 5px 0 0;
+  justify-content: space-between;
+}
+.verticalRow small {
+  position: absolute;
+  transform: rotate(-90deg);
+  top: 17px;
+  left: -5px;
+}
+.hesabPrintTable {
+  padding: 0;
+  width: 90%;
+  margin: 5px auto 0;
+}
+.hesabPrintTable .verticalRow {
+  width: 30px;
+}
+.hesabSection .hesabfaSection {
+  width: calc(100% - 0px);
+}
+.priceCell {
+  width: 105px;
+  max-width: 105px;
+  font-size: 15px;
+  text-align: center;
+}
+.sumTable {
+  font-size: 12px;
+}
+.priceSwitcher {
+  float: left;
+  margin-left: 30px !important;
+}
+.priceSwitcher span {
+  font-size: 11px;
+}
+.fishPrint .orderDataHolder {
+  padding: 0;
+  width: 100%;
+}
+.fishPrint .orderTable {
+  padding: 0px;
+  margin: 2px auto;
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #111;
+  border-radius: 5px;
+}
+.fishPrint .orderTable {
+}
+.fishPrintArea {
+  max-width: 300px;
+  margin: auto;
+}
+
+.userInfo {
+  display: flex;
+  min-height: 100px;
+}
+.userSection {
+  display: grid;
+  margin: auto;
+}
+.userSection small {
+  margin: 3px 5px;
+  display: flex;
+  justify-content: flex-end;
+}
+.userSection b {
+  border: 1px solid var(--main-color);
+  padding: 0 10px;
+  border-radius: 6px;
+  width: 80px;
+  margin: 0 10px;
+}
+/* official  print */
+.officialprint .hesabfaSection {
+  width: calc(100% / 3);
+  margin-block: auto 0;
+  display: flex;
+  flex-direction: column;
+
+  h1 {
+    font-size: 1.5rem;
+  }
+  small {
+    width: 50%;
+    margin: 0;
+    justify-content: space-between;
+
+    b {
+      margin-left: 0;
+      border-radius: 0;
+    }
+  }
+}
+
+.officialprint .hesabfaDate {
+  align-items: flex-end;
+}
+.officialprint .hesabfaTable {
+  width: 100%;
+
+  th {
+    text-align: center;
+    border: 1px solid black;
+    background-color: #b9b9b9;
+  }
+  .hesabfaItem {
+    padding-block: 0.6rem;
+  }
+  .site-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    p {
+      margin: 0;
+      direction: ltr;
+    }
+  }
+}
+.officialprint .hesabfaMainTable {
+  width: 100%;
+  margin: 0;
+  border-top: none;
+
+  th {
+    border-top: none;
+    background-color: transparent;
+    text-align: center;
+  }
+  td {
+    border-width: 2px;
+  }
+
+  .table-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-block: 0.5rem;
+
+    p {
+      margin: 0;
+    }
+  }
+}
+.officialprint .table-footer {
+  width: 100%;
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5rem;
+
+  .footer-row {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+
+    > * {
+      border: 1px solid black;
+      height: 100%;
+      display: flex;
+    }
+  }
+  .pay-col {
+    height: 100%;
+    width: 35%;
+    justify-content: space-between;
+    padding-left: 1rem;
+    padding-block: 0.5rem;
+
+    p {
+      margin: 0;
+    }
+
+    .pay-item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+
+      p {
+        margin: 0;
+      }
+    }
+
+    .pay-checkbox {
+      display: block;
+      width: 25px;
+      height: 25px;
+      border: 2px solid black;
+    }
+  }
+  .bill-col {
+    width: 65%;
+    padding: 0.5rem 1rem;
+    display: flex;
+
+    p {
+      margin: 0;
+    }
+    span {
+      display: inline-block;
+      min-width: 150px;
+      text-align: center;
+    }
+  }
+  .bank-col {
+    width: 70%;
+    flex-direction: column;
+    padding: 1rem;
+  }
+  .info-col {
+    width: 30%;
+    min-height: 245px;
+    display: block;
+    position: relative;
+
+    .float-title{
+      position: absolute;
+      top: 0;
+      padding: 0.5rem;
+      border: 1px solid black;
+    }
+  }
+  .sign-col {
+    width: 50%;
+    
+  }
+}
+.officialprint .bank-col .account-wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.officialprint .bank-col .account-col {
+  display: flex;
+  flex-direction: column;
+
+  .account-item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 1rem;
+
+    span {
+      font-weight: 600;
+      margin-right: 6px;
+    }
+  }
+}
+

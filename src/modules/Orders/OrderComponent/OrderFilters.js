@@ -34,16 +34,16 @@ function OrderFilters(props) {
         <StyleInput
           title={"Order No"}
           direction={props.lang.dir}
-          action={createConditionalAction("orderNo", 7)} // Remove the parentheses here
+          action={createConditionalAction("orderNo", 3)} // Remove the parentheses here
 
         />
-        <StyleSelect
+        {/* <StyleSelect
           title={"Brand"}
           direction={props.lang.dir}
           options={props.options}
           action={(e) => handleFilterChange("brand", e)}
 
-        />
+        /> */}
         <StyleInput
           title={"Customer"}
           direction={props.lang.dir}
