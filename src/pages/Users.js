@@ -24,9 +24,7 @@ function Users(props) {
   useEffect(() => {
     setLoading(1);
     const body = {
-      // offset:filters.offset?filters.offset:"0",
       offset: filters.offset || "0",
-      // pageSize:filters.pageSize?filters.pageSize:"10",
       pageSize: filters.pageSize || "10",
       customer: filters.customer,
       orderNo: filters.orderNo,
