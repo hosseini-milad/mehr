@@ -70,8 +70,11 @@ function UserFilters(props) {
           direction={props.lang.dir}
           action={(e) => handleFilterChange("customer", e)}
         />
+
+
       <i className="tableIcon fas fa-ellipsis-v"></i>
-      
+      <small>{"تعداد نتایج:"}</small>
+              <small>{props.total}</small>
       <div className="option-sub">
         <div className="option">
           <i className="fa-solid fa-print fa-sm"></i>

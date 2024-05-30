@@ -19,7 +19,10 @@ function Users(props) {
   const [loading, setLoading] = useState(0);
   const [showSms, setShowSMS] = useState(0);
   const [update, setUpdate] = useState(0);
+  const [total, setTotal] = useState("");
   const [errorHandling, setErrorHandling] = useState(0);
+  const [collect, setCollect] = useState(0);
+
   const token = cookies.get(env.cookieName);
   useEffect(() => {
     setLoading(1);
@@ -57,6 +60,7 @@ function Users(props) {
           setLoading(0);
           setContent("");
           setTimeout(() => setContent(result), 200);
+          setTotal(result.size)
         },
         (error) => {
           setLoading(0);
@@ -64,6 +68,46 @@ function Users(props) {
         }
       );
   }, [filters]);
+  // collect for excel
+  const collectData = () => {
+    const body = {
+      offset: filters.offset || "0",
+      pageSize: filters.pageSize || "10",
+      customer: filters.customer,
+      orderNo: filters.orderNo,
+      profile: filters.profile,
+      class: filters.class,
+      credit: filters.credit,
+      status: filters.status,
+      brand: filters.brand,
+      dateFrom: filters.date && filters.date.dateFrom,
+      dateTo: filters.date && filters.date.dateTo,
+      access: filters.access,
+      group: filters.group,
+      active: filters.active,
+      FOB: filters.FOB,
+    };
+    const postOptions = {
+      method: "post",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token && token.token,
+        userId: token && token.userId,
+      },
+      body: JSON.stringify(body),
+    };
+    fetch(env.siteApi + "/panel/user/list", postOptions)
+      .then((res) => res.json())
+      .then(
+        (result) => {
+          setCollect(result.url);
+        },
+        (error) => {
+          setLoading(0);
+          console.log(error);
+        }
+      );
+  };
 
   useEffect(() => {
     if (update === 0) return;
@@ -178,6 +222,29 @@ function Users(props) {
             <p>{tabletrans.customers[lang]}</p>
           </div>
         </div>
+
+        {!collect ? (
+          <div className="od-header-btn">
+            <label className="edit-btn" onClick={() => collectData()}>
+              <i className="fa-solid fa-envelope-o"></i>
+              جمع آوری اطلاعات
+            </label>
+          </div>
+        ) : (
+          <div className="od-header-btn">
+            <label
+              className="accept-btn"
+              onClick={() =>
+                window.open(env.siteApiUrl + "/" + collect, "_blank")
+              }
+            >
+              <i className="fa-solid fa-envelope-o"></i>
+              دریافت اطلاعات
+            </label>
+          </div>
+        )}
+
+
         <div className="od-header-btn">
           <label className="edit-btn" onClick={() => setShowSMS(1)}>
             <i className="fa-solid fa-envelope-o"></i>
@@ -213,6 +280,7 @@ function Users(props) {
           profiles={content.profiles}
           classes={content.classes}
           currentFilters={filters}
+          total={total}
           updateUrlWithFilters={updateUrlWithFilters} // Pass the function as a prop
         />
         <ul>
