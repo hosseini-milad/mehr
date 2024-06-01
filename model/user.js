@@ -1,0 +1,61 @@
+const mongoose = require("mongoose");
+
+const userSchema = new mongoose.Schema({
+  phone: { type: String, unique: true },
+  cName: { type: String},
+  cCode:{ type: String},
+  password: { type: String }, 
+  email: { type: String },
+  access:{
+    type:String,
+    enum:["manager","sale","security","customer","shop","request"]
+  },
+  group: {type:String},
+  profile:{type:String},
+  class: {type:Array,default:[]},
+  badget: { type: String },
+  credit: { type: String },
+  credit1: { type: String },
+  credit2: { type: String },
+  remainCredit:{ type: String },
+  fob: { type: String },
+  remainFob:{ type: String },
+  token: { type: String },
+  otp:{ type: String , default: null },
+  sex: { type: String },
+  mahiat: { type: String },
+  meli: { type: String },
+  activity: { type: String },
+  mobile: { type: String },
+  address: { type: String },
+  state: { type: String },
+  country: { type: String },
+  city: { type: String },
+  phone1: { type: String },
+  fax: { type: String },
+  avatar:{type:String},
+  about: { type: String },
+  state:{ type: String },
+  date:{ type: String },
+  active:{ type: Boolean },
+
+  roleId:{ type: String },
+  birthDay:{ type: String },
+  clothSize:{ type: String },
+  call:{ type: String },
+  urgCall:{ type: String },
+  contractCall:{ type: String },
+  zone:{ type: String },
+  gps:{ type: String },
+  postalCode: { type: String },
+  workTime:{ type: String },
+  imageUrl1:{ type: String },
+  imageUrl2:{ type: String },
+  imageUrl3:{ type: String },
+  meliUrl:{ type: String },
+  javazUrl:{ type: String },
+
+  showNotif:{ type: String }
+});
+
+module.exports = mongoose.model("user", userSchema);

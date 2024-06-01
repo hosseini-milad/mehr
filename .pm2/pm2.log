@@ -1,0 +1,20 @@
+2022-08-02T17:05:10: PM2 log: ===============================================================================
+2022-08-02T17:05:10: PM2 log: --- New PM2 Daemon started ----------------------------------------------------
+2022-08-02T17:05:10: PM2 log: Time                 : Tue Aug 02 2022 17:05:10 GMT+0000 (Coordinated Universal Time)
+2022-08-02T17:05:10: PM2 log: PM2 version          : 5.2.0
+2022-08-02T17:05:10: PM2 log: Node.js version      : 14.20.0
+2022-08-02T17:05:10: PM2 log: Current arch         : x64
+2022-08-02T17:05:10: PM2 log: PM2 home             : /home/lenz/git/nodejs/.pm2
+2022-08-02T17:05:10: PM2 log: PM2 PID file         : /home/lenz/git/nodejs/.pm2/pm2.pid
+2022-08-02T17:05:10: PM2 log: RPC socket file      : /home/lenz/git/nodejs/.pm2/rpc.sock
+2022-08-02T17:05:10: PM2 log: BUS socket file      : /home/lenz/git/nodejs/.pm2/pub.sock
+2022-08-02T17:05:10: PM2 log: Application log path : /home/lenz/git/nodejs/.pm2/logs
+2022-08-02T17:05:10: PM2 log: Worker Interval      : 30000
+2022-08-02T17:05:10: PM2 log: Process dump file    : /home/lenz/git/nodejs/.pm2/dump.pm2
+2022-08-02T17:05:10: PM2 log: Concurrent actions   : 2
+2022-08-02T17:05:10: PM2 log: SIGTERM timeout      : 1600
+2022-08-02T17:05:10: PM2 log: ===============================================================================
+2022-10-13T17:05:11: PM2 log: [PM2] This PM2 is not UP TO DATE
+2022-10-13T17:05:11: PM2 log: [PM2] Upgrade to version 5.2.2
+2022-10-14T17:05:11: PM2 log: [PM2] This PM2 is not UP TO DATE
+2022-10-14T17:05:11: PM2 log: [PM2] Upgrade to version 5.2.2
