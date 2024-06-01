@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import StyleInput from "../../../components/Button/Input";
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+
 import env from "../../../env";
 import formtrans from "../../../translate/forms";
 import CustomerAvatar from "../CustomerComponent/CustomerAvatar";
@@ -14,6 +17,7 @@ function CustomerGeneral(props) {
   const [formData, setFormData] = useState({ active: "false" }); // Initialize active as a string
   const [error, setError] = useState({ errorText: "", errorColor: "brown" });
   const [formalShow, setFormal] = useState(0);
+  const [validationErrors, setValidationErrors] = useState({});
 
   const dropdownOptions = [
     { label: "haghighi", value: "true" },
@@ -35,6 +39,77 @@ function CustomerGeneral(props) {
     }
   }, [userData]);
 
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    fetchStates();
+  }, []);
+
+  // fetches the states to populate dropdown
+  const fetchStates = () => {
+    fetch(env.siteApi + "/setting/list-state", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token && token.token,
+        userId: token && token.userId,
+      },
+      body: JSON.stringify({ search: search }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setStates(data.data);
+      })
+      .catch((error) => console.error("Error fetching states:", error));
+  };
+
+  // fetchesh cities to populate dropdown
+
+  const fetchCities = (stateId) => {
+    fetch(env.siteApi + "/setting/list-city", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-access-token": token && token.token,
+        userId: token && token.userId,
+      },
+      body: JSON.stringify({ stateId: stateId }),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setCities(data.data);
+      })
+      .catch((error) => console.error("Error fetching cities:", error));
+  };
+
+  const handleStateChange = (value) => {
+    if (value) {
+      setFormData((prevState) => ({
+        ...prevState,
+        state: value.label,
+        stateId: value.value, // Store stateId to use for fetching cities
+      }));
+      fetchCities(value.value);
+    } else {
+      setFormData((prevState) => ({
+        ...prevState,
+        state: "",
+        stateId: "",
+      }));
+      setCities([]); // Clear cities if no state is selected
+    }
+  };
+
+  const handleCityChange = (value) => {
+    setFormData((prevState) => ({
+      ...prevState,
+      city: value ? value.label : "",
+      cityId: value ? value.value : "",
+    }));
+  };
+
   useEffect(() => {
     if (userData && userData.activity) {
       setFormData((prevState) => ({
@@ -44,7 +119,55 @@ function CustomerGeneral(props) {
     }
   }, [userData]);
 
+  useEffect(() => {
+    if (userData && userData.mobile) {
+      setFormData((prevState) => ({
+        ...prevState,
+        mobile: userData.mobile,
+        cName: userData.cName,
+        stateName: userData.state,
+        meli: userData.meli,
+      }));
+    }
+  }, [userData]);
+
+  const validateFormData = () => {
+    const errors = {};
+    if (!formData.mobile || formData.mobile.trim() === "") {
+      errors.mobile = "شماره مبایل الزامیست";
+    }
+    if (!formData.cName || formData.cName.trim() === "") {
+      errors.cName = "نام الزامیست";
+    }
+    if (!formData.stateName || formData.stateName.trim() === "") {
+      errors.stateName = "استان الزامیست";
+    }
+    if (!formData.meli || formData.meli.trim() === "") {
+      errors.meli = "کد ملی الزامیست";
+    }
+
+    setValidationErrors(errors);
+
+    if (Object.keys(errors).length > 0) {
+      let message = ""; // Changed to let
+      for (const key in errors) {
+        if (errors.hasOwnProperty(key)) {
+          message += errors[key] + "<br />"; // Use <br /> for new line
+        }
+      }
+      setError({ errorText: message, errorColor: "red" });
+  
+      return false;
+    }
+
+    return true;
+  };
+
   const saveChanges = (navigateBack) => {
+    if (!validateFormData()) {
+      return;
+    }
+
     var postOptions = {
       method: "post",
       headers: {
@@ -181,7 +304,7 @@ function CustomerGeneral(props) {
               defaultValue={userData.activity || ""} // Set a default value if userData.activity is undefined
             /> */}
 
-            <StyleInput
+            {/* <StyleInput
               title={formtrans.mobile[props.lang]}
               direction={props.direction}
               defaultValue={userData.mobile}
@@ -192,11 +315,26 @@ function CustomerGeneral(props) {
                   mobile: e,
                 }))
               }
+            /> */}
+            <TextField
+              label={formtrans.mobile[props.lang]}
+              variant="outlined"
+              error={!!validationErrors.mobile}
+              helperText={validationErrors.mobile}
+              defaultValue={userData.mobile}
+              onChange={(e) =>
+                setFormData((prevState) => ({
+                  ...prevState,
+                  mobile: e.target.value,
+                }))
+              }
             />
+                        {/* {validationErrors.mobile && <div className="error-text">{validationErrors.mobile}</div>} */}
+
             <StyleInput
               title={formtrans.call[props.lang]}
               direction={props.direction}
-              defaultValue={userData.mobile}
+              defaultValue={userData.call}
               class={"formInput"}
               action={(e) =>
                 setFormData((prevState) => ({
@@ -298,29 +436,31 @@ function CustomerGeneral(props) {
                   country:e
                 }))}/> */}
 
-            <StyleInput
+            <StyleSelect
               title={formtrans.state[props.lang]}
               direction={props.direction}
               defaultValue={userData.state}
+              // defaultValue={userData.state}
               class={"formInput"}
-              action={(e) =>
-                setFormData((prevState) => ({
-                  ...prevState,
-                  state: e,
-                }))
-              }
+              options={states.map((state) => ({
+                label: state.stateName,
+                value: state.stateId,
+              }))}
+              label="label"
+              action={handleStateChange}
             />
-            <StyleInput
+            <StyleSelect
               title={formtrans.city[props.lang]}
               direction={props.direction}
               defaultValue={userData.city}
-              class={"formInput"}
-              action={(e) =>
-                setFormData((prevState) => ({
-                  ...prevState,
-                  city: e,
-                }))
-              }
+              class="formInput"
+              options={cities.map((city) => ({
+                label: city.cityName,
+                value: city.cityId,
+              }))}
+              label="label"
+              action={handleCityChange}
+              disabled={!formData.stateId} // Disable if no state is selected
             />
 
             <StyleSelect
@@ -433,7 +573,10 @@ function CustomerGeneral(props) {
               {formtrans.saveAndClose[props.lang]}
             </div>
           </div>
+
         </div>
+        <ErrorShow errorText={error.errorText} errorColor={error.errorColor} />
+
       </div>
     );
 }
