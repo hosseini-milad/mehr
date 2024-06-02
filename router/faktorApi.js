@@ -13,7 +13,10 @@ const CreateTask = require('../middleware/CreateTask');
 const Cart = require('../model/Order/Cart');
 const calcCart = require('../middleware/CalcCart');
 const orders = require('../model/Order/orders');
+const calcCreditUser = require('../middleware/calcCreditUser');
 const sendSmsUser = require('../AdminPanel/components/sendSms');
+const calcCredit = require('../middleware/CalcCredit');
+const calcDiscount = require('../middleware/CalcDiscount');
 const {TaxRate} = process.env
 
 router.post('/products', async (req,res)=>{
@@ -79,15 +82,14 @@ router.post('/update-cart',jsonParser, async (req,res)=>{
         sku:req.body.sku,
         title:req.body.title,
         weight:req.body.weight,
+        freePrice:req.body.freePrice,
         count:req.body.count,
         price:req.body.price,
         date:req.body.date,
-
     }
     try{
         const userData = await users.findOne({_id:userId})
         var status = "";
-        console.log(data)
         //const cartData = await cart.find({userId:userId})
         //const qCartData = await Cart.findOne({userId:userId})
         const repCart = await Cart.findOne({userId:userId,sku:data.sku})
@@ -139,7 +141,10 @@ router.post('/create-order',auth, async (req,res)=>{
     const orderNo = await checkRep("Nc");
     const userData = await users.findOne({_id:userId})
     const cartData = await calcCart(userData)
-    //console.log(cartData)
+    if(!loadDate){
+        res.status(400).json({error: "زمان تحویل مشخص نشده است"})
+        return
+    }
     const data = {
         userId:req.headers["userid"],
         stockOrderNo:orderNo,
@@ -147,7 +152,7 @@ router.post('/create-order',auth, async (req,res)=>{
         stockFaktor:cartData.carts,
         description:req.body.description,
         freeCredit:req.body.freeCredit,
-        credit:cartData.remainCredit,
+        credit:cartData.creditNeed,
         stockFaktorOrg:cartData.carts,
         status:"inprogress",
         date: Date.now(),
@@ -159,8 +164,18 @@ router.post('/create-order',auth, async (req,res)=>{
             res.status(400).json({error: "کالا انتخاب نشده است"})
             return
         }
+        var cartDetail = await cart.find({userId:userId})
+        //console.log(cartDetail)
+        const standardCart = await cartCreator(cartDetail,userId)
         //const searchProducts = await calcCart(userData)
-        var taskData=''
+        data.freeCredit = standardCart.freeCredit
+        data.credit = standardCart.cartCredit
+        data.stockOrderPrice = standardCart.cartPrice
+        //console.log(data)
+        if(standardCart.allCredit>cartData.remainFob){
+            res.status(400).json({error: "اعتبار کافی نیست"})
+            return
+        }
         try{
             taskData = await CreateTask("order",data)} catch{}
         const stockData = await orders.create(data)//{_id:req.body.id},{$set:data})
@@ -185,4 +200,80 @@ const checkRep=async(userNo,dateYear)=>{
     return(rxTemp)
 
 }
+
+const cartCreator=async(cartItemsRaw,userId)=>{
+    var credit = await calcCredit(userId)
+    const cartItems = await calcDiscount(cartItemsRaw,userId)
+    var needCredit = 0
+    var newCart=[]
+    var newFOB=[]
+    var totalWeight=0
+    var freeWeight=0
+    var totalPrice = 0
+    var totalDiscount = 0
+    for(var c=0;c<cartItems.length;c++){
+        const weight=cartItems[c].weight
+        const price=cartItems[c].price
+        const freePrice=cartItems[c].freePrice
+        for(var counter=0;counter<cartItems[c].count;counter++)
+        {
+            totalWeight+=cartItems[c].weight
+            var tempCredit = cartItems[c].weight + needCredit
+            if(!credit||tempCredit>credit.credit){
+                var discountPrice = cartItems[c].discount?cartItems[c].discount.discount:0
+                newFOB.push({
+                    sku:cartItems[c].sku,
+                    weight:weight,
+                    price:freePrice,
+                    discount:discountPrice,
+                    fob:1,
+                    type:"fob",
+                    stockDetail:cartItems[c].stockDetail
+                })
+                freeWeight+=parseInt(weight)
+                totalPrice+=(parseInt(freePrice)-parseInt(discountPrice))
+                totalDiscount+=parseInt(discountPrice)
+            } 
+            else{
+                needCredit+=cartItems[c].weight
+                var discountPrice = cartItems[c].discount?cartItems[c].discount.discount:0
+                newCart.push({
+                    sku:cartItems[c].sku,
+                    weight:weight,
+                    discount:discountPrice,
+                    price:price,
+                    type:"credit",
+                    stockDetail:cartItems[c].stockDetail
+                })
+                totalPrice+=(parseInt(price)-parseInt(discountPrice))
+                totalDiscount+=parseInt(discountPrice)
+            }
+            
+        }
+    }
+
+    const regularCart = IntegrateCart(newCart)
+    const freeCart = IntegrateCart(newFOB)
+    
+    return({cart:regularCart.concat(freeCart), 
+        freeCredit:freeWeight,
+        cartCredit:needCredit,
+        allCredit:totalWeight,cartPrice:totalPrice,
+        cartDiscount:totalDiscount,
+    myCredit:credit.credit,orders:cartItems})
+}
+
+const IntegrateCart=(cartSeprate)=>{
+    var cart=[]
+
+    for(var i=0;i<cartSeprate.length;i++){
+        var index = cart.findIndex(item=>item.sku===cartSeprate[i].sku)
+        
+        if(cart.length&&index!==-1)
+            cart[index].count = (cart[index].count&&cart[index].count)+1
+        else cart.push({...cartSeprate[i],count:1})
+    }
+    return(cart)
+}
+
 module.exports = router;

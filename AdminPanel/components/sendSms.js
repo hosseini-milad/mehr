@@ -26,7 +26,7 @@ async function sendSmsUser(userId,template,message,token2,token3){
         template: template,//"mgmVerify",
         receptor: phoneNumber
       },function(response,status) {
-        console.log(response);
+        //console.log(response);
         console.log(status);
         }) 
     }

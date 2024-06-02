@@ -6,6 +6,7 @@ const CartSchema = new mongoose.Schema({
   sku:{ type: String },
   weight:{type: Number},
   count:{type: Number},
+  freePrice:{type: Number},
   price:{type: Number},
     
   date:{ type: Date ,default:Date.now()},
