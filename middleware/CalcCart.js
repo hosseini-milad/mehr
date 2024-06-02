@@ -33,8 +33,8 @@ const calcCart=async(userData)=>{
         creditNeed += item.weight*item.count
         
     } 
-    for(var i=0;i<cOrders.length;i++){
-        console.log(cOrders[i].freeCredit)
+    for(var i=0;i<(cOrders&&cOrders.length);i++){
+        //console.log(cOrders[i])
         var tempDate = new Date(cOrders[i].loadDate).toLocaleDateString('fa')
         var tempMonth = tempDate.split('/')[1]
         if(month === tempMonth)
@@ -45,13 +45,11 @@ const calcCart=async(userData)=>{
             oldCredit += parseInt(cOrders[i].credit?cOrders[i].credit:0)
         }
     } 
-
-    const orderData= await orders.find({userId:userData._id})
     return({credit:(credit+fob)-(oldCredit+oldFob),
         carts:newOrders,discountTemp:discountTemp,
     remainCredit:credit-oldCredit,remainFob:fob-oldFob,
     creditNeed:creditNeed,price:price, discount:discount,
-    orderData:orderData})
+    orderData:cOrders})
 }
 const creditSum=(credit1Raw,credit2Raw)=>{
     var sign = 1
@@ -73,7 +71,6 @@ const findDiscount=async(userData,orderData)=>{
     //console.log(orderData)
     const policyOff = policyData.map(item=>item.filters)
     var myOff=0
-    console.log(policyOff)
     for(var i=0;i<policyOff.length;i++){
         if(policyOff[i].volume==orderData.weight){
             myOffTemp=parseInt(policyData[i].discount)

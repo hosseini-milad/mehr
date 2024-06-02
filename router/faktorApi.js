@@ -51,7 +51,9 @@ router.get('/list-filters', async (req,res)=>{
 router.post('/fetch-cart',auth, async (req,res)=>{
     const userData = await users.findOne({_id:ObjectID(req.headers["userid"])})
     const searchProducts = await calcCart(userData)
-        try{    res.json({data:searchProducts,success:"200"})
+    const standardCart = await cartCreator(searchProducts,userData._id)
+    //console.log(searchProducts)
+    try{    res.json({data:standardCart,success:"200"})
     }
     catch(error){
         res.status(500).json({message: error.message})
@@ -101,7 +103,8 @@ router.post('/update-cart',jsonParser, async (req,res)=>{
         }
         else await Cart.create(data)
         const cartDetail = await calcCart(userData)
-        res.json({...cartDetail,message:"آیتم اضافه شد"})
+        const standardCart = await cartCreator(cartDetail,userData._id)
+        res.json({...standardCart,message:"آیتم اضافه شد"})
     } 
     catch(error){
         res.status(500).json({message: error.message})
@@ -109,12 +112,13 @@ router.post('/update-cart',jsonParser, async (req,res)=>{
 })
 router.post('/remove-cart', async (req,res)=>{
     const userId =req.headers['userid'];
-    const cartID=req.body.cartID
+    const sku=req.body.sku
     try{
-        const cartList = await cart.deleteOne({_id:ObjectID(cartID)})
+        const cartList = await cart.deleteOne({sku:sku})
         const userData = await users.findOne({_id:userId})
         const searchProducts = await calcCart(userData)
-        res.json({cart:searchProducts,message:"Cart Removed"})
+        const standardCart = await cartCreator(searchProducts,userData._id)
+        res.json({cart:standardCart,message:"Cart Removed"})
     }
     catch(error){
         res.status(500).json({message: error.message})
@@ -122,14 +126,15 @@ router.post('/remove-cart', async (req,res)=>{
 })
 router.post('/update-item', async (req,res)=>{
     const userId =req.headers['userid'];
-    const cartID=req.body.cartID
+    const sku=req.body.sku
     const count = req.body.count
     try{
-        const cartList = await cart.updateOne({_id:ObjectID(cartID)},
+        const cartList = await cart.updateOne({sku:sku},
             {$set:{count:count}})
         const userData = await users.findOne({_id:userId})
         const searchProducts = await calcCart(userData)
-        res.json({cart:searchProducts,message:"Cart Updated"})
+        const standardCart = await cartCreator(searchProducts,userData._id)
+        res.json({cart:standardCart,message:"Cart Updated"})
     }
     catch(error){
         res.status(500).json({message: error.message})
@@ -164,14 +169,14 @@ router.post('/create-order',auth, async (req,res)=>{
             res.status(400).json({error: "کالا انتخاب نشده است"})
             return
         }
-        var cartDetail = await cart.find({userId:userId})
+        const searchProducts = await calcCart(userData)
         //console.log(cartDetail)
-        const standardCart = await cartCreator(cartDetail,userId)
+        const standardCart = await cartCreator(searchProducts,userId)
         //const searchProducts = await calcCart(userData)
-        data.freeCredit = standardCart.freeCredit
-        data.credit = standardCart.cartCredit
-        data.stockOrderPrice = standardCart.cartPrice
-        //console.log(data)
+        data.freeCredit = standardCart.remainFob
+        data.credit = standardCart.remainCredit
+        data.stockOrderPrice = standardCart.price
+        data.stockFaktor = standardCart.carts
         if(standardCart.allCredit>cartData.remainFob){
             res.status(400).json({error: "اعتبار کافی نیست"})
             return
@@ -203,7 +208,7 @@ const checkRep=async(userNo,dateYear)=>{
 
 const cartCreator=async(cartItemsRaw,userId)=>{
     var credit = await calcCredit(userId)
-    const cartItems = await calcDiscount(cartItemsRaw,userId)
+    const cartItems = await calcDiscount(cartItemsRaw&&cartItemsRaw.carts,userId)
     var needCredit = 0
     var newCart=[]
     var newFOB=[]
@@ -211,7 +216,7 @@ const cartCreator=async(cartItemsRaw,userId)=>{
     var freeWeight=0
     var totalPrice = 0
     var totalDiscount = 0
-    for(var c=0;c<cartItems.length;c++){
+    for(var c=0;c<(cartItems&&cartItems.length);c++){
         const weight=cartItems[c].weight
         const price=cartItems[c].price
         const freePrice=cartItems[c].freePrice
@@ -254,22 +259,22 @@ const cartCreator=async(cartItemsRaw,userId)=>{
 
     const regularCart = IntegrateCart(newCart)
     const freeCart = IntegrateCart(newFOB)
-    
-    return({cart:regularCart.concat(freeCart), 
-        freeCredit:freeWeight,
-        cartCredit:needCredit,
-        allCredit:totalWeight,cartPrice:totalPrice,
-        cartDiscount:totalDiscount,
-    myCredit:credit.credit,orders:cartItems})
+
+    return({carts:regularCart.concat(freeCart), 
+        remainFob:freeWeight,
+        remainCredit:needCredit,
+        creditNeed:totalWeight,price:totalPrice,
+        discount:totalDiscount,
+    myCredit:credit,orderData:cartItemsRaw?cartItemsRaw.orderData:[]})
 }
 
 const IntegrateCart=(cartSeprate)=>{
     var cart=[]
 
-    for(var i=0;i<cartSeprate.length;i++){
+    for(var i=0;i<(cartSeprate&&cartSeprate.length);i++){
         var index = cart.findIndex(item=>item.sku===cartSeprate[i].sku)
         
-        if(cart.length&&index!==-1)
+        if(cart&&cart.length&&index!==-1)
             cart[index].count = (cart[index].count&&cart[index].count)+1
         else cart.push({...cartSeprate[i],count:1})
     }

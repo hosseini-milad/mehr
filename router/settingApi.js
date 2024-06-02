@@ -584,7 +584,7 @@ router.post('/update-learn',jsonParser,async (req,res)=>{
 router.post('/list-notif',jsonParser,async (req,res)=>{
     try{
         var result = await notif.find();
-       
+        
         res.json({filter:result})
         return
         
