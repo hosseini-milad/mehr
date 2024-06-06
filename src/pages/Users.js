@@ -144,7 +144,22 @@ function Users(props) {
     }
     return filters;
   }
-
+  const sendCredit=()=>{
+    const postOptions={
+        method:'post',
+        headers: {'Content-Type': 'application/json',
+        "x-access-token":token&&token.token,"userId":token&&token.userId}
+    }
+  fetch(env.siteApi + "/panel/user/send-credit",postOptions)
+  .then(res => res.json())
+  .then(
+    (result) => {
+      },
+    (error) => {
+      console.log(error);
+    }
+  )
+  }
   // // Function to update URL with filters
   // function updateUrlWithFilters(newFilters) {
   //   const searchParams = new URLSearchParams();
@@ -246,6 +261,10 @@ function Users(props) {
 
 
         <div className="od-header-btn">
+          <label className="edit-btn" onClick={()=>sendCredit()}>
+            <i className="fa-solid fa-envelope-o"></i>
+            انتقال اعتبار
+          </label>
           <label className="edit-btn" onClick={() => setShowSMS(1)}>
             <i className="fa-solid fa-envelope-o"></i>
             {tabletrans.sendSms[lang]}

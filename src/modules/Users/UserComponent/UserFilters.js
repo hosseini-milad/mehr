@@ -21,7 +21,7 @@ function UserFilters(props) {
         title={"Group"}
         class="filterComponent"
         direction={props.lang.dir}
-        options={["سهندگاز", "مهرگاز"]}
+        options={["سهندگاز", "مهرگاز","چندار"]}
         action={(e) => handleFilterChange("group", e)}
       />
       <StyleSelect
