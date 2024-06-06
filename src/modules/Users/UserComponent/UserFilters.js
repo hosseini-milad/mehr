@@ -36,7 +36,10 @@ function UserFilters(props) {
         title={"Active"}
         class="filterComponent"
         direction={props.lang.dir}
-        options={["false", "true"]}
+        options={[
+          { label: "Inactive", value: "false" },
+          { label: "Active", value: "true" },
+        ]}
         action={(e) => handleFilterChange("active", e)}
       />
 
@@ -66,15 +69,14 @@ function UserFilters(props) {
         action={(e) => handleFilterChange("class", e)}
       />
       <StyleInput
-          title={"Customer"}
-          direction={props.lang.dir}
-          action={(e) => handleFilterChange("customer", e)}
-        />
-
+        title={"Customer"}
+        direction={props.lang.dir}
+        action={(e) => handleFilterChange("customer", e)}
+      />
 
       <i className="tableIcon fas fa-ellipsis-v"></i>
       <small>{"تعداد نتایج:"}</small>
-              <small>{props.total}</small>
+      <small>{props.total}</small>
       <div className="option-sub">
         <div className="option">
           <i className="fa-solid fa-print fa-sm"></i>

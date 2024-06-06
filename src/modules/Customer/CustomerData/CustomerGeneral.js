@@ -125,7 +125,7 @@ function CustomerGeneral(props) {
         ...prevState,
         mobile: userData.mobile,
         cName: userData.cName,
-        stateName: userData.state,
+        state: userData.state,
         meli: userData.meli,
       }));
     }
@@ -139,8 +139,8 @@ function CustomerGeneral(props) {
     if (!formData.cName || formData.cName.trim() === "") {
       errors.cName = "نام الزامیست";
     }
-    if (!formData.stateName || formData.stateName.trim() === "") {
-      errors.stateName = "استان الزامیست";
+    if (!formData.state || formData.state.trim() === "") {
+      errors.state = "استان الزامیست";
     }
     if (!formData.meli || formData.meli.trim() === "") {
       errors.meli = "کد ملی الزامیست";
@@ -164,6 +164,7 @@ function CustomerGeneral(props) {
   };
 
   const saveChanges = (navigateBack) => {
+    console.log("formdata:", formData)
     if (!validateFormData()) {
       return;
     }
