@@ -14,7 +14,9 @@ const calcCart=async(userData)=>{
     var discount = 0
     fob = creditSum(userData.fob,userData.credit)
     credit =creditSum(userData.credit1,userData.credit2)
-    
+    fob = creditSum(fob,userData.remainFob)
+    credit =creditSum(credit,userData.remainCredit)
+
     var today = new Date().toLocaleDateString('fa')
     var month = today.split('/')[1]
     var newOrders = await Cart.find({userId:userData._id}).lean()
@@ -35,6 +37,7 @@ const calcCart=async(userData)=>{
     } 
     for(var i=0;i<(cOrders&&cOrders.length);i++){
         //console.log(cOrders[i])
+
         var tempDate = new Date(cOrders[i].loadDate).toLocaleDateString('fa')
         var tempMonth = tempDate.split('/')[1]
         if(month === tempMonth)

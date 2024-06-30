@@ -56,7 +56,8 @@ router.post('/list',jsonParser,async (req,res)=>{
         brand:req.body.brand,
         credit:req.body.credit,
         active:req.body.active,
-        badget:req.body.badget
+        badget:req.body.badget,
+        new:req.body.new
     }
         const reportList = await user.aggregate([
             {$addFields: { "fullInfo": { $concat: 
@@ -78,6 +79,7 @@ router.post('/list',jsonParser,async (req,res)=>{
                 {group:new RegExp('.*' + data.group + '.*')}:{}},
             { $match:data.credit?{credit:{$exists:true}}:{}},
             { $match:data.active?{active:data.active}:{}},
+            { $match:data.new?{active:{$exists:false}}:{}},
             { $match:data.class?{class:{$elemMatch:{_id:data.class}}}:{}},
             { $match:data.profile?{profile:data.profile}:{}},
         ]) 
