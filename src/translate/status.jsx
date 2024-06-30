@@ -133,6 +133,20 @@ const statustrans ={
         color: "rgb(17, 141, 87)",
         background: "rgba(34, 197, 94, 0.16)"
     },
+    true:{
+        english: "Active",
+        persian: "فعال",
+        index:8,
+        color: "rgb(17, 141, 87)",
+        background: "rgba(34, 197, 94, 0.16)"
+    },
+    false:{
+        english: "Deactive",
+        persian: "غیرفعال",
+        index:8,
+        color: "rgb(183, 29, 24)",
+        background: "rgba(255, 86, 48, 0.16)"
+    },
     paid:{
         english: "Paid",
         persian: "موفق",

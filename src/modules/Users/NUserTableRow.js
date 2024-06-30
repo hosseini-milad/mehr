@@ -3,6 +3,7 @@ import UserClassInTable from "./UserComponent/UserClassInTable"
 import tabletrans from "../../translate/tables"
 import Status from "../Components/Status"
 import { normalPriceSum } from "../../env";
+import ErrorAction from "../../components/Modal/ErrorAction";
 
 
 function NUserTableRow(props){ 
@@ -41,6 +42,7 @@ function NUserTableRow(props){
               }))*/
   }
   console.log(props.selectedUser)
+  const [showError,setShowError] = useState(0)
     return(
         <tr>
             <td className="index-table">
@@ -102,8 +104,8 @@ function NUserTableRow(props){
               <div className="more-btn">
                 <i className="tableIcon fas fa-edit" onClick={()=>
                   window.location.href="/customers/detail/"+user._id}></i>
-                <i className="tableIcon fas fa-remove" style={{color: "#ff0000"}} onClick={()=>{
-                  userID(user._id)
+                <i className="tableIcon fas fa-trash" style={{color: "#ff0000"}} onClick={()=>{
+                  setShowError(user._id)
                 }}></i>
                 {/* <i className="tableIcon fas fa-ellipsis-v" 
                   onClick={()=>setOpenOption(openOption?0:1)}></i> */}
@@ -120,6 +122,7 @@ function NUserTableRow(props){
                 </div>
               </div>:<></>}
             </td>
+           {showError?<ErrorAction title={"حذف"} text={"آیا می حواهید حذف کنید؟"} buttonText={"حذف"} action={()=>{props.deleteUser(showError)}} close={()=>setShowError(0)} ></ErrorAction>:<></>} 
           </tr>
     )
 }

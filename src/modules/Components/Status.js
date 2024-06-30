@@ -1,6 +1,7 @@
 import statustrans from "../../translate/status"
 
 function Status(props){
+    console.log(props.status)
     const status = statustrans[props.status]
     const text = props.text?props.text:status&&status[props.lang]
     return(

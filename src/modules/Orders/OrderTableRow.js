@@ -66,6 +66,13 @@ fetch(env.siteApi + "/panel/order/editOrder",postOptions)
                   
                 </div>
               </td>
+              <td>
+                <div className="or-date">
+                  <p className="date">{new Date(order.date)
+                  .toLocaleDateString(props.lang==="persian"?'fa':'en')}</p>
+                  
+                </div>
+              </td>
               
               <td>
                 <div className="order-num">

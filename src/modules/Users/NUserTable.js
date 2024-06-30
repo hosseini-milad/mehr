@@ -44,7 +44,7 @@ function NUserTable(props){
           {(userList&&userList)?userList.map((user,i)=>(
             <NUserTableRow detail={detail} showDetail={showDetail} 
               user={user} index={i} key={i} lang={lang}
-              setSelectedUser={props.setSelectedUser}
+              setSelectedUser={props.setSelectedUser} deleteUser={props.deleteUser}
               selectedUser={props.selectedUser} userID={props.userID}/>
           )):''}
           

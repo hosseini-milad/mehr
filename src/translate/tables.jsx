@@ -61,6 +61,14 @@ const tabletrans ={
         english: "Date",
         persian: "تاریخ"
     },
+    adddate:{
+        english: "Add Date",
+        persian: "تاریخ ثبت"
+    },
+    senddate:{
+        english: "Send Date",
+        persian: "تاریخ تحویل"
+    },
     customers:{
         english: "Customers",
         persian: "مشتریان"

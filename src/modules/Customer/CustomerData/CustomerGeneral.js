@@ -42,7 +42,10 @@ function CustomerGeneral(props) {
   const [states, setStates] = useState([]);
   const [cities, setCities] = useState([]);
   const [search, setSearch] = useState("");
-
+  // const logOff=()=>{
+  //   cookies.remove(env.cookieName,{ path: '/' });
+  //   setTimeout(()=>(window.location.reload(),1000))
+  // }
   useEffect(() => {
     fetchStates();
   }, []);
@@ -200,6 +203,7 @@ function CustomerGeneral(props) {
         },
         (error) => {
           console.log(error);
+          
         }
       );
   };

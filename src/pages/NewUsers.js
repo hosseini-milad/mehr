@@ -67,8 +67,7 @@ function NewUsers(props) {
         }
       );
   }, [filters]);
-  useEffect(() => {
-    if(!userID) return
+  const deleteUser=(userID) => {
     setLoading(1);
     const body = {
       userId:userID
@@ -82,7 +81,7 @@ function NewUsers(props) {
       },
       body: JSON.stringify(body),
     };
-    console.log(postOptions);
+    //console.log(postOptions);
     fetch(env.siteApi + "/panel/user/remove-user", postOptions)
       .then((res) => res.json())
       .then(
@@ -94,7 +93,7 @@ function NewUsers(props) {
           console.log(error);
         }
       );
-  }, [userID]);
+  };
 
   useEffect(() => {
     if (update === 0) return;
@@ -175,6 +174,7 @@ function NewUsers(props) {
         <div className="user-list">
           <NUserTable
             userList={content.filter}
+            deleteUser={deleteUser}
             lang={props.lang}
             setSelectedUser={() => {}}
             userID={setuserID}
