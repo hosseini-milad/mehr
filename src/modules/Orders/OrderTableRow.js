@@ -66,6 +66,7 @@ fetch(env.siteApi + "/panel/order/editOrder",postOptions)
                   
                 </div>
               </td>
+              
               <td>
                 <div className="order-num">
                   <p>{order.brand}</p>

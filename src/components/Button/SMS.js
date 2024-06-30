@@ -48,7 +48,7 @@ function SMS(props){
             action={(e)=>setMessage(e)}
         />
         <div className="add-brand-btn" onClick={smsSent}>
-            <i className="fa-solid fa-plus fa-sm" style={{color: "#00dbdb"}}></i>
+            <i className="fa-solid fa-plus fa-sm" style={{color: "#00dbdb"}}></i>ارسال
             {tabletrans.sendSms[props.lang]}</div>
       </div>
       <small>{content?content.sentStatus:""}</small>

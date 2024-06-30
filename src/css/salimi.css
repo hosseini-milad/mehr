@@ -3829,7 +3829,7 @@ dialog {
 }
 .popup-header h5 {
   margin: 0;
-  font-weight: 400;
+  font-weight: 600;
   font-size: 1.2rem;
   color: black;
 }
@@ -3861,7 +3861,7 @@ dialog {
 .brand-name-popup p {
   margin: 0;
   color: black;
-  font-size: 1rem;
+  font-size: .85rem;
   font-weight: 400;
 }
 .brand-name-icon {
@@ -3898,8 +3898,8 @@ dialog {
   line-height: 1.6;
   margin: 0;
   margin-block: 10px;
-  margin-inline: auto;
   cursor: pointer;
+  align-self: flex-end;
 }
 /* End Service */
 

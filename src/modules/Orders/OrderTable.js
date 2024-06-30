@@ -24,10 +24,7 @@ function OrderTable(props){
               <p>{tabletrans.date[lang]}</p>
               <i></i>
             </th>
-            <th>
-              <p>{tabletrans.brand[lang]}</p>
-              <i></i>
-            </th>
+            
             <th>
               <p>{tabletrans.item[lang]}</p>
               <i></i>
