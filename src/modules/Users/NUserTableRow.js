@@ -2,6 +2,8 @@ import { useState } from "react"
 import UserClassInTable from "./UserComponent/UserClassInTable"
 import tabletrans from "../../translate/tables"
 import Status from "../Components/Status"
+import { normalPriceSum } from "../../env";
+
 
 function NUserTableRow(props){ 
   const [openOption,setOpenOption] = useState(0)
@@ -41,33 +43,61 @@ function NUserTableRow(props){
   console.log(props.selectedUser)
     return(
         <tr>
+            <td className="index-table">
+              {props.index+1}
+            </td>
             <td className="checkBoxStyle">
               <input type="checkbox" name="" id="" checked={checkState}
               onChange={(e)=>selectUser()}/></td>
             <td>
               <div className="cu-avatar">
-              <img src="/img/avatar/avatar_1.jpg" alt="avatar"/>
+                <img
+                  src={
+                    user.group && user.group.includes("مهر")
+                      ? "/img/mehr.png"
+                      : "/img/sahand.png"
+                  }
+                  className="avatar-sm me-3"
+                  alt="xd"
+                />
                 <div className="cu-name">
                   <p className="name">{user.cName}</p>
-                  <p className="email">کد مشتری: {user.cCode}</p>
+                  <p className="email">
+                    شماره تماس:{" "}
+                    {user.userDetail && user.userDetail[0]
+                      ? user.userDetail[0].mobile
+                      : ""}
+                  </p>
                 </div>
               </div>
             </td>
             <td>
               <div className="cu-company">
-                <p>{user.credit}</p>
+                {user.credit1 || user.credit2 ? (
+                  <h6>{user.remainCredit}</h6>
+                ) : (
+                  <h6>ندارد</h6>
+                )}
+                
               </div>
-            </td>
-            <td>
-              {user.class?<UserClassInTable classes={user.class}/>:
-              <></>}
             </td>
             <td>
               <div className="cu-company">
-                <p className="phone-num">{user.phone}</p>
+                <h6>{user.remainFob}</h6>
+          
               </div>
             </td>
-            
+            <td>
+              <div className="cu-name">
+                <p className="name">{user.phone}</p>
+                <p className="email">کد: {user.meli}</p>
+              </div>
+            </td>
+            <td>
+              <div className="cu-company" style={{ width: "150px" }}>
+                {user.class ? <UserClassInTable classes={user.class} /> : <></>}
+              </div>
+            </td>
             <td>
               <div className="more-btn">
                 <i className="tableIcon fas fa-edit" onClick={()=>

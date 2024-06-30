@@ -10,6 +10,7 @@ function NUserTable(props){
         <table>
         <thead>
           <tr>
+            <th></th>
             <th><input type="checkbox" name="" id=""/></th>
             <th>
               <p>{tabletrans.name[lang]}</p>
@@ -20,11 +21,15 @@ function NUserTable(props){
               <i></i>
             </th>
             <th>
-              <p>{tabletrans.classes[lang]}</p>
+              <p>{tabletrans.fob[lang]}</p>
               <i></i>
             </th>
             <th>
-              <p>{tabletrans.phoneNumber[lang]}</p>
+              <p>{tabletrans.customerInfo[lang]}</p>
+              <i></i>
+            </th>
+            <th>
+              <p>{tabletrans.classes[lang]}</p>
               <i></i>
             </th>
             

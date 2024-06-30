@@ -5324,3 +5324,8 @@ table {
 }
 
 /* End Team User */
+
+.index-table{
+  text-align: center !important;
+  font-size: 1rem !important;
+}
