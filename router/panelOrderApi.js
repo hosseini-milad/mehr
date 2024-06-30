@@ -87,6 +87,21 @@ router.post('/list',jsonParser,async (req,res)=>{
         { $sort: {"loadDate":-1}},
  
         ])
+    const cancelOrder =await OrderSchema.aggregate([
+        {$lookup:{
+            from : "users", 
+            localField: "userId", 
+            foreignField: "_id", 
+            as : "userInfo"
+        }}, 
+        { $match:req.body.userId?{userId:ObjectID(req.body.userId)}:{}},
+        { $match:{status:new RegExp('.*cancel.*')}},
+        { $match:data.brand?{brand:data.brand}:{}},
+        { $match:!data.orderNo?{loadDate:{$gte:new Date(data.dateFrom)}}:{}},
+        { $match:!data.orderNo?{loadDate:{$lte:new Date(data.dateTo)}}:{}},
+        { $sort: {"loadDate":-1}},
+        {$limit:10}
+        ])
         const filter1Report = data.customer?
         reportList.filter(item=>item.userInfo[0]&&item.userInfo[0].cName&&
             item.userInfo[0].cName.includes(data.customer)):reportList;
@@ -94,7 +109,9 @@ router.post('/list',jsonParser,async (req,res)=>{
             (parseInt(offset)+parseInt(data.pageSize)))  
         const brandUnique = [...new Set(filter1Report.map((item) => item.brand))];
         const orderUnique = [...new Set(filter1Report.map((item) => item.stockOrderNo))];
+
        res.json({filter:orderList,brand:brandUnique, orderNo:orderUnique,
+        cancelOrder:cancelOrder,
         size:filter1Report.length,rxStatus:rxStatus(reportList)})
     } 
     catch(error){

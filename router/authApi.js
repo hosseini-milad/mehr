@@ -225,7 +225,7 @@ exports.sendOTPApi=async(req,res)=>{
       console.log(status)
     });
       const newUser = await User.create(
-        {phone:phone,otp:otpValue,email:phone+"@mgmlenz.com"});
+        {phone:phone,otp:otpValue,email:phone+"@mehrgaz.com"});
       const taskData = await CreateTaskSimple("customer",phone)
       //res.status(200).json({"error":"user not found"});
       const newUserLog = await logSchema.create({
@@ -358,18 +358,32 @@ exports.userInfoSetApi=async(req, res) => {
 exports.userPassApi=async(req, res) => {
   //console.log(("UserPassApi")
 try{   
-  const data = { 
-    password:await bcrypt.hash(req.body.password, 10)
+  if(!req.body.oldpassword||!req.body.password){
+    res.status(400).json({error:"اطلاعات ورودی کافی نیست"});
+    return
   }
-  //const users = await User.findOne({_id: req.headers["userid"] })
+  const data = { 
+    oldpassword:req.body.oldpassword,
+    password:req.body.password
+  }
+  const users = await User.findOne({_id: req.headers["userid"] })
+  if(await bcrypt.compare(data.oldpassword, users.password)||
+    users.password == data.oldpassword){
+    const updateUserInfo= await User.updateOne({_id: req.headers["userid"]},
+      {$set:{password:await bcrypt.hash(data.password, 10)}})
+    res.status(200).json({updateuser:updateUserInfo,
+      message:"رمز عبور تغییر یافت"});
+  }
+  else{
+    res.status(400).json({error:"رمز عبور نامعتبر می باشد"});
+  }
   ////console.log((users)
   //if(userData){
-    const updateUserInfo= await User.updateOne({_id: req.headers["userid"]},{$set:data})
-    res.status(200).json({updateuser:updateUserInfo,pass:data.password});
+    
  
 }
 catch(err){
-  res.status(200).json({err:err});
+  res.status(400).json({err:err});
 }
 }
 

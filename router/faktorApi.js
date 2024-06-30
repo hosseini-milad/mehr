@@ -114,7 +114,7 @@ router.post('/remove-cart', async (req,res)=>{
     const userId =req.headers['userid'];
     const sku=req.body.sku
     try{
-        const cartList = await cart.deleteOne({sku:sku})
+        const cartList = await cart.deleteOne({sku:sku,userId:userId})
         const userData = await users.findOne({_id:userId})
         const searchProducts = await calcCart(userData)
         const standardCart = await cartCreator(searchProducts,userData._id)
@@ -129,7 +129,7 @@ router.post('/update-item', async (req,res)=>{
     const sku=req.body.sku
     const count = req.body.count
     try{
-        const cartList = await cart.updateOne({sku:sku},
+        const cartList = await cart.updateOne({sku:sku,userId:userId},
             {$set:{count:count}})
         const userData = await users.findOne({_id:userId})
         const searchProducts = await calcCart(userData)
@@ -159,6 +159,7 @@ router.post('/create-order',auth, async (req,res)=>{
         freeCredit:req.body.freeCredit,
         credit:cartData.creditNeed,
         stockFaktorOrg:cartData.carts,
+        group:userData.group,
         status:"inprogress",
         date: Date.now(),
         loadDate:loadDate,
@@ -177,9 +178,13 @@ router.post('/create-order',auth, async (req,res)=>{
         data.credit = standardCart.remainCredit
         data.stockOrderPrice = standardCart.price
         data.stockFaktor = standardCart.carts
+        console.log(standardCart.creditNeed)
+        console.log(standardCart.allCredit>cartData.remainFob)
         if(standardCart.allCredit>cartData.remainFob){
+            if(userData.profile==="659b9ce3d9c3154d2f94a82e"){
             res.status(400).json({error: "اعتبار کافی نیست"})
             return
+            }
         }
         try{
             taskData = await CreateTask("order",data)} catch{}
@@ -187,6 +192,20 @@ router.post('/create-order',auth, async (req,res)=>{
         await cart.deleteMany({userId:data.userId})
         await sendSmsUser(data.userId,process.env.regOrder,".","rxOrderNo",data.status)
         res.json({stock:stockData,task:taskData,message:"order register"})
+
+    }
+    catch(error){
+        res.status(500).json({message: error.message})
+    }
+})
+router.post('/cancel-order',auth, async (req,res)=>{
+    const userId =req.headers['userid'];
+    const orderNo = req.body.orderNo
+    try{
+        const stockData = await orders.updateOne({userId:ObjectID(userId),stockOrderNo:orderNo},
+        {$set:{status:"cancel|لغو توسط خریدار"}})//{_id:req.body.id},{$set:data})
+
+        res.json({status:stockData,message:"order cancel"})
 
     }
     catch(error){
@@ -263,6 +282,7 @@ const cartCreator=async(cartItemsRaw,userId)=>{
     return({carts:regularCart.concat(freeCart), 
         remainFob:freeWeight,
         remainCredit:needCredit,
+        allCredit:freeWeight+needCredit,
         creditNeed:totalWeight,price:totalPrice,
         discount:totalDiscount,
     myCredit:credit,orderData:cartItemsRaw?cartItemsRaw.orderData:[]})
@@ -273,10 +293,11 @@ const IntegrateCart=(cartSeprate)=>{
 
     for(var i=0;i<(cartSeprate&&cartSeprate.length);i++){
         var index = cart.findIndex(item=>item.sku===cartSeprate[i].sku)
-        
-        if(cart&&cart.length&&index!==-1)
+        if(cart&&cart.length&&index!==-1){
             cart[index].count = (cart[index].count&&cart[index].count)+1
-        else cart.push({...cartSeprate[i],count:1})
+            cart[index].totalPrice = parseInt(cart[index].totalPrice)+parseInt(cartSeprate[i].price)
+        }
+        else cart.push({...cartSeprate[i],count:1,totalPrice:cartSeprate[i].price})
     }
     return(cart)
 }

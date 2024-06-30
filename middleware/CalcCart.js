@@ -18,7 +18,7 @@ const calcCart=async(userData)=>{
     var today = new Date().toLocaleDateString('fa')
     var month = today.split('/')[1]
     var newOrders = await Cart.find({userId:userData._id}).lean()
-    var cOrders = await orders.find({userId:userData._id})
+    var cOrders = await orders.find({userId:userData._id}).limit(10)
     var creditNeed = 0
     for(var i=0;i<(newOrders&&newOrders.length);i++){
         
