@@ -19,6 +19,7 @@ import Dashboard from './pages/Dashboard'
 import Layout from './components/Layout'
 import Login from './pages/Login';
 import Users from './pages/Users';
+import NewUsers from './pages/NewUsers';
 import Cookies from 'universal-cookie';
 import errortrans from './translate/error';
 import LayoutLogin from './components/LayoutLogin';
@@ -91,6 +92,7 @@ root.render(
         <Route path="/crmlist/detail/:crmId" element={<Layout><CRMAdd lang={lang}/></Layout>}/>
         
         <Route path="/users" element={<Layout><Users lang={lang}/></Layout>}/>
+        <Route path="/newusers" element={<Layout><NewUsers lang={lang}/></Layout>}/>
         <Route path="/users/detail/:userId" element={<Layout><UserDetailHolder lang={lang}/></Layout>}/>
 
         <Route path="/customers/detail/:userId" element={<Layout><CustomerDetailHolder lang={lang}/></Layout>}/>

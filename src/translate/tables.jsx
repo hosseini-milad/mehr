@@ -11,6 +11,14 @@ const tabletrans ={
         english: "Classes",
         persian: "کلاس ها"
     },
+    sendPop:{
+        english:"Popups",
+        persian:"پاپ آپ"
+    },
+    newCu:{
+        english: "New Customers",
+        persian: "مشتریان جدید"
+    },
     
     activeText:{
         english: "Active",
