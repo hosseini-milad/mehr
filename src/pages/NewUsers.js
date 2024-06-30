@@ -59,7 +59,7 @@ function NewUsers(props) {
         (result) => {
           setLoading(0);
           setContent("");
-          setTimeout(() => setContent(result.filter), 200);
+          setTimeout(() => setContent(result), 200);
         },
         (error) => {
           setLoading(0);
@@ -68,6 +68,7 @@ function NewUsers(props) {
       );
   }, [filters]);
   useEffect(() => {
+    if(!userID) return
     setLoading(1);
     const body = {
       userId:userID
@@ -167,13 +168,13 @@ function NewUsers(props) {
           setFilters={handleFilterChange}
           // setFilters={setFilters}
           options={content.access}
-          profiles={content.profilesList}
+          profiles={content.profiles}
           currentFilters={filters}
           updateUrlWithFilters={updateUrlWithFilters} // Pass the function as a prop
         />
         <div className="user-list">
           <NUserTable
-            userList={content}
+            userList={content.filter}
             lang={props.lang}
             setSelectedUser={() => {}}
             userID={setuserID}
