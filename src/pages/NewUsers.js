@@ -86,7 +86,7 @@ function NewUsers(props) {
       .then((res) => res.json())
       .then(
         (result) => {
-          window.location.reload()
+          
         },
         (error) => {
           setLoading(0);
