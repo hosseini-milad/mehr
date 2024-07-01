@@ -16,6 +16,7 @@ import {
 import * as serviceWorkerRegistration from './serviceWorkerRegistration';
 import reportWebVitals from './reportWebVitals';
 import Dashboard from './pages/Dashboard'
+import SaleAnalyze from './pages/SaleAnalyze'
 import Layout from './components/Layout'
 import Login from './pages/Login';
 import Users from './pages/Users';
@@ -86,6 +87,7 @@ root.render(
         <Route path="/" element={<Layout><Dashboard lang={lang}/></Layout>}/>
         <Route path="/login" element={<Layout><Profile lang={lang}/></Layout>}/>
         <Route path="/dashboard" element={<Layout><Dashboard lang={lang}/></Layout>}/>
+        <Route path="/saleAnalyze" element={<Layout><SaleAnalyze lang={lang}/></Layout>}/>
         <Route path="/crm" element={<Layout><CRM crm="main" lang={lang}/></Layout>}/>
         <Route path="/crm-orders" element={<Layout><CRM crm="orders" lang={lang}/></Layout>}/>
         <Route path="/crmlist" element={<Layout><CrmList lang={lang}/></Layout>}/>

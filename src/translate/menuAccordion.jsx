@@ -38,6 +38,14 @@ menu:[
             href:"/crm-orders",
             url:"crm-orders"
         },
+        {
+            english: "Sale Analyze",
+            persian: "آنالیز فروش",
+            index:1,
+            icon:"fa-bar-chart",
+            href:"/saleAnalyze",
+            url:"saleAnalyze"
+        },
         ]
     },
     {

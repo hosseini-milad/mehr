@@ -74,7 +74,7 @@ function DashboardProject(){
                             "/img/mehr.png":"/img/sahand.png"} className="avatar-sm me-3" alt="xd"/>
                           </div>
                           <div className="d-flex flex-column justify-content-center">
-                            <a href={"/users/detail/"+user.user}>
+                            <a href={"/customers/detail/"+user.user}>
                               <h6 className="mb-0 text-sm">
                               {user.userName}</h6></a>
                           </div>
