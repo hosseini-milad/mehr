@@ -205,6 +205,7 @@ function CRM(props){
                     var newTasks =[]
                     rawTasks.find(item=>item._id===tasks[item._id])
                     for(var i=0;i<tasks.length;i++){
+                        
                         newTasks.push(rawTasks.find(item=>item._id===tasks[i]))
                     }
                     return(column?<Column key={column.id} column={column} access={access}
