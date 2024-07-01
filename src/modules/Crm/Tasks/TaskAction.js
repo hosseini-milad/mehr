@@ -4,6 +4,7 @@ import env from "../../../env"
 function TaskAction(props){
     const token = props.token
     const data = props.data
+    console.log(data)
     const order = props.content
     const [changeData,setChangeData] = useState()
     const updateTask=(action)=>{
@@ -11,8 +12,8 @@ function TaskAction(props){
             method:'post',
             headers: {'Content-Type': 'application/json',
             "x-access-token":token&&token.token,"userId":token&&token.userId},
-            body:JSON.stringify({_id:data?data._id:'', crmCode:"orders",
-            status:data.taskStep,changeData:changeData})
+            body:JSON.stringify({_id:props.taskId, crmCode:"orders",
+            status:action?action:data.taskStep,changeData:changeData})
           }
         console.log(postOptions)
       fetch(env.siteApi + "/panel/crm/update-tasks-status",postOptions)
@@ -48,7 +49,7 @@ function TaskAction(props){
                 <p>چاپ سفارش</p></button>
             
             <button type="button" className="btn-crm btn-crm-cancel"
-                onClick={()=>window.location.href="/orders/print/"+data.orderNo}>
+                onClick={()=>updateTask("cancel")}>
                 <p>لغو سفارش</p></button>
             </div> 
         </div> )}
@@ -63,7 +64,7 @@ function TaskAction(props){
                   }))}/>
                 <input type="input" placeholder="توضیحات" />
                 <button type="button" className="btn-crm btn-crm-accept"
-                onClick={()=>updateTask("saleControl")}>
+                onClick={()=>updateTask()}>
                     تایید
                 </button>
                 <button type="button" className="btn-crm btn-crm-info"
@@ -109,7 +110,8 @@ function TaskAction(props){
         if(data.taskStep==="outVehicle"){
             return(
             <div className="taskAction">
-                <button type="button" className="btn-crm btn-crm-accept">
+                <button type="button" className="btn-crm btn-crm-accept"
+                onClick={()=>updateTask()}>
                     تایید
                 </button>
                 

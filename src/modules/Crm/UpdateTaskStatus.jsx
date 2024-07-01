@@ -2,7 +2,7 @@ import env from "../../env"
 
 function UpdateTaskStatus(propsElement){
     const props = propsElement.result
-    console.log(props)
+    //console.log(props)
     const allTasks = props.allTasks
     const leadTask = props.leadTask
     const informationTask = props.informationTask

@@ -3,7 +3,6 @@ import StyleInput from "../../components/Button/Input"
 import OrderPopUp from "./orderPopUp"
 
 function SearchOrder(props){
-    console.log(props)
     const direction= props.data.direction
     const token = props.data.token
     const [orderNo,setOrderNo] = useState()
@@ -22,7 +21,8 @@ function SearchOrder(props){
                     customer={"customer"} creator={"creator"}
                     direction={direction} access={props.data.access}
                     setBoardArray={props.data.setBoardArray}
-                    data={{orderNo:orderNo,taskStep:props.data.column.enTitle}} 
+                    data={{orderNo:orderNo,
+                        taskStep:props.data.column.enTitle}} 
                     close={()=>setOrderPop(0)}
                     />:<></>}
         </div>
