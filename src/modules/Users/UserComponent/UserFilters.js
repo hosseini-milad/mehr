@@ -36,9 +36,10 @@ function UserFilters(props) {
         title={"Active"}
         class="filterComponent"
         direction={props.lang.dir}
+        label="label"
         options={[
-          { label: "Inactive", value: "false" },
-          { label: "Active", value: "true" },
+          { label: "فعال", value: true },
+          { label: "غیرفعال", value: false },
         ]}
         action={(e) => handleFilterChange("active", e)}
       />

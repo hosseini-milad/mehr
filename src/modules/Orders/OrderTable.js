@@ -21,26 +21,25 @@ function OrderTable(props){
               <i></i>
             </th>
             <th>
-              <p>{tabletrans.adddate[lang]}</p>
-              <i></i>
-            </th>
-            <th>
               <p>{tabletrans.senddate[lang]}</p>
               <i></i>
             </th>
+            <th>
+              <p>{tabletrans.adddate[lang]}</p>
+              <i></i>
+            </th>
+            
+            
             
             <th>
-              <p>{tabletrans.item[lang]}</p>
+            <p>تعداد</p>
               <i></i>
             </th>
             <th>
             <p>{tabletrans.price[lang]}</p>
               <i></i>
             </th>
-            <th>
-            <p></p>
-              <i></i>
-            </th>
+            
             <th>
             <p>{tabletrans.status[lang]}</p>
               <i></i>
