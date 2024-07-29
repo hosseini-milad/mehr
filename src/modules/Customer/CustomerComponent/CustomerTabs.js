@@ -42,7 +42,7 @@ function CustomerTabs(props){
           <div className="nav-btn"  style={index===4?activeTab:{}}
             onClick={()=>props.setTabIndex(4)}>
             <i className="tabIcon fas fa-share-square"></i>
-            <p>{tabletrans.socialLink[props.lang]}</p>
+            <p>{tabletrans.credit[props.lang]}</p>
           </div>
         </label>
         <label className="label-page-6" htmlFor="page-6">

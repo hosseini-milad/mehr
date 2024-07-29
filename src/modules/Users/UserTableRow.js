@@ -50,7 +50,7 @@ function UserTableRow(props) {
           )}
           {user.credit1 || user.credit2 ? (
             <small>
-              all credit: {normalPriceSum(user.credit1, user.credit2)}
+              all credit: {normalPriceSum(user.credit1, user.remainCredit)}
             </small>
           ) : (
             <></>
