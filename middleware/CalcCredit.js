@@ -33,7 +33,11 @@ const calcCredit=async(userId)=>{
         }
     }
     //console.log(oldCredit)
-    return({credit:credit-oldCredit,fob:fob-oldFob})
+    return({credit:credit-oldCredit,fob:fob-oldFob,
+        detail:{fob,credit,
+            remainCredit:parseInt(remainCredit),
+            remainFob:parseInt(remainFob),oldCredit,oldFob},
+        orderCount:newOrders.length})
 }
 const creditSum=(credit1Raw,credit2Raw)=>{
   

@@ -97,7 +97,7 @@ const calcTasks=async(userId,crmCode)=>{
         if(!taskList[c].progressDate){
             yesterday = new Date(Date.now() - 166400000)
         }
-        if(taskStep=="archive")
+        if(taskStep=="completed"||taskStep.includes('ancel'))
             if( taskDate < yesterday)
                 continue
         try{columns[taskStep].push(taskList[c]._id) }
@@ -137,11 +137,12 @@ router.post('/update-tasks-status',auth,jsonParser,async (req,res)=>{
     const taskData = await tasks.findOne({_id:ObjectID(taskId)})
     const crmSteps = crmData.crmSteps
     const taskStatus = taskData.taskStep
-    var newStatus = ''
+    var newStatus = '' 
     var index = crmSteps.findIndex(item=>item.enTitle===taskStatus)
+    //console.log(index)
     var nextStep = findNext(index,status)
     newStatus = crmSteps[nextStep]
-    console.log(index)
+   //console.log(newStatus)
     try{
         var sepidarAccept = 1
         var sepidarQuery = ''
@@ -164,14 +165,13 @@ router.post('/update-tasks-status',auth,jsonParser,async (req,res)=>{
         //console.log(sepidarQuery)
         if(sepidarAccept){
             await tasks.updateOne({_id:ObjectID(taskId)},
-            {$set:{taskStep:newStatus.enTitle,query:sepidarQuery,
-                result:sepidarResult,progressDate:Date.now()}})
+            {$set:{taskStep:newStatus.enTitle,progressDate:Date.now()}})
         }
 
          
         const userId=req.headers["userid"]
-        const updateOrder = changes&&await orders.updateOne({stockOrderNo:taskData.orderNo},
-        {$set:changes});
+        const updateOrder = await orders.updateOne({stockOrderNo:taskData.orderNo},
+        {$set:{...changes,status:newStatus.enTitle}});
         const tasksList = await calcTasks(userId,crmCode)
        res.json({taskData:tasksList,message:taskId?"Task Updated":"Task Created",
         result:sepidarResult,sepidarQuery:sepidarQuery,userData:adminData})
@@ -186,10 +186,10 @@ const findNext=(index,status)=>{
         else
             return(index+1)
     }
-    if(status=="sepidar")
-        return(6)
-    if(status=="edit"){
-        return(1)
+    if(status=="outVehicle")
+        return(5)
+    if(status=="cancel"){
+        return(4)
     }
     else
         return(index+1)

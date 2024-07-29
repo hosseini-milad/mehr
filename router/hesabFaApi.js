@@ -9,7 +9,7 @@ const hesabfaGetApi=async(req,res)=>{
     const { hesabServer ,hesabApi,tokenApi} = process.env;
     const headers={
         'Content-Type': 'application/json'
-    }
+    } 
     const initialPost=JSON.stringify({
         apiKey: hesabApi,
         loginToken: tokenApi

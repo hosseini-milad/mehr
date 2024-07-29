@@ -1386,9 +1386,10 @@ router.post('/fetch-stock',jsonParser, async (req,res)=>{
         for(var i =0;i<stockList.length;i++){
             var stockDetail = await sepidarstock.findOne({sku:stockList[i].sku});
             existOrder.stockFaktor[i].stockDetail = stockDetail
-        }
+        } 
+        const taskData = await tasks.findOne({orderNo:data.stockOrderNo})
         if(existOrder){
-            res.json({...existOrder,userDetail})
+            res.json({...existOrder,userDetail,taskId:taskData&&taskData._id})
         }
         else{
             res.status(500).json({message: "not found"})

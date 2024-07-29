@@ -32,11 +32,14 @@ router.post('/fetch-user',jsonParser,async (req,res)=>{
     var userId = req.body.userId
     try{
         const userData = await user.findOne({_id: ObjectID(userId)})
+        const credit = await calcCredit(userId)
         const accessList = await ProfileAccess.find()
         const userProfile = userData&&userData.profile&&
             await ProfileAccess.findOne({_id:ObjectID(userData.profile)})
-       res.json({data:userData,profiles:accessList,userProfile:userProfile})
-    }
+       res.json({data:userData,profiles:accessList,userProfile:userProfile,
+        credit 
+       })
+    } 
     catch(error){
         res.status(500).json({message: error.message})
     } 
@@ -78,8 +81,9 @@ router.post('/list',jsonParser,async (req,res)=>{
             { $match:data.group?
                 {group:new RegExp('.*' + data.group + '.*')}:{}},
             { $match:data.credit?{credit:{$exists:true}}:{}},
-            { $match:data.active?{active:data.active}:{}},
-            { $match:data.new?{active:{$exists:false}}:{}},
+            { $match:data.active?data.active=="true"?
+                {active:true}:{active:false}:{}},
+            { $match:data.new?{active:{$exists:false}}:{active:{$exists:true}}},
             { $match:data.class?{class:{$elemMatch:{_id:data.class}}}:{}},
             { $match:data.profile?{profile:data.profile}:{}},
         ]) 
@@ -226,10 +230,14 @@ router.post('/parse-list',jsonParser,async (req,res)=>{
         //const data = fs.readFileSync(url)
         //console.log(data)
         const workSheetsFromFile = xlsx.parse(
-            __dirname +"/../"+url);
+            __dirname +"/../"+url); 
         const data = workSheetsFromFile[0].data
         const meliCodeIndex = data[0].indexOf("کدملی")!==-1?
-            data[0].indexOf("کدملی"):data[0].indexOf("کد ملی")
+            data[0].indexOf("کدملی"):
+            data[0].indexOf("کد ملی")
+        const testData = data[0] + " : index: "+meliCodeIndex
+        //data[0] = [ "کدملی", "مقدار تراکنش", "تعداد تراکنش‌های انجام شده", "مقدار تراکنش یارانه ای (کیلوگرم)", "تعداد تراکنش یارانه ای", "مقدار تراکنش غیر یارانه (کیلوگرم)", "تعداد تراکنش غیر یارانه ای" ]
+
         //const creditIndex = data[0].indexOf("مقدار لیتراژ")
         //const creditKind = data[0].indexOf("نوع تراکنش")
         const isCredit = (element) => element.includes("مقدار تراکنش یارانه");
@@ -241,6 +249,7 @@ router.post('/parse-list',jsonParser,async (req,res)=>{
         var meli=[]
         var matchError=[]
         var newUpdate = []
+        var meliList =[]
         for(var index=1;index<data.length;index++)
         {
             var pureMeli = data[index][meliCodeIndex]
@@ -248,6 +257,8 @@ router.post('/parse-list',jsonParser,async (req,res)=>{
                 pureMeli = pureMeli.replace(/\D/g,'');
             }
             catch{}
+            meliList.push({code:data[index][meliCodeIndex],
+                index:meliCodeIndex})
             newUpdate.push({
                 meliCode:pureMeli,
                 credit1:data[index][credit1],
@@ -302,8 +313,8 @@ router.post('/parse-list',jsonParser,async (req,res)=>{
             
         }
        res.json({filter:workSheetsFromFile,
-        matchError:matchError,
-        meli:meli})
+        matchError:matchError,meliList,
+        meli:meli,data: testData})
     }
     catch(error){
         res.status(500).json({message: error.message})
@@ -714,6 +725,67 @@ router.post('/update-client',jsonParser,auth,async (req,res)=>{
         const updateData = await user.updateOne({_id:ObjectID(userId)},
             {$set:data})
        res.json({data:updateData})
+    }
+    catch(error){
+        res.status(500).json({message: error.message})
+    } 
+})
+
+router.post('/remain-credit',jsonParser,auth,async (req,res)=>{
+    //var userId = req.headers['userid']
+    
+    const userId = req.body.userId
+    try{ 
+        if(userId){
+            const userData = await user.findOne({_id: ObjectID(userId)})
+            if(!userData){
+                res.json({error:"user not found",message:"کاربر پیدا نشد"})
+                return
+            }
+            const updateData = await user.updateOne({_id:ObjectID(userId)},
+                {$set:data})
+            res.json({data:updateData})
+        }
+        else{
+            var creditList = []
+            var oldUpdate = []
+            const userData = await user.find({}).lean()
+            for(var i=0;i<userData.length;i++){
+                const date = Date.now()
+                var updateDate = userData[i].remainDate
+                const diffTime = Math.abs(date - updateDate);
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * .01)); 
+                const userDetail = userData[i]
+                //console.log(diffDays)
+                if(diffDays<50){
+                    oldUpdate.push(userDetail.cName)
+                    
+                }
+                else{
+                    
+                const creditResult=await calcCredit(userDetail._id)
+                await user.updateOne({phone:userDetail.phone},
+                    {$set:{credit:0,credit1:0,fob:0,remainCredit:creditResult.credit,
+                        remainFob:creditResult.fob,remainDate:Date.now()
+                    }})
+                creditList.push(userDetail.cName)
+
+                } 
+            continue
+                /*if(creditResult.orderCount)
+                creditList.push(
+                    {   
+                        //userid:userDetail._id,
+                        phone:userDetail.phone,
+                        name:userDetail.cName,
+                        credit:creditResult
+                    }
+                )
+                    creditList.push()*/
+                
+            }
+            res.json({new:creditList,old:oldUpdate})
+        }
     }
     catch(error){
         res.status(500).json({message: error.message})

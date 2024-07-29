@@ -7,7 +7,7 @@ const job = require('../model/job');
 const user = require('../model/user');
 var api = Kavenegar.KavenegarApi({
     apikey: process.env.SMS_API
-});
+}); 
 const User = require("../model/user");
 const userAddress = require('../model/userAddress');
 const userInfo = require('../model/userInfo');
@@ -65,7 +65,6 @@ exports.loginApi=async(req,res)=>{
     try {
       // Get user input
       const { phone, password } = req.body;
-      ////console.log((phone,password)
       // Validate user input
       if (!(phone && password)) {
         res.status(400).send({error:"اطلاعات وارد نشده است"});
@@ -73,16 +72,14 @@ exports.loginApi=async(req,res)=>{
       }
       // Validate if user exist in our database
       const user = await User.findOne({phone: phone });
+      
+      if(!user){
+        res.status(500).send({error:"کاربر موجود نیست"});
+        return;
+      }
       if(user.active === "غیرفعال"){
         res.status(400).json({error:"کاربر غیرفعال است"})
         return
-      }
-      if(!user){
-        
-        // return new user
-        //res.status(201).json(user)
-        res.status(500).send({error:"کاربر موجود نیست"});
-        return;
       }
       if(user.access ==="customer"||user.access==="request"||user.access===""){
         

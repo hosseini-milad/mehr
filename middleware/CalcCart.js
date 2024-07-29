@@ -20,7 +20,8 @@ const calcCart=async(userData)=>{
     var today = new Date().toLocaleDateString('fa')
     var month = today.split('/')[1]
     var newOrders = await Cart.find({userId:userData._id}).lean()
-    var cOrders = await orders.find({userId:userData._id}).limit(10)
+    var cOrders = await orders.find({userId:userData._id})
+        .sort({loadDate:-1}).limit(10).lean()
     var creditNeed = 0
     for(var i=0;i<(newOrders&&newOrders.length);i++){
         
@@ -36,8 +37,8 @@ const calcCart=async(userData)=>{
         
     } 
     for(var i=0;i<(cOrders&&cOrders.length);i++){
-        //console.log(cOrders[i])
-
+        //
+        cOrders[i].statusDetail=findStatus(cOrders[i].status)
         var tempDate = new Date(cOrders[i].loadDate).toLocaleDateString('fa')
         var tempMonth = tempDate.split('/')[1]
         if(month === tempMonth)
@@ -48,6 +49,7 @@ const calcCart=async(userData)=>{
             oldCredit += parseInt(cOrders[i].credit?cOrders[i].credit:0)
         }
     } 
+    //console.log(cOrders)
     return({credit:(credit+fob)-(oldCredit+oldFob),
         carts:newOrders,discountTemp:discountTemp,
     remainCredit:credit-oldCredit,remainFob:fob-oldFob,
@@ -55,12 +57,16 @@ const calcCart=async(userData)=>{
     orderData:cOrders})
 }
 const creditSum=(credit1Raw,credit2Raw)=>{
-    var sign = 1
-    if(credit2Raw&&credit2Raw.includes('-'))
-        sign = -1
+    var sign1 = 1
+    var sign2 = 1
+    if(credit1Raw&&credit1Raw.toString().includes('-'))
+        sign1 = -1
+    if(credit2Raw&&credit2Raw.toString().includes('-'))
+        sign2 = -1
     var credit1 = credit1Raw?parseInt(credit1Raw.toString().replace(/\D/g,'')):0
     var credit2 = credit2Raw?parseInt(credit2Raw.toString().replace(/\D/g,'')):0
-    credit2 = credit2*sign
+    credit1 = credit1*sign1
+    credit2 = credit2*sign2
     return(
         credit1+credit2
     )
@@ -84,5 +90,15 @@ const findDiscount=async(userData,orderData)=>{
     }
     //var discount ={title:policyData[0].policyName,value:policyData[0].discount}
     return(myOff)
+}
+
+const findStatus=(status)=>{
+    if(!status)return({title:"نامشخص",color:"white",canCan:true})
+    if(status=="inprogress")return({title:"در حال ثبت",color:"orange",canCan:true})
+    if(status=="inVehicle")return({title:"درب ورود",color:"purple",canCan:true})
+    if(status=="saleControl")return({title:"واحد کنترل",color:"blue"})
+    if(status=="outVehicle")return({title:"درب خروج",color:"purple"})
+    if(status.includes("ancel"))return({title:"لغو شده",color:"red"})
+    if(status=="completed")return({title:"خاتمه یافته",color:"green"})
 }
 module.exports = calcCart;

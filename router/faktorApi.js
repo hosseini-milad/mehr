@@ -145,6 +145,11 @@ router.post('/create-order',auth, async (req,res)=>{
     const loadDate = req.body.loadDate;
     const orderNo = await checkRep("Nc");
     const userData = await users.findOne({_id:userId})
+    if(!userData.active||!userData.active ==true){
+        
+        res.status(400).json({error: "حساب شما غیرفعال است"})
+        return
+    }
     const cartData = await calcCart(userData)
     if(!loadDate){
         res.status(400).json({error: "زمان تحویل مشخص نشده است"})
@@ -178,16 +183,17 @@ router.post('/create-order',auth, async (req,res)=>{
         data.credit = standardCart.remainCredit
         data.stockOrderPrice = standardCart.price
         data.stockFaktor = standardCart.carts
-        console.log(standardCart.creditNeed)
-        console.log(standardCart.allCredit>cartData.remainFob)
-        if(standardCart.allCredit>cartData.remainFob){
+        //console.log(standardCart.creditNeed)
+        //console.log(standardCart.myCredit)
+        if(standardCart.allCredit> creditSum(standardCart.myCredit.credit,
+                standardCart.myCredit.fob)){
             if(userData.profile==="659b9ce3d9c3154d2f94a82e"){
             res.status(400).json({error: "اعتبار کافی نیست"})
             return
             }
         }
         try{
-            taskData = await CreateTask("order",data)} catch{}
+            taskData = await CreateTask("order",data,userData)} catch{}
         const stockData = await orders.create(data)//{_id:req.body.id},{$set:data})
         await cart.deleteMany({userId:data.userId})
         await sendSmsUser(data.userId,process.env.regOrder,".","rxOrderNo",data.status)
@@ -204,7 +210,7 @@ router.post('/cancel-order',auth, async (req,res)=>{
     try{
         const stockData = await orders.updateOne({userId:ObjectID(userId),stockOrderNo:orderNo},
         {$set:{status:"cancel|لغو توسط خریدار"}})//{_id:req.body.id},{$set:data})
-
+        await tasks.updateOne({orderNo:orderNo},{$set:{taskStep:"cancel"}})
         res.json({status:stockData,message:"order cancel"})
 
     }
@@ -224,7 +230,21 @@ const checkRep=async(userNo,dateYear)=>{
     return(rxTemp)
 
 }
-
+const creditSum=(credit1Raw,credit2Raw)=>{
+    var sign1 = 1
+    var sign2 = 1
+    if(credit1Raw&&credit1Raw.toString().includes('-'))
+        sign1 = -1
+    if(credit2Raw&&credit2Raw.toString().includes('-'))
+        sign2 = -1
+    var credit1 = credit1Raw?parseInt(credit1Raw.toString().replace(/\D/g,'')):0
+    var credit2 = credit2Raw?parseInt(credit2Raw.toString().replace(/\D/g,'')):0
+    credit1 = credit1*sign1
+    credit2 = credit2*sign2
+    return(
+        credit1+credit2
+    )
+  }
 const cartCreator=async(cartItemsRaw,userId)=>{
     var credit = await calcCredit(userId)
     const cartItems = await calcDiscount(cartItemsRaw&&cartItemsRaw.carts,userId)
