@@ -102,7 +102,7 @@ function CustomerDetailHolder(props) {
         )}
         {tabIndex === 4 ? (
           <CustomerCredit data={userData} orders={orders} 
-          direction={direction} lang={lang} />
+          direction={direction} lang={lang} token={token}/>
         ) : (
           <></>
         )}

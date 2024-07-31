@@ -2,15 +2,17 @@ import { useState } from "react"
 import env from "../../../env"
 
 function CustomerCredit(props){
+    const token = props.token
     const data = props.data
     const orderCredit = props.orders&&props.orders.detail
     const [error,setError] = useState({errorText:'',errorColor:"brown"})
     const [formData, setFormData] = useState()
-    console.log(formData)
+    //console.log(formData)
     const saveChanges=() => {
         var postOptions={
             method:'post',
-            headers: {'Content-Type': 'application/json'},
+            headers: {'Content-Type': 'application/json',
+              "x-access-token":token&&token.token,"userId":token&&token.userId},
             body:JSON.stringify({
               userId:data._id,
               ...formData
