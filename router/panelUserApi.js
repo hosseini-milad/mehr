@@ -25,6 +25,7 @@ const sendMessageUser = require('../AdminPanel/components/sendMessage');
 const payLog = require('../model/Order/payLog');
 const tasks = require('../model/crm/tasks');
 const orders = require('../model/Order/orders');
+const exportUsers = require('../middleware/ExportUsers');
 
 
 router.post('/fetch-user',jsonParser,async (req,res)=>{
@@ -97,8 +98,8 @@ router.post('/list',jsonParser,async (req,res)=>{
         const classList = await classes.find();
         for(var i=0;i<userList.length;i++){
             const credit = await calcCredit(userList[i]._id)
-            userList[i].remainCredit = credit.credit
-            userList[i].remainFob = credit.fob
+            userList[i].totalCredit = credit.credit
+            userList[i].totalFob = credit.fob
         }
        res.json({filter:userList,size:filter1Report.length,
             access:accessUnique,profiles:profiles,classes:classList})
@@ -115,6 +116,38 @@ router.post('/update-user',jsonParser,auth,async (req,res)=>{
         const userData = await user.updateOne({_id: ObjectID(userId)},
         {$set:data})
        res.json({data:userData,success:"تغییرات اعمال شدند"})
+    }
+    catch(error){
+        res.status(500).json({message: error.message})
+    } 
+})
+
+router.post('/export-user',jsonParser,auth,async (req,res)=>{
+    
+    try{
+        var testExcel = await exportUsers(req,res)
+        
+       res.json(testExcel)
+    }
+    catch(error){
+        res.status(500).json({message: error.message})
+    } 
+})
+
+router.post('/reset-credit',jsonParser,auth,async (req,res)=>{
+    var remain = req.body.remain
+    var main = req.body.main
+    try{
+        //const userList = a wait user.find({})
+        if(remain){
+            //for(var i=0;i<userList.length;i++){
+                await user.updateMany({},{$set:{remainCredit:0,remainFob:0}})
+            //}
+        }
+        if(main){
+            await user.updateMany({},{$set:{credit:0,fob:0,credit1:0}})
+        }
+       res.json({success:"تغییرات اعمال شدند"})
     }
     catch(error){
         res.status(500).json({message: error.message})
