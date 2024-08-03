@@ -21,17 +21,24 @@ const styles = {
           underline: true
         }
       },
-      cellPink: {
+      cellBlue: {
         fill: {
           fgColor: {
-            rgb: 'FFFFCCFF'
+            rgb: 'FF90CA'
+          }
+        }
+      },
+      cellRed: {
+        fill: {
+          fgColor: {
+            rgb: 'FFCCCB'
           }
         }
       },
       cellGreen: {
         fill: {
           fgColor: {
-            rgb: 'FF00FF00'
+            rgb: '5CED73'
           }
         }
       }
@@ -50,21 +57,27 @@ const specification = {
         
         width: 70 
     },
+    colPhone: { 
+        displayName: 'شماره تماس', 
+        headerStyle: styles.headerDark, 
+        
+        width: 70 
+    },
     colCredit1: { 
         displayName: "اعتبار یارانه ای", 
-        headerStyle: styles.headerDark, 
+        headerStyle: styles.cellBlue, 
         
         width: 70 
     },
     colFob: { 
         displayName: "اعتبار غیر یارانه ای", 
-        headerStyle: styles.headerDark, 
+        headerStyle: styles.cellBlue, 
         
         width: 70 
     },
     colCredit: { 
         displayName: "اعتبار اعطایی", 
-        headerStyle: styles.headerDark, 
+        headerStyle: styles.cellBlue, 
         
         width: 70 
     },
@@ -82,13 +95,13 @@ const specification = {
     },
     colOrderCredit: { 
         displayName: "اعتبار یارانه سفارشات", 
-        headerStyle: styles.headerDark, 
+        headerStyle: styles.cellRed, 
         
         width: 120 
     },
     colOrderFob: { 
         displayName: "اعتبار غیر یارانه سفارشات", 
-        headerStyle: styles.headerDark, 
+        headerStyle: styles.cellRed, 
         
         width: 120 
     },
@@ -100,13 +113,13 @@ const specification = {
     },*/
     colTotalCredit: { 
         displayName: "اعتبار یارانه نهایی", 
-        headerStyle: styles.headerDark, 
+        headerStyle: styles.cellGreen, 
         
         width: 120 
     },
     colTotalFob: { 
         displayName: "اعتبار غیریارانه نهایی", 
-        headerStyle: styles.headerDark, 
+        headerStyle: styles.cellGreen, 
         
         width: 120 
     },
@@ -127,7 +140,7 @@ const exportUsers =async(req,res)=>{
     const userRaw = await user.find({}).lean()
     var userList= []
     for(var i=0;i<userRaw.length;i++){
-      if(!userRaw[i].meli||userRaw[i].meli.length<7)continue
+      //if(!userRaw[i].meli||userRaw[i].meli.length<7)continue
       const totalCredit = await calcCredit(userRaw[i]._id)
       userList.push({...userRaw[i],totalCredit})
     }
@@ -135,6 +148,7 @@ const exportUsers =async(req,res)=>{
     var dataUsers = userList.map((item,i)=>(
         {colName:item.cName,
         colMeli: item.meli, 
+        colPhone: item.phone, 
         colCredit1: item.credit1,
         colFob:item.fob,
         colCredit:item.credit,
