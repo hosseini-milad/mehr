@@ -49,7 +49,7 @@ router.post('/fetch-cart',auth, async (req,res)=>{
     const userData = await users.findOne({_id:ObjectID(req.headers["userid"])})
     const searchProducts = await calcCart(userData)
         try{    res.json({data:searchProducts,success:"200"})
-    }
+    } 
     catch(error){
         res.status(500).json({message: error.message})
     }

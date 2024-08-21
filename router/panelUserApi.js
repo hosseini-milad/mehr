@@ -101,6 +101,21 @@ router.post('/list',jsonParser,async (req,res)=>{
         res.status(500).json({message: error.message})
     } 
 })
+router.post('/list-contract',jsonParser,async (req,res)=>{
+    const search = req.body.search
+    try{
+        const profileData = await ProfileAccess.findOne({profileName:/عامل/})
+        console.log(profileData)
+
+        const userList = profileData?await user.find(
+            {profile:profileData._id}).limit(10):[]
+        
+       res.json({filter:userList})
+    }
+    catch(error){
+        res.status(500).json({message: error.message})
+    } 
+})
 router.post('/update-user',jsonParser,auth,async (req,res)=>{
     var userId = req.body.userId
     
