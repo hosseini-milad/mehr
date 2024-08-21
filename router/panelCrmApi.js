@@ -132,6 +132,7 @@ router.post('/update-tasks-status',auth,jsonParser,async (req,res)=>{
     const taskId = req.body._id?req.body._id:""
     var status = req.body.status
     const crmCode = req.body.crmCode
+    const contractor = req.body.contractor
     const changes = req.body.changeData
     const crmData = await crmlist.findOne(crmCode?{crmCode:crmCode}:{})
     const taskData = await tasks.findOne({_id:ObjectID(taskId)})
@@ -171,7 +172,7 @@ router.post('/update-tasks-status',auth,jsonParser,async (req,res)=>{
          
         const userId=req.headers["userid"]
         const updateOrder = changes&&await orders.updateOne({stockOrderNo:taskData.orderNo},
-        {$set:changes});
+        {$set:{...changes,...contractor}});
         const tasksList = await calcTasks(userId,crmCode)
        res.json({taskData:tasksList,message:taskId?"Task Updated":"Task Created",
         result:sepidarResult,sepidarQuery:sepidarQuery,userData:adminData})

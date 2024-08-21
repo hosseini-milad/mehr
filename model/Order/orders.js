@@ -11,6 +11,7 @@ const OrdersSchema = new mongoose.Schema({
   ghabzIn:{ type: String },
   ghabzOut:{ type: String },
   cert:{ type: String },
+  contractor:{ type: String },
 
   stockOrderPrice:{type:String},
   credit:{type:String},
