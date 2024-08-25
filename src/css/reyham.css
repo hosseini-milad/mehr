@@ -1078,3 +1078,7 @@ dialog {
     }
   }
 }
+
+.MuiAutocomplete-popper{
+  z-index: 100000 !important;
+}
