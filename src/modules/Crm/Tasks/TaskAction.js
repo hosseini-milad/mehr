@@ -1,19 +1,44 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import env from "../../../env"
+import StyleSelect from "../../../components/Button/AutoComplete"
 
 function TaskAction(props){
     const token = props.token
     const data = props.data
-    console.log(data)
     const order = props.content
+    const [search,setSearch] = useState('')
+    const [userList,setUserList] = useState('')
+    const [contract,setContract] = useState('')
     const [changeData,setChangeData] = useState()
+    useEffect(()=>{
+        const postOptions={
+            method:'post',
+            headers: {'Content-Type': 'application/json'},
+            body:JSON.stringify({search:search})
+          }
+      fetch(env.siteApi + "/panel/user/list-contract",postOptions)
+      .then(res => res.json())
+      .then(
+        (result) => {
+            if(result.error){
+                
+            } 
+            else{
+                setUserList(result.filter)
+            }
+        },
+        (error) => {
+          console.log(error);
+        })
+    },[search])
     const updateTask=(action)=>{
         const postOptions={
             method:'post',
             headers: {'Content-Type': 'application/json',
             "x-access-token":token&&token.token,"userId":token&&token.userId},
             body:JSON.stringify({_id:props.taskId, crmCode:"orders",
-            status:action?action:data.taskStep,changeData:changeData})
+            status:action?action:data.taskStep,
+            changeData:changeData,contractor:contract.cCode})
           }
         console.log(postOptions)
       fetch(env.siteApi + "/panel/crm/update-tasks-status",postOptions)
@@ -40,17 +65,20 @@ function TaskAction(props){
         return(
         <div className="taskAction">
             <div className="taskBtn">
+                {userList?<StyleSelect options={userList} 
+                    label="cName" title="عاملین" textChange={(e)=>e.length>2?setSearch(e):{}}
+                    action={setContract}/>:<></>}
                 <button type="button" className="btn-crm btn-crm-accept"
                 onClick={()=>updateTask()}>
                 تایید
-            </button>
-            <button type="button" className="btn-crm btn-crm-info"
-                onClick={()=>window.location.href="/orders/print/"+data.orderNo}>
-                <p>چاپ سفارش</p></button>
-            
-            <button type="button" className="btn-crm btn-crm-cancel"
-                onClick={()=>updateTask("cancel")}>
-                <p>لغو سفارش</p></button>
+                </button>
+                <button type="button" className="btn-crm btn-crm-info"
+                    onClick={()=>window.location.href="/orders/print/"+data.orderNo}>
+                    <p>چاپ سفارش</p></button>
+                
+                <button type="button" className="btn-crm btn-crm-cancel"
+                    onClick={()=>updateTask("cancel")}>
+                    <p>لغو سفارش</p></button>
             </div> 
         </div> )}
         if(data.taskStep==="inVehicle"){

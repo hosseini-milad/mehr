@@ -76,7 +76,7 @@ function UserTableRow(props) {
       </td>
       <td>
         <div className="pen-status order-status">
-          <Status status={user.active.toString()} lang={props.lang} />
+          <Status status={user.active&&user.active.toString()} lang={props.lang} />
         </div>
       </td>
       <td>

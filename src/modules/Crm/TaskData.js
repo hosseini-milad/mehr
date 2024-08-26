@@ -6,9 +6,10 @@ function TaskData(props){
     const customer= props.customer
     const taskUser=props.taskUser
     const creator=props.creator
+    console.log(taskData)
     return(
-        <div className={taskData.result?taskData.result.Number?
-            "taskData doneTitle":"taskData suspendTitle":"taskData"}>
+        <div className={taskData.done?"taskData doneTitle":taskData.cancel?
+            "taskData suspendTitle":"taskData"}>
             <div className='titles'
                 onClick={()=>props.setOrderPop(1)}>
                 <h3 className={"task-title "+ 

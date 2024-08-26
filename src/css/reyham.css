@@ -12,6 +12,12 @@ textarea {
   cursor: pointer;
   top: 5px;
 }
+.doneTitle{
+  border-left: 5px solid #adff2f;
+}
+.suspendTitle{
+  border-left: 5px solid orangered;
+}
 .showPassRTL {
   position: absolute;
   left: 20px;
@@ -1077,4 +1083,8 @@ dialog {
       margin-right: 6px;
     }
   }
+}
+
+.MuiAutocomplete-popper{
+  z-index: 100000 !important;
 }
