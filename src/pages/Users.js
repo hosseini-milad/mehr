@@ -8,6 +8,7 @@ import UserFilters from "../modules/Users/UserComponent/UserFilters";
 import env from "../env";
 import tabletrans from "../translate/tables";
 import SMS from "../components/Button/SMS";
+import ResetCredit from "../components/Button/ResetCredit";
 
 const cookies = new Cookies();
 
@@ -23,6 +24,7 @@ function Users(props) {
   const [errorHandling, setErrorHandling] = useState(0);
   const [collect, setCollect] = useState(0);
   const [showPop, setShowPop] = useState(0);
+  const [showCredit, setShowCredit] = useState(0);
 
 
   const token = cookies.get(env.cookieName);
@@ -98,7 +100,7 @@ function Users(props) {
       },
       body: JSON.stringify(body),
     };
-    fetch(env.siteApi + "/panel/user/list", postOptions)
+    fetch(env.siteApi + "/panel/user/export-user", postOptions)
       .then((res) => res.json())
       .then(
         (result) => {
@@ -267,13 +269,13 @@ function Users(props) {
             <i className="fa-solid fa-envelope-o"></i>
             انتقال اعتبار
           </label>
+          <label className="edit-btn" onClick={() => setShowCredit(1)}>
+          <i className="fa-solid fa-bell"></i>
+            پاک کردن اعتبارات
+          </label>
           <label className="edit-btn" onClick={() => setShowSMS(1)}>
             <i className="fa-solid fa-envelope-o"></i>
             {tabletrans.sendSms[lang]}
-          </label>
-          <label className="edit-btn" onClick={() => setShowPop(1)}>
-          <i className="fa-solid fa-bell"></i>
-            {tabletrans.sendPop[lang]}
           </label>
           <label
             className="edit-btn"
@@ -352,6 +354,16 @@ function Users(props) {
           } مشترک`}
           lang={props.lang}
           userList={content.filter}
+        />
+      ) : (
+        <></>
+      )}
+      {showCredit ? (
+        <ResetCredit
+          close={setShowCredit}
+          lang={props.lang}
+          userList={content.filter}
+          token={token}
         />
       ) : (
         <></>

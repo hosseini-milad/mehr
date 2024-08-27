@@ -1,13 +1,13 @@
 const env={
-    //siteApi:'http://localhost:4030/api',
-    siteApi:'https://panel.mehrgaz.com/api',
+    //siteApi:'http://localhost:4000/api',
+    //siteApi:'https://panel.mehrgaz.com/api',
     //siteApi:'https://orderadmin.deleves.com/api',
-    //siteApi:'https://admin.mgmlens.com/api',
+    siteApi:'https://testpanel.mehrgaz.com/api',
     
     // siteApiUrl:'http://localhost:4000',
-    siteApiUrl:'https://panel.mehrgaz.com',
+    //siteApiUrl:'https://panel.mehrgaz.com',
     //siteApiUrl:'https://orderadmin.deleves.com',
-    //siteApiUrl:'https://admin.mgmlens.com',
+    siteApiUrl:'https://testpanel.mehrgaz.com',
 
     cookieName:'panel-login',
     //cookieName:'mehr-login',
@@ -54,14 +54,18 @@ export function normalPriceCount(priceText,count){
         (rawPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").replace( /^\D+/g, ''))
     )
 }
-export function normalPriceSum(priceText,priceSum){
-  
-  var rawPrice = priceText?parseInt(priceText.toString().replace(/\D/g,'')):0
-  var rawSum = priceSum?parseInt(priceSum.toString().replace(/\D/g,'')):0
-  console.log(rawPrice,rawSum)
+export function normalPriceSum(priceText,priceSum,extraPrice){
+  try{
+  var rawPrice = priceText?parseInt(priceText.toString()):0
+  var rawSum = priceSum?parseInt(priceSum.toString()):0
+  var extraSum = extraPrice?parseInt(extraPrice.toString()):0
+  //console.log(rawPrice,rawSum)
   return(
-      (rawPrice+rawSum).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",").replace( /^\D+/g, '')
-  )
+      (rawPrice+rawSum+extraSum).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  )}
+  catch{
+    return(0)
+  }
 }
 
 export function rxFindCount(order){

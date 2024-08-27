@@ -41,18 +41,24 @@ function UserTableRow(props) {
       </td>
       <td>
         <div className="cu-company">
-          {user.remainCredit && user.remainCredit!=="0" ? (
-            <h6>{user.remainCredit}</h6>
+          {user.credit1 || user.credit2 ? (
+            <h6>{user.totalCredit}</h6>
           ) : (
             <h6>ندارد</h6>
           )}
-          
+          {user.credit1 || user.credit2 ? (
+            <small>
+              all credit: {normalPriceSum(user.credit1, user.remainCredit)}
+            </small>
+          ) : (
+            <></>
+          )}
         </div>
       </td>
       <td>
         <div className="cu-company">
-          <h6>{user.remainFob}</h6>
-          
+          <h6>{user.totalFob}</h6>
+          <small>all fob:{normalPriceSum(user.fob,user.credit,user.remainFob)}</small> 
         </div>
       </td>
       <td>
@@ -68,7 +74,7 @@ function UserTableRow(props) {
       </td>
       <td>
         <div className="pen-status order-status">
-          <Status status={user.active.toString()} lang={props.lang} />
+          <Status status={user.active&&user.active.toString()} lang={props.lang} />
         </div>
       </td>
       <td>

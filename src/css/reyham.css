@@ -12,6 +12,12 @@ textarea {
   cursor: pointer;
   top: 5px;
 }
+.doneTitle{
+  border-left: 5px solid #adff2f;
+}
+.suspendTitle{
+  border-left: 5px solid orangered;
+}
 .showPassRTL {
   position: absolute;
   left: 20px;
@@ -1078,6 +1084,7 @@ dialog {
     }
   }
 }
+<<<<<<< HEAD
 .d-container{
   width: 100%;
   display: flex;
@@ -1131,3 +1138,9 @@ dialog {
 .hover-tr{
   background-color: rgb(244, 246, 248);
 }
+=======
+
+.MuiAutocomplete-popper{
+  z-index: 100000 !important;
+}
+>>>>>>> 3f7fa90e6deb22852e0a1692c72f0c6227e23e2e

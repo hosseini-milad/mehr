@@ -11,6 +11,7 @@ import CustomerGeneral from "./CustomerGeneral";
 import CustomerSupplementary from "./CustomerSupplementary";
 import CustomerClass from "./CustomerClass";
 import Cookies from "universal-cookie";
+import CustomerCredit from "./CustomerCredit";
 
 const cookies = new Cookies();
 
@@ -22,6 +23,7 @@ function CustomerDetailHolder(props) {
   const [tabIndex, setTabIndex] = useState(0);
   const [accessList,setAccess] = useState()
   const [profile,setProfile] = useState()
+  const [orders,setOrders] = useState()
 
   const token = cookies.get(env.cookieName);
   useEffect(() => {
@@ -41,6 +43,7 @@ function CustomerDetailHolder(props) {
           setUserData(result.data);
           setAccess(result.profiles);
           setProfile(result.userProfile);
+          setOrders(result.credit)
         },
         (error) => {
           console.log(error);
@@ -98,7 +101,8 @@ function CustomerDetailHolder(props) {
           <></>
         )}
         {tabIndex === 4 ? (
-          <CustomerSocial direction={direction} lang={lang} />
+          <CustomerCredit data={userData} orders={orders} 
+          direction={direction} lang={lang} token={token}/>
         ) : (
           <></>
         )}
