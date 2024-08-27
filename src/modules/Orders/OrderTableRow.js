@@ -40,6 +40,9 @@ fetch(env.siteApi + "/panel/order/editOrder",postOptions)
               <input type="checkbox" name="" id="" checked={checkState}
               onChange={(e)=>setCheckState(checkState?false:true)}/></td>
             <td>
+              {props.index+1}
+            </td>
+            <td>
                 <div className="order-id">
                   <p onClick={()=> window.location.href=
                     "/orders/detail/"+order.stockOrderNo}>
@@ -48,7 +51,15 @@ fetch(env.siteApi + "/panel/order/editOrder",postOptions)
             </td>
             <td>
               <div className="cu-avatar">
-                  <img src="/img/avatar/avatar_1.jpg" alt="avatar"/>
+                <img
+                src={
+                  order.userInfo[0].group && order.userInfo[0].group.includes("مهر")
+                    ? "/img/mehr.png"
+                    : "/img/sahand.png"
+                }
+                className="avatar-sm me-3"
+                alt="xd"
+                />
                   <div className="cu-name">
                     <p className="name">{order.userInfo[0]?
                       order.userInfo[0].cName:''}</p>
@@ -85,10 +96,7 @@ fetch(env.siteApi + "/panel/order/editOrder",postOptions)
                   <p>{normalPriceCount(order.stockOrderPrice)}</p>
                 </div>
               </td>
-              <td>
-                <Status status={order.payStatus} class={"order-status"} 
-                  lang={props.lang}/>
-              </td>
+              
               <td>
                 <Status status={order.status} class={"order-status"} 
                   lang={props.lang}/>

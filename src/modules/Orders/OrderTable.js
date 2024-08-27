@@ -11,7 +11,11 @@ function OrderTable(props){
         <thead>
         <tr>
           <th className="checkBoxStyle">
-              <input type="checkbox" name="" id=""/></th>
+              <input type="checkbox" name="" id=""/>
+            </th>
+            <th>
+              
+            </th>
             <th>
               <p>{tabletrans.order[lang]}</p>
               <i></i>
@@ -32,7 +36,7 @@ function OrderTable(props){
             
             
             <th>
-            <p>تعداد</p>
+            <p>{tabletrans.quantity[lang]}</p>
               <i></i>
             </th>
             <th>

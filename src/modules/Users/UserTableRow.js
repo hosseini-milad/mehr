@@ -34,33 +34,25 @@ function UserTableRow(props) {
             <p className="name">{user.cName}</p>
             <p className="email">
               شماره تماس:{" "}
-              {user.userDetail && user.userDetail[0]
-                ? user.userDetail[0].mobile
-                : ""}
+              {user.mobile?user.mobile:user.userDetail[0].mobile?user.userDetail[0].mobile:""}
             </p>
           </div>
         </div>
       </td>
       <td>
         <div className="cu-company">
-          {user.credit1 || user.credit2 ? (
+          {user.remainCredit && user.remainCredit!=="0" ? (
             <h6>{user.remainCredit}</h6>
           ) : (
             <h6>ندارد</h6>
           )}
-          {user.credit1 || user.credit2 ? (
-            <small>
-              all credit: {normalPriceSum(user.credit1, user.credit2)}
-            </small>
-          ) : (
-            <></>
-          )}
+          
         </div>
       </td>
       <td>
         <div className="cu-company">
           <h6>{user.remainFob}</h6>
-          {user.fob ? <small>all fob:{user.fob}</small> : <></>}
+          
         </div>
       </td>
       <td>

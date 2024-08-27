@@ -16,6 +16,7 @@ import DashBoardDaily from '../modules/Dashboard/1DashBoardToday';
 import DashboardChart from '../modules/Dashboard/2DashBoardCharts';
 import DashboardProject from '../modules/Dashboard/3DashBoardProject';
 import DashboardOverView from '../modules/Dashboard/4DashBoardOverview';
+import Visitor from '../modules/Dashboard/Visitor';
 import errortrans from '../translate/error';
 import DashBoardState from '../modules/Dashboard/2DashBoardState';
 const cookies = new Cookies();
@@ -41,10 +42,14 @@ function SaleAnalyze(props){
       return(
     <div class="container-fluid py-4" style={{direction:direction}}>
         
-        <div class="row mb-4">
-            <DashboardProject />
-            <DashboardOverView />
-    </div>
+      <div class="row mb-4">
+        <DashboardProject />
+        <DashboardOverView />
+      </div>
+      <div class="row mb-4">
+        <Visitor lang={lang} />
+        
+      </div>
     </div>
     )
     else return(

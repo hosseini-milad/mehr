@@ -38,10 +38,10 @@ function UserFilters(props) {
         direction={props.lang.dir}
         label="label"
         options={[
-          { label: "فعال", value: true },
-          { label: "غیرفعال", value: false },
+          { label: "فعال", value: "true" },
+          { label: "غیرفعال", value: "false" },
         ]}
-        action={(e) => handleFilterChange("active", e)}
+        action={(e) => handleFilterChange("active", (e?e.value:null))}
       />
 
       <StyleSelect

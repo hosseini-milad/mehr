@@ -7,6 +7,10 @@ const tabletrans ={
         english: "Customer",
         persian: "مشتری"
     },
+    profile:{
+        english: "Profile",
+        persian: "پروفایل"
+    },
     classes:{
         english: "Classes",
         persian: "کلاس ها"
@@ -14,6 +18,10 @@ const tabletrans ={
     sendPop:{
         english:"Popups",
         persian:"پاپ آپ"
+    },
+    analyze:{
+        english: "Sale Analyze",
+        persian: "آنالیز فروش"
     },
     newCu:{
         english: "New Customers",
