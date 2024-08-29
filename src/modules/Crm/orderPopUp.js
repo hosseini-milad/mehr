@@ -13,6 +13,7 @@ function OrderPopUp(props){
     const data =props.data
     const token = props.token
     const [content,setContent] = useState()
+    const [task,setTask] = useState()
     const [error,setError] = useState({message:'',color:"brown"})
     useEffect(()=>{
         const postOptions={
@@ -26,6 +27,7 @@ function OrderPopUp(props){
         (result) => {
             
             setContent(result)
+            setTask(result.taskData)
         },
         (error) => {
           console.log(error);
@@ -71,7 +73,7 @@ function OrderPopUp(props){
             <div className="crmAction">
                 <TaskAction content={content} token={token} taskId={data._id}
                 data={props.data} setBoard={(e)=>props.setBoardArray(e)}
-                close={props.close}/>
+                close={props.close} task={task}/>
             </div>:<></>}
             </div>
             

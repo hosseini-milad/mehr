@@ -6,7 +6,6 @@ function TaskData(props){
     const customer= props.customer
     const taskUser=props.taskUser
     const creator=props.creator
-    console.log(taskData)
     return(
         <div className={taskData.done?"taskData doneTitle":taskData.cancel?
             "taskData suspendTitle":"taskData"}>

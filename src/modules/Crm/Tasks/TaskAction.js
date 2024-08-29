@@ -5,6 +5,8 @@ import StyleSelect from "../../../components/Button/AutoComplete"
 function TaskAction(props){
     const token = props.token
     const data = props.data
+    const task = props.task
+    console.log(task)
     const order = props.content
     const [search,setSearch] = useState('')
     const [userList,setUserList] = useState('')
@@ -36,7 +38,7 @@ function TaskAction(props){
             method:'post',
             headers: {'Content-Type': 'application/json',
             "x-access-token":token&&token.token,"userId":token&&token.userId},
-            body:JSON.stringify({_id:props.taskId, crmCode:"orders",
+            body:JSON.stringify({_id:task&&task._id, crmCode:"orders",
             status:action?action:data.taskStep,
             changeData:changeData,contractor:contract.cCode})
           }
