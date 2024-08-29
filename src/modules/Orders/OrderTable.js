@@ -18,35 +18,39 @@ function OrderTable(props){
             </th>
             <th>
               <p>{tabletrans.order[lang]}</p>
-              <i></i>
+              
             </th>
             <th>
               <p>{tabletrans.customer[lang]}</p>
-              <i></i>
+              
+            </th>
+            <th>
+              <p>{tabletrans.agents[lang]}</p>
+              
             </th>
             <th>
               <p>{tabletrans.senddate[lang]}</p>
-              <i></i>
+              
             </th>
             <th>
               <p>{tabletrans.adddate[lang]}</p>
-              <i></i>
+              
             </th>
             
             
             
             <th>
             <p>{tabletrans.quantity[lang]}</p>
-              <i></i>
+              
             </th>
             <th>
             <p>{tabletrans.price[lang]}</p>
-              <i></i>
+              
             </th>
             
             <th>
             <p>{tabletrans.status[lang]}</p>
-              <i></i>
+              
             </th>
             <th>
             </th>

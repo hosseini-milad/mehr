@@ -37,13 +37,26 @@ function OrderFilters(props) {
           action={createConditionalAction("orderNo", 3)} // Remove the parentheses here
 
         />
-        {/* <StyleSelect
-          title={"Brand"}
-          direction={props.lang.dir}
-          options={props.options}
-          action={(e) => handleFilterChange("brand", e)}
-
-        /> */}
+        <StyleSelect
+        title={"Group"}
+        class="filterComponent"
+        direction={props.lang.dir}
+        options={["سهندگاز", "مهرگاز","چندار"]}
+        action={(e) => handleFilterChange("group", e)}
+        />
+        <StyleSelect
+        title={"سفارش دهنده"}
+        class="filterComponent"
+        direction={props.lang.dir}
+        options={["مشتری", "عامل"]}
+        action={(e) => handleFilterChange("order", e)}
+        />
+        <StyleSelect
+        title={"عاملین"}
+        class="filterComponent"
+        direction={props.lang.dir}
+        action={(e) => handleFilterChange("agents", e)}
+        />
         <StyleInput
           title={"Customer"}
           direction={props.lang.dir}

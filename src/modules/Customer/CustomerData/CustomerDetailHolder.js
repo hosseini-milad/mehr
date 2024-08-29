@@ -52,15 +52,16 @@ function CustomerDetailHolder(props) {
   }, []);
   return (
     <div className="account" style={{ direction: direction }}>
-      <h4>
-        <i
-          className={`fa-solid fa-angle-${
-            direction === "rtl" ? "right" : "left"
-          }`}
-          onClick={() => window.history.back()} // Use window.history.back() to simulate back button click
-          ></i>
-        {tabletrans.account[lang]}
-      </h4>
+      <div class="account-header">
+        <div className="ps-back-btn" onClick={() => window.history.back()}>
+            <i className="fa-solid fa-rotate-left" style={{color: "#c0c0c0"}}></i>
+            <p>{errortrans.back[lang]}</p>
+        </div>
+        <h4>
+        
+          {tabletrans.account[lang]}
+        </h4>
+      </div>
       <CustomerTabs tabIndex={tabIndex} setTabIndex={setTabIndex} lang={lang} />
 
       <div className="pages-wrapper">

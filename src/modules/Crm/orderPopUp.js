@@ -39,13 +39,24 @@ function OrderPopUp(props){
         <div className="modal-backdrop show-modal">
             <div className="task-popup fullPopUp">
                 <div className="orderModalTitle">
-                    <span>({(content.userDetail)?
-                    content.userDetail.cName:"-"})</span>
-                    <span> شماره سفارش: {data.orderNo}</span>
+                    <div class="flex-row">
+                        <span>
+                            ({(content.userDetail)?content.userDetail.cName:"-"})
+                        </span>
+                        <span> شماره سفارش: {data.orderNo}</span>
                     </div>
+                    <div class="flex-row">
+                        <span>آدرس: {"("+(content.userDetail&&content.userDetail.state?content.userDetail.state:"-")+(content.userDetail&&content.userDetail.address?content.userDetail.address:"-")+")"}</span>
+                        <span>کدپستی: {content.userDetail&&content.userDetail.address?content.userDetail.address:" - "}</span>
+                        <span>شماره تلفن: {content.userDetail&&content.userDetail.phone?content.userDetail.phone:"-"}</span>
+                    </div>
+                    <div class="flex-row">
+                        
+                    </div>
+                </div>
                 <i className="fa fa-remove closeModal" 
                     onClick={props.close}></i>
-                <div className="sharif" style={{padding: "48px 10px 10px"}}>
+                <div className="sharif" style={{padding: "70px 10px 10px"}}>
                     <main className="sharif-order-main">
                         {content?<OrderShow token={token} 
                         user={content.userId}

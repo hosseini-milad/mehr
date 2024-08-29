@@ -234,7 +234,7 @@ function CustomerGeneral(props) {
         }
       );
   };
-
+  console.log(props.userData)
   const activityStatusHandler = () => {
     setFormData((prevState) => ({
       ...prevState,
@@ -482,7 +482,19 @@ function CustomerGeneral(props) {
                 }))
               }
             />
-
+            <StyleSelect
+              title={"Group"}
+              class="filterComponent"
+              direction={props.lang.dir}
+              defaultValue={userData.group ? userData.group : ""}
+              options={["سهندگاز", "مهرگاز","چندار"]}
+              action={(e) =>
+                setFormData((prevState) => ({
+                  ...prevState,
+                  group: e,
+                }))
+              }
+            />
             <div className="col-12">
               {/* <span style={{ whiteSpace: "pre-wrap" }}></span> */}
 

@@ -65,7 +65,7 @@ function TaskAction(props){
         return(
         <div className="taskAction">
             <div className="taskBtn">
-                {userList?<StyleSelect options={userList} 
+                {userList?<StyleSelect class="agent-input" options={userList} 
                     label="cName" title="عاملین" textChange={(e)=>e.length>2?setSearch(e):{}}
                     action={setContract}/>:<></>}
                 <button type="button" className="btn-crm btn-crm-accept"

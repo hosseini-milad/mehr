@@ -347,6 +347,14 @@ dialog {
 .taskBtn {
   display: flex;
   gap: 10px;
+
+  .MuiAutocomplete-root{
+    border-radius: 6px;
+  }
+  .css-1h51icj-MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-endAdornment{
+    right: unset;
+    left: 9px;
+  }
 }
 .btn-crm {
   border-radius: 4px;
@@ -492,6 +500,12 @@ dialog {
 
 .ps-header {
   padding-bottom: 1rem;
+}
+.account-header{
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: flex-start;
 }
 .ps-back-btn {
   position: relative;
@@ -685,6 +699,7 @@ dialog {
   display: flex;
   justify-content: flex-end;
   color: #fff;
+  font-size: 1rem;
 }
 .userSection b {
   border: 1px solid var(--main-color);
@@ -696,6 +711,7 @@ dialog {
 .userSection span,
 .userSection strong {
   color: #fff;
+  font-size: 1rem;
 }
 /* Print */
 .userInfo {
@@ -1084,63 +1100,10 @@ dialog {
     }
   }
 }
-<<<<<<< HEAD
-.d-container{
-  width: 100%;
-  display: flex;
-  gap:1rem;
-}
-.visitor-list {
-  width: 30%;
-  overflow: hidden;
-  .cu-avatar {
-    min-width: unset;
-  }
-  th{
-    text-align: right;
-    padding-right: 0.5rem;
-  }
-}
-.Vorder-list{
-  width: 70%;
-  overflow: hidden;
-
-  th{
-    width: unset ;
-    min-width: 60px;
-    text-align: center !important;
-  }
-  td{
-    text-align: center;
-    min-width:60px;
-    max-width: 200px;
-    padding-inline: 0.5rem;
-  }
-}
-.visitor-list{
-  td{
-    padding-inline: 0.5rem;
-  }
-}
-.total-wrapper{
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  gap: 1rem;
-  padding:0.5rem 1rem;
-
-  p{
-    margin: 0;
-    color: black;
-  }
-}
-.hover-tr{
-  background-color: rgb(244, 246, 248);
-}
-=======
 
 .MuiAutocomplete-popper{
   z-index: 100000 !important;
 }
->>>>>>> 3f7fa90e6deb22852e0a1692c72f0c6227e23e2e
+.agent-input{
+  background-color: white;
+}

@@ -7,6 +7,10 @@ const tabletrans ={
         english: "Customer",
         persian: "مشتری"
     },
+    agents:{
+        english: "Agents",
+        persian: "عاملین"
+    },
     profile:{
         english: "Profile",
         persian: "پروفایل"

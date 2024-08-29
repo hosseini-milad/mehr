@@ -70,6 +70,7 @@ fetch(env.siteApi + "/panel/order/editOrder",postOptions)
                     <i className="fa fa-comment-o" title={order.moreInformation}></i>:<></>}
                 </div>
               </td>
+              <td></td>
               <td>
                 <div className="or-date">
                   <p className="date">{new Date(order.loadDate)

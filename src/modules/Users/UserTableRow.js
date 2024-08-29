@@ -39,7 +39,7 @@ function UserTableRow(props) {
           </div>
         </div>
       </td>
-      <td>
+      {/* <td>
         <div className="cu-company">
           {user.credit1 || user.credit2 ? (
             <h6>{user.totalCredit}</h6>
@@ -54,13 +54,13 @@ function UserTableRow(props) {
             <></>
           )}
         </div>
-      </td>
-      <td>
+      </td> */}
+      {/* <td>
         <div className="cu-company">
           <h6>{user.totalFob}</h6>
           <small>all fob:{normalPriceSum(user.fob,user.credit,user.remainFob)}</small> 
         </div>
-      </td>
+      </td> */}
       <td>
         <div className="cu-name">
           <p className="name">{user.phone}</p>
