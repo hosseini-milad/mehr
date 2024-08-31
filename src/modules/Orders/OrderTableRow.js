@@ -70,7 +70,8 @@ fetch(env.siteApi + "/panel/order/editOrder",postOptions)
                     <i className="fa fa-comment-o" title={order.moreInformation}></i>:<></>}
                 </div>
               </td>
-              <td></td>
+              <td style={{textAlign:"center"}}>{order.contractorInfo[0].cName&&order.contractorInfo[0].cName}</td>
+              <td style={{textAlign:"center"}}>{order.contractor?"عاملین":"مشتری"}</td>
               <td>
                 <div className="or-date">
                   <p className="date">{new Date(order.loadDate)
@@ -93,7 +94,7 @@ fetch(env.siteApi + "/panel/order/editOrder",postOptions)
                 </div>
               </td>
               <td>
-                <div className="order-price">
+                <div className="order-price" style={{textAlign:"center"}}>
                   <p>{normalPriceCount(order.stockOrderPrice)}</p>
                 </div>
               </td>

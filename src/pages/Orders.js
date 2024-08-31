@@ -38,6 +38,7 @@ function Orders(props) {
       dateTo: filters.date && filters.date.dateTo,
       contractor:filters.contractor,
       access: "manager",
+      contractorId:filters.contractorId,
     };
     const postOptions = {
       method: "post",
@@ -139,7 +140,7 @@ function Orders(props) {
           options={content.brand}
           filters={filters}
         />
-        <div className="user-list">
+        <div className="user-list order-table">
           {loading ? (
             env.loader
           ) : (

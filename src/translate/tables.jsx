@@ -11,6 +11,10 @@ const tabletrans ={
         english: "Agents",
         persian: "عاملین"
     },
+    orderer:{
+        english: "orderer",
+        persian: "سفارش دهنده"
+    },
     profile:{
         english: "Profile",
         persian: "پروفایل"

@@ -29,6 +29,10 @@ function OrderTable(props){
               
             </th>
             <th>
+              <p>{tabletrans.orderer[lang]}</p>
+              
+            </th>
+            <th>
               <p>{tabletrans.senddate[lang]}</p>
               
             </th>

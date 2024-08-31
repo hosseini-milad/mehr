@@ -1178,3 +1178,10 @@ dialog {
   text-align: center;
   background-color: white;
 }
+.order-table{
+  td,th{
+    width: fit-content !important;
+    min-width: none !important;
+    padding: 8px !important;
+  }
+}

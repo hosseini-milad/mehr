@@ -2,11 +2,35 @@ import StyleInput from "../../../components/Button/Input";
 import StyleSelect from "../../../components/Button/AutoComplete";
 import StyleDatePicker from "../../../components/Button/DatePicker";
 import tabletrans from "../../../translate/tables";
-import { useState } from "react";
-
+import { useState ,useEffect} from "react";
+import env from "../../../env"
 function OrderFilters(props) {
   const lang = props.lang;
   const options = props.options;
+  const [userList,setUserList] = useState('')
+  const [search,setSearch] = useState('')
+
+  useEffect(()=>{
+    const postOptions={
+        method:'post',
+        headers: {'Content-Type': 'application/json'},
+        body:JSON.stringify({search:search})
+      }
+  fetch(env.siteApi + "/panel/user/list-contract",postOptions)
+  .then(res => res.json())
+  .then(
+    (result) => {
+        if(result.error){
+            
+        } 
+        else{
+            setUserList(result.filter)
+        }
+    },
+    (error) => {
+      console.log(error);
+    })
+},[search])
 
   const handleFilterChange = (property, value) => {
     const newValue = value ? (value._id ? value._id : value) : "";
@@ -53,11 +77,12 @@ function OrderFilters(props) {
         action={(e) => handleFilterChange("contractor", (e?e.value:null))}
         />
         <StyleSelect
-        title={"عاملین"}
-        class="filterComponent"
-        direction={props.lang.dir}
-        action={(e) => handleFilterChange("agents", e)}
-        />
+        class="filterComponent" 
+        options={userList} 
+        label="cName" 
+        title="عاملین" 
+        textChange={(e)=>e.length>2?setSearch(e):{}}
+        action={(e) => handleFilterChange("contractorId", (e?e.cCode:null))}/>
         <StyleInput
           title={"Customer"}
           direction={props.lang.dir}

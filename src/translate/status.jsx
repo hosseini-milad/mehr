@@ -22,7 +22,7 @@ const statustrans ={
     },
     contractor:{
         english: "contractor",
-        persian: "در حال انجام",
+        persian: "عاملین",
         index:3,
         color: "rgb(183, 110, 0)",
         background: "rgba(255, 171, 0, 0.16)"
