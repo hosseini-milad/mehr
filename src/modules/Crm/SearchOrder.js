@@ -7,6 +7,7 @@ function SearchOrder(props){
     const token = props.data.token
     const [orderNo,setOrderNo] = useState()
     const [orderPop,setOrderPop] = useState(0)
+    console.log(props.data)
     return(
         <div className="searchOrder">
             <StyleInput title="شماره سفارش" 
