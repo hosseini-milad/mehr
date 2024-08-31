@@ -36,6 +36,7 @@ function Orders(props) {
       group: filters.group,
       dateFrom: filters.date && filters.date.dateFrom,
       dateTo: filters.date && filters.date.dateTo,
+      contractor:filters.contractor,
       access: "manager",
     };
     const postOptions = {

@@ -20,6 +20,13 @@ const statustrans ={
         color: "rgb(183, 110, 0)",
         background: "rgba(255, 171, 0, 0.16)"
     },
+    contractor:{
+        english: "contractor",
+        persian: "در حال انجام",
+        index:3,
+        color: "rgb(183, 110, 0)",
+        background: "rgba(255, 171, 0, 0.16)"
+    },
     accept:{
         english: "Accept",
         persian: "تایید شده",

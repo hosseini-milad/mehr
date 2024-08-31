@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import env from "../../../env"
 import StyleSelect from "../../../components/Button/AutoComplete"
-
+import PlateInput from "./PlateInput"
 function TaskAction(props){
     const token = props.token
     const data = props.data
@@ -10,6 +10,7 @@ function TaskAction(props){
     const [userList,setUserList] = useState('')
     const [contract,setContract] = useState('')
     const [changeData,setChangeData] = useState()
+    console.log(changeData)
     useEffect(()=>{
         const postOptions={
             method:'post',
@@ -36,9 +37,14 @@ function TaskAction(props){
             method:'post',
             headers: {'Content-Type': 'application/json',
             "x-access-token":token&&token.token,"userId":token&&token.userId},
-            body:JSON.stringify({_id:props.taskId, crmCode:"orders",
+            body:JSON.stringify({
+            _id:props.taskId,
+            crmCode:"orders",
             status:action?action:data.taskStep,
-            changeData:changeData,contractor:contract.cCode})
+            changeData:changeData,
+            contractor:contract.cCode,
+            carNo:(changeData.twoNum+changeData.alpha+changeData.threeNum)
+            })
           }
         console.log(postOptions)
       fetch(env.siteApi + "/panel/crm/update-tasks-status",postOptions)
@@ -85,19 +91,22 @@ function TaskAction(props){
             return(
             <div className="taskAction">
                 <div className="taskBtn">
-                    <input type="input" placeholder="پلاک خودرو" 
-                onChange={(e)=>setChangeData(prevState => ({
+                    <PlateInput setChangeData={setChangeData}/>
+                    {/* <input type="input" placeholder="پلاک خودرو" 
+                    onChange={(e)=>setChangeData(prevState => ({
                     ...prevState,
                     carNo:e?e.target.value:''
-                  }))}/>
-                <input type="input" placeholder="توضیحات" />
-                <button type="button" className="btn-crm btn-crm-accept"
-                onClick={()=>updateTask()}>
+                    }))}
+                    /> */}
+                    <input type="input" placeholder="توضیحات" style={{width:"50%"}}/>
+                    <button type="button" className="btn-crm btn-crm-accept"
+                    onClick={()=>updateTask()}>
                     تایید
-                </button>
-                <button type="button" className="btn-crm btn-crm-info"
+                    </button>
+                    <button type="button" className="btn-crm btn-crm-info"
                     onClick={()=>window.location.href="/orders/print/"+data.orderNo}>
-                    <p>چاپ سفارش</p></button>
+                    <p>چاپ سفارش</p>
+                    </button>
                     </div>
             </div> )}
         if(data.taskStep==="saleControl"){

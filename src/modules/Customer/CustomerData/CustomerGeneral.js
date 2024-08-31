@@ -321,16 +321,17 @@ function CustomerGeneral(props) {
                 }))
               }
             /> */}
-            <TextField
-              label={formtrans.mobile[props.lang]}
+            <StyleInput
+              title={formtrans.mobile[props.lang]}
               variant="outlined"
               error={!!validationErrors.mobile}
               helperText={validationErrors.mobile}
+              class={"formInput"}
               defaultValue={userData.mobile}
-              onChange={(e) =>
+              action={(e) =>
                 setFormData((prevState) => ({
                   ...prevState,
-                  mobile: e.target.value,
+                  mobile: e,
                 }))
               }
             />
@@ -484,7 +485,7 @@ function CustomerGeneral(props) {
             />
             <StyleSelect
               title={"Group"}
-              class="filterComponent"
+              class={"formInput"}
               direction={props.lang.dir}
               defaultValue={userData.group ? userData.group : ""}
               options={["سهندگاز", "مهرگاز","چندار"]}

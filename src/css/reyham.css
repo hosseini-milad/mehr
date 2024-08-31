@@ -12,10 +12,10 @@ textarea {
   cursor: pointer;
   top: 5px;
 }
-.doneTitle{
+.doneTitle {
   border-left: 5px solid #adff2f;
 }
-.suspendTitle{
+.suspendTitle {
   border-left: 5px solid orangered;
 }
 .showPassRTL {
@@ -107,6 +107,14 @@ textarea {
 }
 .formInput {
   margin: 15px !important;
+
+  .MuiInputBase-input {
+    width: 100% !important;
+  }
+  .MuiAutocomplete-endAdornment {
+    right: unset !important;
+    left: 9px !important;
+  }
 }
 .footerFix {
   position: fixed;
@@ -348,10 +356,12 @@ dialog {
   display: flex;
   gap: 10px;
 
-  .MuiAutocomplete-root{
+  .MuiAutocomplete-root {
     border-radius: 6px;
   }
-  .css-1h51icj-MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-endAdornment{
+  .css-1h51icj-MuiAutocomplete-root
+    .MuiOutlinedInput-root
+    .MuiAutocomplete-endAdornment {
     right: unset;
     left: 9px;
   }
@@ -501,7 +511,7 @@ dialog {
 .ps-header {
   padding-bottom: 1rem;
 }
-.account-header{
+.account-header {
   display: flex;
   gap: 6px;
   align-items: center;
@@ -1101,9 +1111,70 @@ dialog {
   }
 }
 
-.MuiAutocomplete-popper{
+.MuiAutocomplete-popper {
   z-index: 100000 !important;
 }
-.agent-input{
+.agent-input {
+  background-color: white;
+}
+
+/* license plate */
+.license-plate {
+  min-width: fit-content;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.2rem;
+  border: 0.08em solid #333;
+  height: 32px;
+  line-height: 1.1em;
+  background-color: transparent;
+  text-align: center;
+  color: rgb(40, 47, 37);
+  overflow: hidden;
+}
+
+.license-plate > .blue-column {
+  width: 15px;
+  height: inherit;
+  float: left;
+  background-color: #042591;
+  position: relative;
+}
+
+.license-plate > .blue-column > .flag {
+  margin: 0.1em;
+}
+
+.license-plate > .blue-column > .flag :nth-child(1) {
+  height: 0.1em;
+  background-color: green;
+}
+
+.license-plate > .blue-column > .flag :nth-child(2) {
+  height: 0.1em;
+  background-color: #fff;
+}
+
+.license-plate > .blue-column > .flag :nth-child(3) {
+  height: 0.1em;
+  background-color: red;
+}
+
+.license-plate > .blue-column > .text {
+  color: #ffffff;
+  font-size: 0.2em;
+  line-height: 1em;
+  text-align: left;
+  font-family: sans-serif;
+  position: absolute;
+  bottom: 0.5em;
+  left: 0.5em;
+}
+.license-plate > .plate-input {
+  width: 50px;
+  height: 32px;
+  text-align: center;
   background-color: white;
 }

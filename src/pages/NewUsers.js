@@ -28,7 +28,6 @@ function NewUsers(props) {
 
       // pageSize:filters.pageSize?filters.pageSize:"10",
       pageSize: filters.pageSize || "10",
-      new:true,
       customer: filters.customer,
       orderNo: filters.orderNo,
       profile: filters.profile,
@@ -42,6 +41,7 @@ function NewUsers(props) {
       group: filters.group,
       active: filters.active,
       FOB: filters.FOB,
+      access:"false"
     };
     const postOptions = {
       method: "post",

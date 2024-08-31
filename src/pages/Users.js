@@ -90,6 +90,7 @@ function Users(props) {
       group: filters.group,
       active: filters.active,
       FOB: filters.FOB,
+      access:""
     };
     const postOptions = {
       method: "post",

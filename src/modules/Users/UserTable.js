@@ -15,14 +15,14 @@ function UserTable(props){
               <p>{tabletrans.name[lang]}</p>
               <i></i>
             </th>
-            {/* <th>
+            <th>
               <p>{tabletrans.credit[lang]}</p>
               <i></i>
-            </th> */}
-            {/* <th>
+            </th>
+            <th>
               <p>{tabletrans.fob[lang]}</p>
               <i></i>
-            </th> */}
+            </th>
             <th>
               <p>{tabletrans.customerInfo[lang]}</p>
               <i></i>

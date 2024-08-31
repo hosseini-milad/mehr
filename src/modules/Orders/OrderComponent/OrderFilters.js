@@ -48,8 +48,9 @@ function OrderFilters(props) {
         title={"سفارش دهنده"}
         class="filterComponent"
         direction={props.lang.dir}
-        options={["مشتری", "عامل"]}
-        action={(e) => handleFilterChange("order", e)}
+        label="label"
+        options={[{label:"مشتری",value:"false"},{label:"عاملین",value:"true"}]}
+        action={(e) => handleFilterChange("contractor", (e?e.value:null))}
         />
         <StyleSelect
         title={"عاملین"}
