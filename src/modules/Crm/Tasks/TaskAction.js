@@ -43,7 +43,7 @@ function TaskAction(props){
             status:action?action:data.taskStep,
             changeData:changeData,
             contractor:contract.cCode,
-            carNo:changeData?(changeData.twoNum+changeData.alpha+changeData.threeNum):""
+            carNo:changeData?(changeData.twoNum+changeData.alpha+changeData.threeNum+"-"+changeData.irNum):""
             })
           }
         console.log(postOptions)
