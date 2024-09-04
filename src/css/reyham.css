@@ -1207,3 +1207,9 @@ dialog {
     padding: 8px !important;
   }
 }
+.sub-row .sub-num,.sub-row .sub-price{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: fit-content;
+}

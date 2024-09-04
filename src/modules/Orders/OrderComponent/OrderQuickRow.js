@@ -27,17 +27,25 @@ function OrderQuickRow(props){
     <div className="sub-row">
         <div className="sub-avatar">
             <div className="sub-avatar-container">
-                <img src="/img/product03.jpg"
-                alt={faktor.sku}/>
+                <img src={(faktor.imageUrl)} alt={faktor.sku}/>
                 <div className="sub-info">
                 <p className="sub-name">{sku?sku.coating:''}</p>
                 <p className="sub-id">کد محصول: {faktor.sku}</p>
                 </div>
             </div>
         </div>
-        <div className="sub-num">تعداد: {faktor.count}</div>
-        <div className="sub-price">قیمت واحد: {normalPriceCount(faktor.price)}</div>
-        <div className="sub-price">قیمت: {normalPriceCount(faktor.price,faktor.count)}</div>
+        <div className="sub-num">
+            <span>تعداد</span>
+            <span>{faktor.count}</span>
+        </div>
+        <div className="sub-price">
+            <span>قیمت واحد </span>
+            <span>{normalPriceCount(faktor.price)}</span>
+        </div>
+        <div className="sub-price">
+            <span>قیمت</span>
+            <span>{normalPriceCount(faktor.price,faktor.count)}</span>
+        </div>
     </div>
     )
 }
