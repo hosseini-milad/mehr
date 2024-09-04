@@ -398,8 +398,8 @@ dialog {
 .searchOrder .miniBtn {
   width: 30%;
 }
-.imagesHolder {
-}
+/* .imagesHolder {
+} */
 .images {
   position: relative;
 }
@@ -552,8 +552,8 @@ dialog {
 }
 
 /* Board */
-.reyham-board {
-}
+/* .reyham-board {
+} */
 
 /* Profile */
 .profileRtl th {
@@ -745,8 +745,8 @@ dialog {
   margin: auto;
   padding: 0;
 }
-.hesabfaPrint {
-}
+/* .hesabfaPrint {
+} */
 .hesabfaRow {
   width: 95%;
   margin: auto;
@@ -905,8 +905,8 @@ dialog {
   border: 1px solid #111;
   border-radius: 5px;
 }
-.fishPrint .orderTable {
-}
+/* .fishPrint .orderTable {
+} */
 .fishPrintArea {
   max-width: 300px;
   margin: auto;
