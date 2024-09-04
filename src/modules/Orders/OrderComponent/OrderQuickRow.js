@@ -27,7 +27,7 @@ function OrderQuickRow(props){
     <div className="sub-row">
         <div className="sub-avatar">
             <div className="sub-avatar-container">
-                <img src={(faktor.imageUrl)} alt={faktor.sku}/>
+                <img src={(env.siteApiUrl+faktor.imageUrl)} alt={faktor.sku}/>
                 <div className="sub-info">
                 <p className="sub-name">{sku?sku.coating:''}</p>
                 <p className="sub-id">کد محصول: {faktor.sku}</p>
