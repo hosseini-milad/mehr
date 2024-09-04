@@ -70,7 +70,9 @@ fetch(env.siteApi + "/panel/order/editOrder",postOptions)
                     <i className="fa fa-comment-o" title={order.moreInformation}></i>:<></>}
                 </div>
               </td>
-              <td style={{textAlign:"center"}}>{order.contractorInfo[0].cName&&order.contractorInfo[0].cName}</td>
+              <td style={{textAlign:"center"}}>{(order.contractorInfo&&order.contractorInfo[0])?
+                order.contractorInfo[0].cName&&
+                order.contractorInfo[0].cName:''}</td>
               <td style={{textAlign:"center"}}>{order.contractor?"عاملین":"مشتری"}</td>
               <td>
                 <div className="or-date">

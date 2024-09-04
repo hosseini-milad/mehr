@@ -133,7 +133,7 @@ function TaskAction(props){
                 </div>
                 <div className="taskBtn">
                 <button type="button" className="btn-crm btn-crm-accept"
-                onClick={()=>updateTask("outVehicle")}>
+                onClick={()=>updateTask()}>
                     تایید
                 </button>
                 <button type="button" className="btn-crm btn-crm-info"

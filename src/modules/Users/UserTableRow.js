@@ -34,7 +34,9 @@ function UserTableRow(props) {
             <p className="name">{user.cName}</p>
             <p className="email">
               شماره تماس:{" "}
-              {user.mobile?user.mobile:user.userDetail[0].mobile?user.userDetail[0].mobile:""}
+              {user.mobile?user.mobile:
+              (user.userDetail[0]&&user.userDetail[0].mobile)?
+              user.userDetail[0].mobile:""}
             </p>
           </div>
         </div>

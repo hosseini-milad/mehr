@@ -25,6 +25,7 @@ function Users(props) {
   const [collect, setCollect] = useState(0);
   const [showPop, setShowPop] = useState(0);
   const [showCredit, setShowCredit] = useState(0);
+  const [userList, setUserList] = useState();
 
 
   const token = cookies.get(env.cookieName);
@@ -65,6 +66,7 @@ function Users(props) {
           setContent("");
           setTimeout(() => setContent(result), 200);
           setTotal(result.size)
+          setUserList(result.allId)
         },
         (error) => {
           setLoading(0);
@@ -90,7 +92,8 @@ function Users(props) {
       group: filters.group,
       active: filters.active,
       FOB: filters.FOB,
-      access:""
+      access:"",
+      userList:userList
     };
     const postOptions = {
       method: "post",
