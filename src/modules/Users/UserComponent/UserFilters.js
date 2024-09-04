@@ -24,13 +24,13 @@ function UserFilters(props) {
         options={["سهندگاز", "مهرگاز","چندار"]}
         action={(e) => handleFilterChange("group", e)}
       />
-      <StyleSelect
+      {/* <StyleSelect
         title={"FOB"}
         class="filterComponent"
         direction={props.lang.dir}
         options={["مثبت", "منفی"]}
         action={(e) => handleFilterChange("FOB", e)}
-      />
+      /> */}
 
       <StyleSelect
         title={"Active"}
@@ -44,13 +44,13 @@ function UserFilters(props) {
         action={(e) => handleFilterChange("active", (e?e.value:null))}
       />
 
-      <StyleSelect
+      {/* <StyleSelect
         title={"Credit"}
         class="filterComponent"
         direction={props.lang.dir}
         options={["true", "false"]}
         action={(e) => handleFilterChange("credit", e)}
-      />
+      /> */}
 
       <StyleSelect
         title={"profile"}

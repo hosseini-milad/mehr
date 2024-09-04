@@ -48,6 +48,14 @@ const PlateInput = (props) => {
           threeNum:e?e.target.value:''
         }))}
         />
+      <div className="ir-num">
+      <p>ایران</p>
+      <input type="tel" maxLength={2} className="plate-input" placeholder="- -" pattern="[0-9]{2}" 
+      onChange={(e)=>setChangeData(prevState => ({
+                        ...prevState,
+                        irNum:e?e.target.value:''
+                      }))}/>
+      </div>
     </div>
   )
 }

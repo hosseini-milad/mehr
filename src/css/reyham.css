@@ -1126,7 +1126,7 @@ dialog {
   align-items: center;
   justify-content: center;
   border-radius: 0.2rem;
-  border: 0.08em solid #333;
+  border: 2px solid #333;
   height: 32px;
   line-height: 1.1em;
   background-color: transparent;
@@ -1172,11 +1172,33 @@ dialog {
   bottom: 0.5em;
   left: 0.5em;
 }
-.license-plate > .plate-input {
+.license-plate .plate-input {
   width: 50px;
   height: 32px;
   text-align: center;
   background-color: white;
+  border: none;
+  outline: none;
+}
+.license-plate .ir-num{
+  display: flex;
+  flex-direction: column;
+  height: 32px;
+  background-color: white;
+  border-left: 2px solid grey;
+
+  p{
+    color: black;
+    font-size: 0.5rem;
+    height: 13px;
+    font-weight: 600;
+    border-bottom: 2px solid grey;
+  }
+  input{
+    height: 19px;
+    padding: 0;
+    font-size: 0.85rem;
+  }
 }
 .order-table{
   td,th{
@@ -1184,4 +1206,10 @@ dialog {
     min-width: none !important;
     padding: 8px !important;
   }
+}
+.sub-row .sub-num,.sub-row .sub-price{
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: fit-content;
 }
