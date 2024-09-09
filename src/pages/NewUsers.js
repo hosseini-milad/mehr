@@ -41,7 +41,7 @@ function NewUsers(props) {
       group: filters.group,
       active: filters.active,
       FOB: filters.FOB,
-      access:"false"
+      new:"true"
     };
     const postOptions = {
       method: "post",

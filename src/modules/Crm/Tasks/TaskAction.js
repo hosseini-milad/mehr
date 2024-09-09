@@ -2,17 +2,16 @@ import { useEffect, useState } from "react"
 import env from "../../../env"
 import StyleSelect from "../../../components/Button/AutoComplete"
 import PlateInput from "./PlateInput"
+import WaitBtn from "../../../components/Button/WaitBtn"
 function TaskAction(props){
     const token = props.token
     const data = props.data
     const task = props.task
-    console.log(task)
     const order = props.content
     const [search,setSearch] = useState('')
     const [userList,setUserList] = useState('')
     const [contract,setContract] = useState('')
     const [changeData,setChangeData] = useState()
-    console.log(changeData)
     useEffect(()=>{
         const postOptions={
             method:'post',
@@ -78,10 +77,12 @@ function TaskAction(props){
                 {userList?<StyleSelect class="agent-input" options={userList} 
                     label="cName" title="عاملین" textChange={(e)=>e.length>2?setSearch(e):{}}
                     action={setContract}/>:<></>}
-                <button type="button" className="btn-crm btn-crm-accept"
+                {/*<button type="button" className="btn-crm btn-crm-accept"
                 onClick={()=>updateTask()}>
                 تایید
-                </button>
+                </button>*/}
+                <WaitBtn  class="btn-crm btn-crm-accept" title="تایید" 
+                    onAction={updateTask} />
                 <button type="button" className="btn-crm btn-crm-info"
                     onClick={()=>window.location.href="/orders/print/"+data.orderNo}>
                     <p>چاپ سفارش</p></button>
@@ -103,10 +104,12 @@ function TaskAction(props){
                     }))}
                     /> */}
                     <input type="input" placeholder="توضیحات" style={{width:"50%"}}/>
-                    <button type="button" className="btn-crm btn-crm-accept"
+                    {/*<button type="button" className="btn-crm btn-crm-accept"
                     onClick={()=>updateTask()}>
                     تایید
-                    </button>
+                    </button>*/}
+                    <WaitBtn  class="btn-crm btn-crm-accept" title="تایید" 
+                    onAction={updateTask} />
                     <button type="button" className="btn-crm btn-crm-info"
                     onClick={()=>window.location.href="/orders/print/"+data.orderNo}>
                     <p>چاپ سفارش</p>
@@ -136,10 +139,12 @@ function TaskAction(props){
                         type="input" placeholder="توضیحات" />
                 </div>
                 <div className="taskBtn">
-                <button type="button" className="btn-crm btn-crm-accept"
-                onClick={()=>updateTask("outVehicle")}>
+                {/*<button type="button" className="btn-crm btn-crm-accept"
+                onClick={()=>updateTask()}>
                     تایید
-                </button>
+                </button>*/}
+                <WaitBtn  class="btn-crm btn-crm-accept" title="تایید" 
+                    onAction={updateTask} />
                 <button type="button" className="btn-crm btn-crm-info"
                     onClick={()=>window.location.href="/orders/print/"+data.orderNo}>
                     <p>چاپ سفارش</p></button>
@@ -151,10 +156,12 @@ function TaskAction(props){
         if(data.taskStep==="outVehicle"){
             return(
             <div className="taskAction">
-                <button type="button" className="btn-crm btn-crm-accept"
+                {/*<button type="button" className="btn-crm btn-crm-accept"
                 onClick={()=>updateTask()}>
                     تایید
-                </button>
+                </button>*/}
+                <WaitBtn  class="btn-crm btn-crm-accept" title="تایید" 
+                    onAction={updateTask} />
                 
             </div> )}
         if(data.taskStep==="completed"){
