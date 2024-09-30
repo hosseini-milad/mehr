@@ -63,6 +63,11 @@ function TaskAction(props){
           console.log(error);
         })
     }
+    console.log(data)
+    console.log(task)
+    if(data.taskStep !== task.taskStep){
+        return(<main>سفارش در این مرحله نیست</main>)
+    }
     if(!data)
         return(<main>در حال بررسی</main>)
     else{
