@@ -19,6 +19,7 @@ function TaskData(props){
                         creator[0].username:''}</li>
                     {customer&&customer.length?
                     <li>{customer[0].username}</li>:<></>}
+                    <li>{taskData.cName?taskData.cName:''}</li>
                     <li>{new Date(taskData.date).toLocaleDateString('fa')}</li>
                 </ul>
             </div>
