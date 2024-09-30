@@ -34,6 +34,10 @@ function TaskAction(props){
         })
     },[search])
     const updateTask=(action)=>{
+        setChangeData(prevState => ({
+            ...prevState,
+            carNo:(changeData.twoNum+changeData.alpha+changeData.threeNum+"-"+changeData.irNum)
+          }))
         const postOptions={
             method:'post',
             headers: {'Content-Type': 'application/json',
@@ -42,7 +46,7 @@ function TaskAction(props){
             status:action?action:data.taskStep,
             changeData:changeData,
             contractor:contract.cCode,
-            carNo:changeData?(changeData.twoNum+changeData.alpha+changeData.threeNum+"-"+changeData.irNum):""
+            // carNo:changeData?(changeData.twoNum+changeData.alpha+changeData.threeNum+"-"+changeData.irNum):""
             })
           }
         console.log(postOptions)

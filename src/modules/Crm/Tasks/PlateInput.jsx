@@ -25,8 +25,6 @@ const PlateInput = (props) => {
                         twoNum:e?e.target.value:''
                       }))}/>
       <select
-        name="" 
-        id="" 
         className="plate-input" 
         onChange={(e)=>setChangeData(prevState => ({
           ...prevState,
