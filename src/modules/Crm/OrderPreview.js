@@ -32,8 +32,10 @@ function OrderPreview(props){
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td>قیمت کل</td>
-                            <td style={{fontSize:"15px",fontWeight:"bold"}}>{normalPriceCount(content.stockOrderPrice)} ریال</td>
+                            <td>قیمت کل </td>
+                            <td style={{fontSize:"15px",fontWeight:"bold",position:"relative"}}>{normalPriceCount(content.stockOrderPrice)} ریال
+                            <span className="credit-order">{content.isCredit?"اعتباری":""}</span>
+                            </td>
                         </tr>
                     </tbody>
                 </table>

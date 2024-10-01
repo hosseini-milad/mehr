@@ -98,7 +98,7 @@ fetch(env.siteApi + "/panel/order/editOrder",postOptions)
               </td>
               <td>
                 <div className="order-price" style={{textAlign:"center"}}>
-                  <p>{normalPriceCount(order.stockOrderPrice)}</p>
+                  <p className={order.isCredit?"credit-price":""}>{normalPriceCount(order.stockOrderPrice)}</p>
                 </div>
               </td>
               

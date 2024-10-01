@@ -1213,3 +1213,25 @@ dialog {
   text-align: center;
   width: fit-content;
 }
+.credit-price{
+  background-color: lightblue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 0.5rem;
+  padding-block: 3px;
+}
+.credit-order{
+  background-color: lightblue;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: center;
+  border-radius: 0.5rem;
+  padding: 3px 6px;
+  max-width: fit-content;
+  position: absolute;
+  left: 5px;
+  top: 5px;
+}
